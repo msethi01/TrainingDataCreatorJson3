@@ -1,0 +1,3668 @@
+text
+"2. inserts metal and via fill only on the specified regions 3. removes floating via fill from the specified regions for example, to remove all metal fill from the block and then fill all empty regions outside the bounding box with corners at (100,150) and (300,200), use the following command: fc_shell> signoff_create_metal_fill \ -excluded_coordinates {{100 150} {300 200}} fusion compiler™ user guide v-2023.12-sp3 715 chapter 8: ic validator in-design inserting metal fill with ic validator in-design feedback track-based metal fill insertion track-based metal fill insertion inserts metal and via fill by using a runset derived from the attributes and rules in the technology file to create fill shapes aligned to tracks."
+.
+.
+.
+"to select this rule, use the -replacement_rule illegal_abutment option with the replace_fillers_by_rules command."
+.
+.
+a hyphen in the required column means that there is no electromigration constraint for that metal or via layer.
+"performing wire widening after you have performed detail routing, redundant via insertion, and wire spreading, you can perform wire widening to increase the average width of the wires, which reduces the critical area open faults and therefore improves yield."
+.
+"to force zroute to fix antenna violations by inserting diodes, disable layer hopping by setting the route.detail.hop_layers_to_fix_antenna application option to false."
+.
+"to disable resistance-based routing layer preferences, set the option to off."
+.
+"for more information about applying switching activity, see annotating the switching activity."
+.
+.
+checking designs with abstracts for top-level-closure issues you can check a hierarchical design that contains abstracts for possible issues such as the application option consistency issues and the design issues related to top-level closure by using the check_hier_design command.
+the following figure shows the data structures: • rail_checking_dir: the directory where redhawk fusion saves report files on the missing information during rail analysis.
+"*) • timing window file (*.sta) • signal spef files (*.spef) • def/lef files (*.def, *.lef) for the full-chip analysis when voltage drop analysis is complete, the tool saves the analysis results (*.result) in the design_name directory under the working directory."
+.
+.
+fusion compiler™ user guide v-2023.12-sp3 131 chapter 2: preparing the design setting up multivoltage designs feedback associating power strategies with existing multivoltage cells the fusion compiler tool automatically associates power strategies with existing multivoltage cells when you run the associate_mv_cells or commit_upf command.
+◦river: routes the bit so that they do not overlap at the corner.
+.
+.
+.
+.
+.
+.
+"for example, if you use the m4 and m5 layers for initial routing, set the m3, m4, m5, and m6 layers for postroute length matching."
+.
+.
+"3. executes any script files or commands specified by the -file and -x options, respectively, on the command line."
+table 34 application options for signal electromigration analysis application option default description em.net_delta_temperature 5.0 specifies the delta temperature used for rms limit lookup.
+"fusion compiler™ user guide v-2023.12-sp3 992 chapter 13: eco flow swapping variant cell feedback to use the variant cell features directly for other cells, use the eco_change_legal_reference command."
+"• to remove the via mappings for specific source vias, use the -from option."
+.
+.
+977 specifying mapping rules for programmable spare cells .
+.
+"the command calculates the overflow as the sum of the overflow for each layer, ignoring any underflow."
+.
+.
+.
+.
+.
+suppose you have a simple place_opt script: open_block ./design:init_design source ./scripts/pre_place_opt_settings.tcl remove_buffer_trees -all place_opt -from initial_place -to initial_drc create_placement -incremental -timing_driven -congestion place_opt -from initial_drc -to -initial_opto place_opt -from final_place -to final_opto the following example wraps a checkpoint around each major step in your golden flow.
+.
+.
+.
+.
+.
+.
+.
+.
+reading an rtl saif file does not affect the name-mapping database.
+.
+.
+"after all the netlist files and rtl files have been read into the tool, use the set_top_module command to link the designs to create the block for synthesis."
+fusion compiler™ user guide v-2023.12-sp3 673 chapter 8: ic validator in-design performing signoff design rule checking feedback note: this feature requires version p-2019.06 or later of the ic validator tool and an ic validator nxt license.
+.
+.
+.
+you create gas stations by using the create_voltage_area command during the design planning stage.
+"if the tap cells abut library cells that do not have an od layer, use the -adjacent_non_od_cells option to specify these library cells."
+.
+performing prerequisite check for group repeater insertion and placement use the -check_prerequisites option of the place_group_repeaters or add_group_repeaters command to perform a prerequisite check for a design.
+"◦ if the edge segment does not contain a corner, the tap wall starts at the left edge for a horizontal tap wall or the bottom edge for a vertical tap wall."
+we are reviewing and removing exclusionary language from our products and supporting customer-facing collateral.
+.
+.
+"you can use the • write_split_net_eco command to push up the branching of a physical multiple- fanout net to the top level • write_push_down_eco command to push down a tree of standard cells one level • write_spare_ports_eco command to create spare ports and nets on a child block for more information, see the generating eco scripts for netlist editing topic in the fusion compiler design planning user guide."
+.
+.
+"removing routing corridors to remove routing corridors from the current block, use the remove_routing_corridors command."
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+-blockage summary of relative placement commands table 63 shows some of the key commands used to perform relative placement.
+.
+.
+"2. perform clock tree synthesis by using the synthesize_clock_trees command, as described in performing standalone clock trees synthesis, or the clock_opt command, as described in synthesizing, optimizing, and routing clock trees with the clock_opt command."
+.
+.
+.
+.
+.
+"before you run clock tree synthesis, analyze each clock tree in the block and determine • what the clock root is • what the required clock sinks and clock tree exceptions are • whether the clock tree contains preexisting cells, such as clock-gating cells • whether the clock tree converges, either with itself (a convergent clock path, definedclockconvergentconvergent clock path) or with another clock tree (an overlaping clock path, definedclockoverlapingoverlapping clock path) • whether the clock tree has timing relationships with other clock trees in the block, such as interclock skew requirements use this information to define the clock trees and validate that the tool has the correct clock tree definitions."
+.
+.
+"you can reduce this congestion by setting the place.coarse.spread_repeater_paths application option to true before you run the create_placement, compile_fusion, or clock_opt command."
+"table 16 options for manually controlling the name mapping to do this use this option of the saif_map command specify a name mapping for an object and overwrite the name mapping that might exist in the database -set_name fusion compiler™ user guide v-2023.12-sp3 186 chapter 2: preparing the design setting up for power-related features feedback table 16 options for manually controlling the name mapping (continued) to do this use this option of the saif_map command add a name mapping to the existing mapping in the database -add_name apply the name mapping specified with the -set_name or -add_name option to the logically inverted object -inverted, with -set_name or -add_name change an object name using a name rule, when reading in the saif file -change_name report all manual name-mapping settings specified -report remove the name mapping settings for specific objects -remove_name reset the name-mapping settings by clearing all manually created name mappings and name rules -reset retrieve name-mapping settings from the database -get_saif_names, -get_object_names scaling the switching activity if the clock frequency used in the saif file is different from the clock frequency used in the fusion compiler tool, you can scale the switching activity by performing the following steps: 1. read in the saif file by using the read_saif command."
+.
+.
+-touching (optional) reports cell instances that touch the specified rectangle region in the format of {{x1 y1} {x2 y2}}.
+.
+.
+460 updating via ladders .
+.
+.
+.
+figure 56 shows an example of clock-gate stages and fanout.
+.
+.
+"by default, the missing via check ignores items that are inside or overlap a block that has been processed by the gds2def or gdsmmx utility."
+"at a minimum, you must specify the following information: ◦ the foundry runset to use for design rule checking by setting the signoff.check_drc_live.runset application option ◦ the layer mapping file that maps the technology file layers to the runset layers by setting the signoff.physical.layer_map_file application option for information about the options for interactive signoff design rule checking, see setting options for interactive design rule checking."
+.
+.
+.
+.
+"• to create a rectangular routing corridor, use the -boundary option to specify the lower- left and upper-right corners of the rectangle using the following syntax: { {llx lly} {urx ury} }."
+.
+.
+enabling clock tree power reduction techniques you can enable clock tree power reduction techniques by using the cts.compile.power_opt_mode application option as shown in the following table.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+13 obsolete.
+• incorrect via definitions this check verifies that ◦ uncolored via arrays do not have more than 20 rows or columns ◦ custom or asymmetric simple via definitions do not have more than 1000 cuts ◦ the design does not contain more than 65535 via definitions you cannot disable these checks.
+.
+.
+.
+.
+.
+"to change the default behavior, use one of the following methods: ◦ specify the number of open tracks between coaxial shielding segments by using the following options: ▪ -coaxial_above_skip_tracks this option specifies the number of open tracks between used tracks for coaxial shielding above the shielded net segment layer (-coaxial_above true)."
+.
+"to fix soft spacing violations, you must assign a routing effort to each of the soft weight levels."
+performing multibit optimization the fusion compiler tool can combine (bank) single-bit registers or smaller multibit registers and replace them with equivalent larger multibit registers.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+"you can control the placement of the eco cells as follows: • to use the channels areas between macro cells for eco placement, use the -channel_aware option."
+.
+.
+"to specify the clock network latency before the clock-gating cells are inserted by the tool, use the set_clock_gate_latency command."
+.
+.
+this helps to improve the runtime for qor considerations.
+.
+specifying nondefault vias using the -vias option the syntax for specifying nondefault vias using the -vias option is create_routing_rule rule_name -vias { {via_type1 cut_number1 orientation1} {via_type2 cut_number2 orientation2} ... {via_typen cut_numbern orientationn} } you can specify multiple via types per layer; each via type must be a via definition defined in the technology file or a via definition created by the create_via_def command.
+.
+figure 198 shows where you would use these analysis capabilities in a typical design flow.
+specifies the preferred user variables when a customized python script file is used for redhawk-sc rail analysis.
+.
+.
+.
+.920 generating macro models .
+.
+any fusion compiler command can be executed within a script file.
+.
+.
+.
+"fusion compiler™ user guide v-2023.12-sp3 206 chapter 2: preparing the design handling design data using the early data check manager feedback see also • preparing routing layers handling design data using the early data check manager during the early iterations of a design cycles, the design data might be incomplete or incorrect."
+.
+.
+it also has a much lower congestion cost and runs only one rerouting phase.
+.
+.
+"to enable the use of the target library subset, you must set the opt.common.enable_target_library_subset_opt application option to 1. the following example specifies the buf1 and buf2 cells from the hvt_lib and lvt_lib libraries as clock tree references."
+.
+.
+fusion compiler™ user guide v-2023.12-sp3 953 chapter 13: eco flow eco fusion flow feedback 4. place the eco cells by using the place_eco_cells command.
+.
+.
+.
+.
+"alternatively, you can specify the number of rows and columns for dividing the whole region with the -row and -column options."
+make sure the configuration file contains the correct syntax for macro model generation.
+.
+.
+.
+"if you do not specify the -clock_only option, the don't touch setting is set on both the data path and the clock path."
+they are true by default.
+.
+.
+.
+.
+.
+.
+"these violations are allowed if one or more of the following options are true: -allow_drcs, -ignore_rippable_shapes, or -ignore_routing_shape_drcs."
+.
+.
+standard clock-gate insertion provides one level of clock-gate insertion.
+.
+fusion compiler™ user guide v-2023.12-sp3 468 chapter 6: routing and postroute optimization routing constraints feedback routing constraints routing constraints provide guidance during routing.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+682 automatically fixing signoff drc violations .
+.
+.
+.
+.
+.
+.
+.
+specifying legalization settings the tool performs legalization at various points during the design flow.
+.
+.
+.
+"using tcl, you can extend the fc_shell command language by writing reusable procedures and scripts (see the using tcl with synopsys tools manual)."
+.
+.
+.
+"for designs with clock gating, the clock-network delay at the registers is different from the clock-network delay at the clock- fusion compiler™ user guide v-2023.12-sp3 303 chapter 4: clock gating controlling clock-gate latencies feedback gating cell."
+.
+.
+.
+"there are five global routing effort levels: minimum, low, medium, high, and ultra."
+"this ensures that the tool uses accurate clock-gate latencies during datapath optimization and useful-skew optimization performed before clock tree synthesis, when clocks are ideal."
+.
+.
+.
+you can use this attribute to query the shapes added during pg augmentation.
+.
+.
+.
+.
+.
+"you can specify one or more power domains; however, all specified power domains must have the same primary supply net."
+.
+• the congestion data this information is used to generate a congestion map.
+812 checking relative placement groups before placement .
+voltage driven power switch cell sizing the fusion compiler tool can resize power switch cells to reduce total power and to mitigate the voltage drop in the design.
+.
+.
+.
+.
+.
+"in this case, the input port is synchronous with the clock and the setup condition is true."
+.
+.
+.
+.
+.
+.
+.601 calculating the antenna ratio for a pin .
+.
+.
+"to add shielding to the selected nets in a separate run, use the create_custom_shields command.the following example creates shields for net1 and net2."
+.980 performing prerequisite check for group repeater insertion and placement .
+.
+.
+"reporting the constraints assigned to a group of a repeaters to report the constraints that were assigned to a group of repeaters using the place_group_repeaters, add_group_repeaters, or set_repeater_group_constraints commands, use the report_repeater_group_constraints command."
+.
+.
+.
+.
+"set_repeater_group -group_id group_id \ -check_connection \ [-cells cell_list] \ [-cutline { {{x1 y} {x2 y}} | {{x y1} {x y2}} }] \ [-driver_group_id group_id] \ [-path_drivers pin_port_list] \ [-path_loads pin_port_list] \ [-override] [-lib_cell_input string] [-lib_cell_output string] [-clear] fusion compiler™ user guide v-2023.12-sp3 982 chapter 13: eco flow adding a group of repeaters feedback grouping a list of repeaters to automatically group a list of repeaters or repeaters of supernets, use the create_repeater_groups command."
+• all boundary timing paths are considered during concurrent clock and data optimization.
+table 21 cross-probing information messages printed during register optimization register optimization information message constant register removal information: the register 'a/b_reg { {/user/test/design.v:49} }' is removed as constant 0 (sqm-4100) unloaded register removal information: the register 'a/c_reg{ {/user/test/design.v:193} }' is removed because it is unloaded.
+a library cell naming convention can help the tool identify cell families in the subsequent steps of the flow.
+"to specify the replacement cells, use the -non_constraint_fillers option."
+.
+• report_power_switch_resistance - this command reports all power switch library cells with a set ron.
+.
+the freeze silicon eco flow consists of the following steps: 1. enable eco changes in the freeze silicon mode by setting the design.eco_freeze_silicon_mode application option to true.
+.
+"◦ voltage areas, use the -voltage_areas option."
+"• auto custom router identifies the routability of the pins in the block, and then completes the pin connections for the pins that can be connected."
+"by default, the set_clock_routing_rules command assigns the specified layer constraints to all clock trees."
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+"for example, fc_shell> current_lib {lib_b} fc_shell> set_ref_libs \ -ref_libs {../libs/lib_c ../stnd/stdhvt.ndm} ../libs/lib_c ../stnd/stdhvt.ndm • report_ref_libs to report the reference libraries of a design library, use the report_ref_libs command."
+"in each routing stage, zroute concurrently optimizes via count as well as wire length."
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+these can be the same or different values.
+.
+"however, if you enable fishbone routing by using the cts.multisource.subtree_routing_mode application option, the tool creates a mix of detail routed fishbone trunks and fingers, and global comb routes to connect the net loads to the fishbone fingers, as shown in figure 97. you can control the fishbone routing by using the following application options: ◦ cts.routing.fishbone_max_tie_distance ◦ cts.routing.fishbone_max_sub_tie_distance ◦ cts.routing.fishbone_bias_threshold ◦ cts.routing.fishbone_bias_window ◦ cts.routing.fishbone_horizontal_bias_spacing ◦ cts.routing.fishbone_vertical_bias_spacing 4. refines the clock trees by sizing and relocating cells based on the routing."
+.
+.
+.
+.
+.
+example 54 > set_app_options -name rail.license_checkout_mode \ -value wait > set_host_options -submit_protocol sge \ -submit_command {qsub} > analyze_rail -submit_to_other_machines \ -multiple_script_files {{ result1 rh1.tcl} {result2 rh2.tcl} \ {result3 rh3.tcl}} the above example submits three redhawk scripts to the sge farm machines and waits for an available license during the analyze_rail run.
+.
+.
+.
+.
+.
+.
+.
+.
+"for information about this capability, see inserting redundant vias on signal nets."
+.
+.
+you can specify one or more template sections.
+you must either specify which relative placement groups to write commands for or specify the -all option to write commands for all relative placement groups.
+.
+(optional) specify the fields in the summary section of the report by setting the shell.synthesis.logic_level_report_summary_format application option.
+.
+it also simplifies data management because you do not need to include the lower-level blocks in the reference library list of the top level.
+.
+.
+.
+layer_map_file (none) specifies the name of the layer mapping file.
+.
+.
+.
+409 inserting clock drivers .
+.
+"to modify the maximum number of detail routing iterations, use the -max_detail_route_iterations option."
+.
+.
+.
+physical constraints extracted from the def file the read_def command extracts physical constraint information from def files and annotates it on the block.
+.
+.
+.
+.
+.
+"when the analysis is finished, run the remove_licenses command to release the snps_indesign_rh_rail licenses."
+.
+.
+"however, the create_stdcell_fillers command inserts only the cells specified in fusion compiler™ user guide v-2023.12-sp3 637 chapter 7: chip finishing and design for manufacturing inserting filler cells feedback the -lib_cells option."
+.
+"during route-driven estimation, the tool honors the capacitance and resistance scaling factors specified with the -early_cap_scale, -late_cap_scale, -early_res_scale, and -late_res_scale options of the set_extraction_options command."
+.
+.
+.
+.
+.
+"• timing eco changes, such as cells that are resized or repeaters that are added or removed."
+.
+.
+.
+.
+these options cannot be used with an object list or with the -create_nets_only and -net options.
+.
+.
+.
+you would typically use this setting to perform a quick design rule check on the entire block after you complete design rule checking on the routing layers.
+.
+fusion compiler™ user guide v-2023.12-sp3 764 chapter 9: routing using custom router using custom routing application options feedback table 56 application options for running custom routing application option description custom.route.bus_corner_type custom.route.bus_intra_shield_placement custom.route.bus_pin_trunk_offset custom.route.bus_split_even_bits custom.route.bus_split_ignore_width custom.route.bus_tap_off_enable custom.route.bus_tap_off_shielding specifies constraints for bus routing.
+.
+• clock-gate latency estimations are updated after the insertion operation.
+"• to set the maximum track utilization for layers with a horizontal preferred direction, use the -horizontal_track_utilization option with the create_routing_guide command."
+.
+.
+"to examine the generated analysis result, first run the open_rail_result command to load the result that is saved in the directory you specify."
+"level shifters are required between power domains that operate at different voltage levels, while isolation cells are required between power domains that are in different states (powered-down versus always-on or powered-up)."
+"to do so, use the -rp_only_keepout_margin option with the set_rp_group_options command."
+.
+.
+you can then investigate the problematic areas in the map and check for violations in a text file or in an error view.
+.
+.
+.
+.
+.
+.
+"• the worst 300 timing paths by setting the ccd.enable_top_wns_optimization application option to true transferring to back end to transfer the clock latencies and balance points from the front-end tool to the back-end tool, use the write_ascii_files command."
+the uicg_b1 and uicg_b2 clock gates are merged (assuming they have an equivalent enable signal).
+.
+specify the -repeater_groups command if you need to use virtual connection.
+.
+.
+"clock gating inserts clock-gating circuitry into the register bank’s clock network, creating the control to eliminate unnecessary register activity."
+.
+.
+you can restrict the hierarchy-based report to specific threshold voltage groups by using the -hier_vt_groups option.
+"to list the commands supported by the redirect -bg command, use the list_commands -bg command."
+custom vias can be used only for redundant via insertion.
+.
+the fusion compiler tool automatically updates its version of the internal constraints to reflect the new pin name if the pin is part of an exception constraint.
+.
+114 loading and applying upf information .
+.
+.
+.
+.
+.
+.
+.
+"you can add spare cells to a block, anytime during the design flow, by using one of the following methods: • manually instantiate spare cells, as described in manually instantiating spare cells."
+.
+.
+.
+.455 defining instance-specific via ladder constraints .
+.
+"this action removes drc violating track based metal fill shapes or vias from design, including any floating connections created due to removal of drc violating shape."
+.
+.
+.488 removing perimeter constraint objects .
+.
+167 checking if library cells are legally placeable .
+"for information about specifying the minimum spacing for a layer, see the “minimum spacing rule” topic in the synopsys technology file and routing rules reference manual."
+.
+.
+.
+.
+.453 via ladder association file .
+.
+.
+.
+.
+.
+◦ specify a percentage of spare cells to be placed based on the cell density distribution by using the -density_aware_ratio option.
+(optional) override the tool's default behavior of selecting self-gating objects by using the set_self_gating_objects command.
+.
+.
+controlling physical-feedthrough nets in voltage areas a net is considered to be native to a voltage area if one or more segments of that net are in a logical hierarchy of that voltage area.
+.
+"for example, the following command analyzes systemverilog files with the .sv file extension and verilog files: analyze -format verilog -vcs ""-f f +systemverilogext+.sv elaborate ${design_name} set_top_module ${design_name} reading verilog gate-level netlist files use the read_verilog command to read verilog netlist files using a specialized verilog netlist reader."
+.
+.
+.
+"to change the number of iterations, use the route.detail.eco_max_number_of_iterations application option."
+.
+.
+372 12 contents feedback considering voltage drop information during clock tree synthesis .
+"by default, the check_lvs command performs the following checks for all signal, clock, and pg nets: • shorted nets a shorted net occurs when a net shapes from different nets touch or intersect."
+the following figure shows functionally equivalent cells with varying pin locations.
+"these settings prevent the tool from merging or splitting clock cells during tap assignment, if necessary."
+signoff.physical.
+.
+"in general, you also specify the cells and ports to be included in the bound."
+.
+.
+.
+.
+.
+.
+"to use the native extractor, set the value to none."
+.
+.
+"8. build the global clock tree structure by using the synthesize_multisource_global_clock_trees command, as described in synthesizing the global clock trees."
+.
+.
+.
+.
+.
+.
+.
+"to enable this feature, set the clock_opt.flow.enable_irdrivenopt application option to true, in addition to setting the opt.common.power_integrity application option to true."
+it places a tap cell in the lower-left corner of each mesh window.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+"to define a voltage area, use the create_voltage_area command."
+.
+.
+.
+.
+.
+.
+.
+"specifying a design scenario for rail analysis by default, redhawk or redhawk-sc fusion analyzes only the current design scenario for a multicorner-multimode design."
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+"by default, the constraints apply to both the secondary power and ground connections and the tie-off connections."
+.
+"to get a list of available application options, use the get_app_options command."
+.
+the following table lists the wvgtech instances and their replacement cells.
+.
+.
+.
+.
+.
+"this information can be used during routing, and track support can enhance congestion evaluation and reporting to make it match more closely with the routing results."
+.
+.
+.
+.
+.
+you should enable placement-based multibit banking either during the initial_opto stage or the final_place stage; not both.
+.
+the following options are available: option description -minimum_bitwidth specifies the minimum number of accumulated bits that can be gated.
+.
+example 21 shows a detail routing report.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+"by default, the rail.license_checkout_mode application option is set to nowait."
+.
+.
+.
+"when using a wire, the wire must be contained within the pin shape."
+"by default, the read_def command • annotates the floorplan information onto the current block to annotate the information onto a different block, use the -design option to specify the block name."
+"for example, fc_shell> lappend search_path ./mylibdir setting up libraries a block is a container for physical and functional design data."
+.
+"for information about defining ignore pins, see defining ignore pins."
+"the clock_opt command consist of the following stages: 1. the build_clock stage, during which the tool synthesizes and optimizes the clock trees for all clocks in all modes of all active scenarios."
+"to enable this check, use the -connect_standard_cells_within_pins true option."
+.
+you can disable the removal of dangling net shapes by using the -remove_dangling_shapes false option.
+.
+.
+.
+.
+fc_shell> set_dont_touch_network [get_clocks clk] this example sets the dont_touch attribute on the clk clock paths only.
+.
+.
+.
+.
+"by default, if the path groups that are not targeted have positive slack, the tool can degrade this slack until it reaches zero."
+.
+.
+.
+.
+.
+.
+.
+the configuration file defines the layer-to-drc-rule mapping.
+.
+.
+the tool looks for the specified alignment pin in each cell in the column.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+5. save the block to disk.
+.
+.
+"even though the minimum bitwidth is not met, ungating is not allowed, so the registers remain gated."
+.
+.
+.
+.
+.
+.
+.
+.
+.
+"by default, the command returns an error if the assigned name already exists."
+.
+.
+.
+"figure 123 boundary cell locations fusion compiler™ user guide v-2023.12-sp3 595 chapter 7: chip finishing and design for manufacturing performing boundary cell insertion feedback specifying boundary cell placement rules by default, • when you run the compile_boundary_cells command, the tool places the boundary cells in their default orientation around the core area, hard macros, and hard placement blockages."
+.
+.
+.
+.
+previewing repeater groups use the -preview option to preview repeater group locations before insertion.
+"use the following commands to define the antenna rules for this example: fc_shell> define_antenna_rule -mode 1 -diode_mode diode_mode \ -metal_ratio 400 -cut_ratio 20 fc_shell> define_antenna_layer_rule -mode 1 -layer ""m1"" \ -ratio 400 -diode_ratio {0.7 0.0 200 2000} the maximum antenna ratio for each diode is computed by using the formula for the diode mode from table 37. in this case, • if dp>v0 and v4<>0, allowable max-antenna-ratio = min (((dp + v1) * v2 + v3), v4) • if dp>v0 and v4=0, allowable max-antenna-ratio = (dp + v1) * v2 + v3 • if dp<=v0, allowable max-antenna-ratio = layermaxratio table 38 shows the maximum antenna ratio for each diode calculated using this formula."
+"• the set_clock_gating_options command to define the netlist structure of the inserted clock-gating cells, specify the following options: option description minimum_bitwidth specifies the minimum number of bits to gate together."
+the carry-save adders are faster than the conventional carry-propagate adders because the carry-save adder delay is independent of bit-width.
+.
+.
+.
+"in the upf language, a power domain is a group of elements in the design that share a common set of power supply needs."
+.
+.
+.
+.
+"handling endpoints with balancing conflicts in some blocks, the clocks have endpoints that are structurally impossible to balance."
+"fusion compiler™ user guide v-2023.12-sp3 719 chapter 8: ic validator in-design inserting metal fill with ic validator in-design feedback for example, if layer m11 has the mask name metal12 in the technology file, the prefix m12 would replace mx in the parameters below."
+.
+.
+.
+.
+.
+.
+"you must set an appropriate number of threads, so that the command does not try to use more resources than it has."
+routing result: phase3.
+• the user-specified maximum number of clock-gate levels is reached.
+fc_shell> derive_mask_constraint -follow_pin_mask \ [get_shapes -of_objects [get_nets net1]] • derive the mask constraint from the wider overlapping or touching object rather than the wire track.
+.
+.
+.
+"to specify the mapping in an external file, use the -master_pin_map_file option to specify the mapping file name."
+.
+"the following example specifies that the clock latencies of the vclk1 and vclk2 clocks should be updated based on the latency of the pc_clk clock, and that the latency of the vclk3 clock should not be updated: fc_shell> set_latency_adjustment_options \ -reference_clock pc_clk -clocks_to_update {vclk1 vclk2} \ -exclude_clocks vclk3 if you perform clock tree synthesis with the synthesize_clock_trees command, the tool does not automatically update the clock latencies."
+.
+.
+"• to shield the straps with specific nets, use the -bias_to_nets with the list of nets."
+you might want to consider adding the global settings to your .synopsys_fc.setup file.
+.
+.
+.
+.
+"this example shows how you can perform budgeting: fc_shell> set budget_instances ""u1/a/i1 u1/b/i2 …"" fc_shell> set_budget_options -reset -all fc_shell> set_budget_options -add_blocks $budget_instances fc_shell> set_app_options -list { plan.budget.use_ccd_latency true } fc_shell> set_app_options -list { plan.budget.write_hold_budgets false } fc_shell> set_app_options -list { plan.budget.estimate_timing_mode false } fc_shell> compute_budget_constraints -setup_delay -latency_targets actual -balance false -boundary fc_shell> write_budgets -output budgets-post-compile -force -nosplit -include_balance_points -include_pin_latency performing tho during route_opt or hyper_route_opt by performing tho at the end of the implementation flow, you have the best optimization potential because you optimize the complete design."
+.
+.
+.
+.
+"when a half-height filler cell abuts a regular cell, the abutting side of the half-height filler cell must not have inbound-cell interaction polygons (icip)."
+"◦ to create a multiple straps in a both the horizontal and vertical directions, specify an iterator list for each direction, starting with the horizontal direction."
+.
+.
+.
+.
+.
+"• the list of host machines (the host_names argument) • the maximum number of processes (the -num_processes option) by default, the tool assigns a name to each configuration you define with the set_host_options command."
+.
+.
+a transition target tighter than the user specified max_transition is applied for the clock pins of timing critical endpoints and the clock tree is built considering the tightened transition which helps to improve the timing.
+.
+"for example, the following command identifies and fixes maximum horizontal length violations where the horizontal length exceeds 70 um: fc_shell> replace_fillers_by_rules \ -replacement_rule od_horiztonal_distance -max_constraint_length 70 \ -refill_table { {{vt1_fill1} {vt1_decap4 vt1_decap2}} {{vt2_fill1} {vt2_decap4 vt2_decap2}} } figure 130 shows the original row, which violates this rule, and the resulting row, which uses unconstrained filler cells to fix the violation."
+.
+it also describes the postroute optimization features supported by the fusion compiler tool.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+"fc_shell> create_taps -supply_net vdd \ -layer 3 -point {100.0 200.0} warning: tap point (100.0, 200.0) on layer 3 for net vdd does not touch any polygon (rail-305) • using existing instances as taps to create taps on specified objects, use the create_taps -of_objects command."
+.
+the resulting group includes both the column and the row straddle.
+.
+.
+.
+an instance-specific sequential output inversion setting specified with the set_register_output_inversion command overrides a block-specific setting specified with the compile.seqmap.enable_output_inversion application option.
+.
+.
+.
+"fusion compiler™ user guide v-2023.12-sp3 734 chapter 8: ic validator in-design inserting metal fill with ic validator in-design feedback to calculate the metal density information for a metal layer, the tool requires the following information: • the density rule for the layer the tool determines the density rule for each layer by using the following settings, in order of priority: 1. the setting of the mx_min_density parameter in the ic validator parameter file specified by the signoff.report_metal_density.user_defined_options application option 2. the setting of the signoff.report_metal_density.min_density application option 3. the setting of the mindensity attribute in the densityrule section of the technology file 4."
+.
+"to return a collection of placement bounds in the current block that match certain criteria, use the get_bounds comandcomandsget_boundsget_bounds command."
+.
+"the default change threshold is 20 percent; to modify the change threshold, set the signoff.create_metal_fill.auto_eco_threshold_value application option."
+.
+.
+.
+.
+.
+"if the custom.route.bus_tap_off_enable application option is turned on, you can use the custom.route.bus_tap_off_shielding application option to add shielding to the bus tapoffs."
+.
+"-ignore_inter_met, -toplayer, -bottomlayer ignores wires on all layers between the specified top and bottom layers."
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+"fusion compiler™ user guide v-2023.12-sp3 456 chapter 6: routing and postroute optimization inserting via ladders feedback inserting via ladders to insert via ladders, use the insert_via_ladders command."
+.
+.
+.
+"◦ allow_move_other_cells when you specify this setting, the tool legalizes the eco cells to the nearest legal location by moving preexisting cells."
+.
+.
+.
+"the scope is the hierarchical level at which the domain is defined and is an ancestor of the elements belonging to the power domain, whereas the extent is the actual set of elements belonging to the power domain."
+the improved correlation between the smscts and ccd: • improves the overall latency implementation after smscts in the clock_opt command.
+.
+.
+"however, doing do can affect the qor."
+.
+.
+.
+.
+.
+.
+"to reduce the turnaround time, you can create a context model for the macro block."
+.
+"for more information, see checking for filler cell drc violations."
+.
+"if you enter this command on the console command line in the gui, the man page is displayed in the gui man page viewer."
+.
+.
+.
+.
+.
+"these drivers are, in turn, driven by a global clock distribution structure such as a clock mesh or an h-tree."
+the postroute optimization flow using the hyper_route_opt command consists of the following steps: 1. enable different settings for postroute optimization using the same settings as for the route_opt command.
+2. save the block by using the save_block command.
+.
+.
+.
+.
+.
+.
+"the difference in reported values is typically less than three percent, but can be up to five percent."
+.
+.
+.
+.
+.
+"when you use this option, the tool swaps the right and left filler cells when the cell is flipped."
+"to analyze and fix signal electromigration violations in a detail routed block, 1. apply the signal electromigration constraints by using the read_signal_em_constraints command."
+"fusion compiler™ user guide v-2023.12-sp3 534 chapter 6: routing and postroute optimization routing signal nets feedback if shorted nets remain after using river routing, enable the fixing of shorted nets over macro cells by automatically ripping up and rerouting the shorted nets by setting the route.detail.repair_shorts_over_macros_effort_level application option to low, medium, or high and running incremental detail routing."
+.
+.
+.
+.
+.
+.
+.192 improving yield by limiting the percentage of low-threshold-voltage (lvt) cells .
+.
+"see also • an overview for redhawk fusion and redhawk-sc fusion writing analysis and checking reports when the checking or analysis is complete, run the report_rail_result command to write the analysis or checking results to a text file."
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+(optional) ignore specific path groups during concurrent clock and data optimization as described in excluding specific path groups.
+.
+.
+.
+.
+"excluding specific sinks to exclude a specific sink from concurrent clock and data optimization, 1. apply a cts_fixed_balance_pin attribute on the sink pin by using the set_attribute command as shown in the following example: fc_shell> set_attribute -objects reg21/ck \ -name cts_fixed_balance_pin -value true 2. set the ccd.respect_cts_fixed_balance_pins application option to true."
+.
+.
+.
+.
+.
+.
+.
+.
+"example 4 shows def macro location and orientation information, where the letters e and w denote east rotation and west rotation respectively."
+.
+.
+.
+.
+.
+"for example, you can set constraints by • defining the minimum and maximum routing layers by using the set_routing_rule command for more information about using the set_routing_rule command, see specifying net-specific layer constraints."
+"3. enable power-driven placement for the create_placement, refine_placement, compile_fusion, or clock_opt command by using one of the following methods: ◦ enable dynamic-power-driven placement by setting the place.coarse.enhanced_low_power_effort application option to none, low, medium, or high."
+.
+.
+.
+.
+the tool will run set_fix_multiple_port_nets -all -buffer_constant by internally enabling mpn fixing due to the absence of explicit set_fix_multiple_port_nets constraint.
+.
+"if you specify this option with the -coordinates option, the command does not perform metal fill insertion in the overlapping regions."
+"inserting clock gates in an rtl design to insert clock gating logic in an rtl design and to synthesize the design with the clock- gating logic, follow these steps: 1. read the rtl design."
+.
+"for information about postroute redundant via insertion, see postroute redundant via insertion."
+.
+"you can change the editability of • specific blocks by using the -blocks option • all blocks starting from a specific level of the physical hierarchy by using the -from_level option • all blocks up to a specific level of the physical hierarchy by using the -to_level option for top-level implementation flows with read-only abstracts, after you link the design, explicitly set the lower-level blocks as read-only by using the following command: fc_shell> set_editability -blocks [get_blocks -hierarchical] \ -value false by default, if you change a library or block name with one of the following commands, the tool does not propagate the editability settings from the old reference to the new reference: • change_abstract -lib • link_block -rebind -force • set_reference to retain the editability settings, set the design.preserve_reference_editability application option to true before you change a library or block name."
+nets preserves the connectivity of all pins to the nets.
+.
+the default is 0.
+set_app_options -name rail.generate_file_type -value python #use user-defined test_def_files for def variable to match #with customized python.
+.
+3. enable ir-drop-aware placement by setting the place.coarse.ir_drop_aware application option to true.
+.
+"if you want zroute to use a via definition for signal routing, ensure that is has the following attribute settings: • is_default attribute is true • is_excluded_for_signal_routing attribute is false in addition, zroute uses nondefault vias that are explicitly specified in a fat via table in the technology file or in a nondefault routing rule defined by the create_routing_rule command."
+the enable condition of a clock gate corresponds to the states for which a clock is passed to the registers in the fanout of the clock gate.
+.
+630 reporting redundant via rates .
+"if the tool detects that a license becomes available, the tool reuses or checks out the license and submits a script to a farm machine immediately."
+.
+289 clock-gate levels and stages .
+.
+.
+.
+531 incremental global routing .
+.
+"for example: • for the effective_voltage_drop type, ◦ when reporting the static analysis results, the format is cell_instance_pg_pin_name mapped_pg_pin_name supply_net_name effective_voltage_drop ◦ when reporting the dynamic analysis results, the format is cell_instance_pg_pin_name mapped_pg_pin_name supply_net_name average_effective_voltage_drop_in_tw max_effective_voltage_drop_in_tw min_effective_voltage_drop_in_tw max_effective_voltage_drop • for the instance_minimum_path_resistance type, the result is sorted by the total_r value in the following format: supply_net total_r(ohm) r_to_power(ohm) r_to_ground(ohm) location pin_name instance_name • for the minimum_path_resistance type, the format is full_path_cell_instance_name/pg_pin_name resistance • for the missing_vias type, the format is net_name via_location_x_y top_metal_layer bottom_via_layer delta_voltage • for the pg_pin_power type, the format is full_path_cell_instance_name pg_pin_name power • for the voltage_drop_or_rise type, the format is full_path_cell_instance_name/pg_pin_name voltage • for the unconnected_instances error type, the format depends on the error condition."
+.
+.
+note: the report_abstract_inclusion_reason command does not report reasons for the hierarchical cells or pins on hierarchical cells.
+.
+.
+.
+.
+.
+"for this pattern, the tap distance specified with the -distance option should be approximately twice the maximum diffusion-to-tap value specified in the technology design rules."
+"to see the default mapping table, use the add_redundant_vias -list_only true command."
+.
+"the following commands support distributed processing configured by the set_host_options command: • analyze_rail • create_placement -floorplan • signoff_check_drc • signoff_fix_drc • signoff_create_metal_fill • signoff_fix_isolated_via when you configure distributed processing, you can specify one or more of the following settings: • the job submission command (the -submit_command option) if you do not specify this option, the tool uses the rsh command to submit the parallel processes."
+.
+.
+.
+(optional) apply switching activity by either reading in a saif file with the read_saif command or annotating the switching activity information on the nets with the set_switching_activity command.
+this command inserts a cut metal shape between metal shapes when all of the following conditions are met: • the spacing between the metal shapes in the preferred direction is cutmetalwidth.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+"in this heat map, each colored tile corresponds in size to the density window step."
+.
+.
+.
+.
+"for example, you can use • -file script_file_name to execute a script • -x command to execute a command • -output_log_file file_name to create a log file of your session • -help to display a list of the available options (without starting the shell) at startup, the tool : 1. creates a command log file."
+.
+the following example creates a constraint group named abc for the nets and bundles that match the pattern pr*.
+.
+385 balancing skew between different clock trees .
+this flow is recommended if you have not taped out your design.
+.
+.
+.
+.
+"for more information, see annotating the switching activity."
+.
+"for information about using the error browser, see the fusion compiler graphical user interface user guide."
+.
+"if the vertical stacking of the small filler cells specified in the -small_fillers option exceeds the height specified in the -max_constraint_length option, the command replaces two or three consecutive filler cells adjacent to the violating cell with one of the large filler cells specified in the -replacement_fillers option."
+"for information about how to merge the voltage area shapes, see merging voltage area shapes."
+.
+144 defining blockages that allow relative placement cells only .
+.
+"• set the detail routing application options for information about the detail routing application options, see the route.detail_options man page."
+.
+.
+see controlling movement when legalizing relative placement groups.
+• the filler cells that cannot abut the target filler cells these filler cells are called illegal cells.
+.
+you must specify the power and ground nets to analyze by using the -nets option.
+.
+.
+.
+.
+.
+you can use this option to reduce the runtime when you create more than one abstract view by using the -blocks or -all_blocks option.
+3.
+.
+.
+.
+"defining checkpoints to define a checkpoint, insert the eval_checkpoint command in your script."
+.
+481 controlling routing around the block boundary .
+"to perform automatic fixing of the signoff drc violations for a block that uses double- patterning technology, 1. perform automatic fixing for the non-double-patterning signoff drc violations by using the process described in automatically fixing signoff drc violations."
+"analyzing relative placement groups the following sections explain methods for analyzing your relative placement groups: • checking relative placement groups before placement • analyzing the placeability of a relative placement group • reporting relative placement constraint violations • querying relative placement groups • analyzing relative placement in the gui checking relative placement groups before placement before you run placement and optimization, you can check the relative placement constraints for issues that might lead to critical or noncritical failures after placement by using the check_rp_constraints command."
+.
+"see also • checking signoff design rules interactively in the gui fusion compiler™ user guide v-2023.12-sp3 666 chapter 8: ic validator in-design performing signoff design rule checking feedback setting options for signoff design rule checking before you run the signoff_check_drc command, configure the run by setting the application options shown in table 43. to set the application options, use the set_app_options command."
+.
+.
+auto_eco_threshold_value 20 specifies the maximum percentage of change to the block to perform incremental metal fill insertion using the -auto_eco true option.
+.
+"you must specify the following information: • the hard macros around which to create the routing guides and routing blockages (the -cells option) • the metal layers for which to create the routing guides and routing blockages (the -layers option) • the width of the routing guides and blockages in the x- and y-directions (the -x_width and -y_width options) for each specified hard macro, the command creates routing guides to enable routing to the pins on the specified layers."
+.
+"therefore, the tool proceeds with the create_placement command without the scandef information."
+◦ ignore the current cell density and place the spare cells randomly by using the -random_distribution option.
+.
+.
+"fusion compiler™ user guide v-2023.12-sp3 654 chapter 7: chip finishing and design for manufacturing inserting filler cells feedback when the command finds one of the target cells, it replaces it by randomly selecting one of the replacement cells specified for that target cell."
+• the enable signal extracted from registers in the transitive fanin depends on their output pins.
+.
+"to report on the via ladders in a block, use the report_via_ladders command."
+.
+.
+.
+963 adding buffers on nets .
+.
+.
+.
+.
+.
+.
+.116 preparing the power network .
+.
+of violating paths: 11 worst hold violation: -0.07 total hold violation: -0.13 no.
+the -preserve_distance_continuity option shifts only those tap cells whose computed tap location is occupied by an instance of one of the specified library cells.
+.
+.
+.
+.
+.
+"• to ignore the connections of specific pins on eco cells, use the -ignore_pin_connection option with the place_eco_cells command."
+"for example, fc_shell> sh cat cell_list.txt u_gs_pro_65 u_gs_pro_64 chiptop_u_compressor_mode/u3 fc_shell> set_app_options \ -name rail.effective_resistance_instance_file \ -value cell_list.txt fc_shell> analyze_rail -nets {vdd vss} -effective_resistance you can perform effective resistance analysis before or during voltage drop analysis."
+.
+.
+.
+"to remove the settings you specified, use the remove_multisource_clock_subtree_options command."
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+• moving the clock gate has a significant wire length impact for a less power benefit.
+"at the end of global routing, the following information is stored in the design library: • the g-links and g-vias on each routed net this information is used for the next routing steps."
+"for designs that use such cells, if a violating path goes through a lower-drive-strength bit, the tool can rewire the mixed-drive-strength multibit cell such that the violating path goes through a higher-drive-strength bit."
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+"you can specify the method used for pin tapering and control the tapering width, as described in the following topics: • specifying the tapering method • controlling the tapering width fusion compiler™ user guide v-2023.12-sp3 516 chapter 6: routing and postroute optimization routing constraints feedback specifying the tapering method you specify the tapering method for a nondefault routing rule when you define the rule with the create_routing_rule command."
+.
+.
+.
+.
+.
+.
+.
+"for information about defining sink pins, see defining sink pins."
+.
+"• mid signifies intermediate level design, which instantiates bot."
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+"when you run placement and optimization, the tool places the clocks sinks and their drivers based on their relative placement constraints it generated."
+.
+• the middle category consists of the next five percent of the cells.
+.
+"to disable checks for antenna rule violations, set the -antenna option to false."
+.
+.
+.
+.
+"to enable this feature, you must specify a top-level port to control the gating logic by using the set_register_async_gating_pin -port command."
+.
+"to route specific nets, use the -nets option."
+.
+"◦ to specify the power net, set the signoff.create_pg_augmentation.power_net_name application option."
+specify the below options to enable multi-rail-scenario rail analysis.
+.
+.
+"to consider legalization effects during placement, set the place.coarse.enhanced_legalizer_driven_placement application option to true."
+.
+3. perform placement and optimization.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+minimum_path_resistance the minimum path resistance value on each power or ground pin.
+.169 preserving cells and nets during optimization .
+.
+.
+.
+.
+.
+use the -label and specify a value to indicate at which stage of the flow you are capturing the data.
+.
+.
+.
+.
+.
+../reflibs ../clibs} .
+.
+"to draw route segments, you click points in the layout view."
+.
+.
+.
+.
+"for each fill run, the command creates a subdirectory named icv_run_# that contains the files generated for that run."
+.
+.
+"it also fixes drc violations beyond ignore exceptions of the multisource clock tree, if applicable."
+• the -exclude option sets the excluded_purposes attribute on the specified library cells.
+the following example performs static voltage drop analysis on the vdd and vss nets with the optional settings defined in a gsr configuration file.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+"topics in this section • mapping sequential elements exactly as described in rtl • mapping of scan cells • mapping of synchronous reset or preset registers • specifying synchronous input types for library cell pins • controlling sequential output inversion • preventing connections to register qn pins • mapping of synchronous enable logic to a mux • identification of shift registers mapping sequential elements exactly as described in rtl to specify that the tool maps sequential elements exactly as described in the rtl, set the compile.seqmap.exact_map application option to true."
+"if you stop automatic routing before it performs detail routing, zroute checks the input data when you restart routing with this command."
+.
+.
+.
+.
+fixing diodes the -diode option of the fix_mv_design command fixes mismatches between power domains and voltage areas for diodes throughout the design.
+.
+"in the output report file, the tool lists the data in different formats."
+.
+.
+.
+"for information about specifying the minimum spacing for a layer, see the “minimum spacing rule” topic in the synopsys technology file and routing rules reference manual."
+.
+"figure 78 generated clock with invalid master clock source d q 0 1 reg1 reg2 d q d q gen_reg clka clkb gen_clk for multicorner-multimode designs, the check_clock_trees command checks all active scenarios for the following issues: • conflicting per-clock exception settings • conflicting balancing settings before you implement the clock trees, you should manually fix the reported issues."
+.
+"placing eco cells for the unconstrained eco flow, place the eco cells by using the place_eco_cells command."
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+x x opt-3005 design is not present.
+"assume you have defined two checkpoints in your script named place_opt_to_initial_drc and incr_placement with the eval_checkpoint command, and two checkpoint actions named gropto and placer_high_effort_cong with the create_checkpoint_action command."
+296 user-driven enable exclusion .
+.
+ensure that you save the block to keep the generated error data if you want to examine the errors in another session.
+"a voltage area consists of one or more rectangular or rectilinear shapes, which can be abutted, disjoint, or overlapping."
+.
+.
+.
+.
+.
+576 using the drc query commands .
+.
+.
+fusion compiler™ user guide v-2023.12-sp3 590 chapter 7: chip finishing and design for manufacturing inserting tap cells feedback inserting tap meshes a tap mesh is a two-dimensional array of tap cells with a tap cell in each mesh window.
+.
+.518 controlling via ladder connections .
+.
+"global routing is done in two phases: • the initial routing phase (phase 0), in which the tool routes the unconnected nets and calculates the overflow for each global routing cell • the rerouting phases, in which the tool tries to reduce congestion by ripping up and rerouting nets around global routing cells with overflows the tool might perform several rerouting phases."
+.
+.
+half_interleave inserts shared shielding every two wires.
+• the height of a row is the height of the tallest cell in that row.
+.
+.
+.
+.
+fusion compiler™ user guide v-2023.12-sp3 319 chapter 4: clock gating fanin-based sequential clock gating feedback • registers in the transitive fanin are controlled by a different base clock or triggered by the opposite clock edge.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+"at a minimum, you must specify a name for the clock balance group and the clocks in the group."
+"after insertion, the command fixes the placement of the inserted tap cells."
+"3. perform the checking by using the analyze_rail -check_missing_via command, as described in checking missing vias and unconnected pins."
+.
+.
+this setting improves the nondefault via rate at a cost of longer runtime.
+.
+.
+.
+.
+.
+.
+"the solvnetplus site also gives you access to a wide range of synopsys online services including software downloads, documentation, and technical support."
+.
+.
+place_group_repeat ers eco-229 warning: failed to find intersection of cutline %s and route for cell {%s}.
+this option is supported only by the voltage_drop type.
+.
+.
+.
+.
+.
+.
+.
+"• does not generate heat maps to generate heat maps to enable viewing of the metal density information in the gui, set the signoff.report_metal_density.create_heat_maps application option to true."
+.
+.
+.
+.
+.
+.
+.
+"read_verilog top.netlist.v set_top_module top when the file has multiple independent modules, use the -top option to identify the top- level module."
+"to specify the minimum and maximum routing layers, use the -min_routing_layer and -max_routing_layer options."
+6. run design rule checking by choosing edit > icv > run icv-live on current view or by clicking the icv run button ( ) in the drc toolbar.
+.
+.
+.
+.
+.
+.
+"• to read the layout view for specific reference cells, specify the cells by setting the signoff.check_drc.read_layout_views application option."
+.
+.
+.
+"fusion compiler™ user guide v-2023.12-sp3 478 chapter 6: routing and postroute optimization routing constraints feedback for example, to encourage river routing on the m2 layer within the rectangle with its lower- left corner at (0, 0) and its upper-right corner at (100, 100), use the following command: fc_shell> create_routing_guide -boundary {{0.0 0.0} {100.0 100.0}} \ -river_routing -layers {m2} querying routing guides to find routing guides, use the get_routing_guides command."
+.
+.
+.
+.
+.
+.
+.
+.
+place_group_repeat ers eco-231 error: the repeater group (%d) has no cutline or invalid cutline.
+table 37 shows how the vector values are used to calculate the maximum antenna ratio for each diode mode.
+"beyond the ignore pin, the tool never performs skew or insertion delay optimization, but does perform design rule fixing."
+.
+.
+.
+.
+.
+.
+.
+.
+"the create_via_def command can define simple vias, simple via arrays, and custom vias."
+.
+"when chip finishing is complete, use redhawk fusion or redhawk-sc to perform pg electromigration analysis to check for current density violations."
+.
+"to create logical power and ground connections in manual mode, use the -net option to specify the power or ground net and specify the pins and ports to be connected to that net as an argument to the command."
+.
+.
+• adds buffers at the lowest common level of hierarchy of the pins being driven by the buffers.
+.
+"• if you set only the route.common.redundant_via_include_weight_group_by_layer_name application option, zroute selects redundant vias only from the specified weight groups."
+"to improve the accuracy of the estimated clock-gate latencies, specify clock tree synthesis settings before you run the compile_fusion command."
+.
+.
+.
+.
+upf flows the fusion compiler tool supports both the traditional upf flow and the golden upf flow.
+.
+note: you cannot use the -reuse_existing_global_route true option when routing the nets in a routing corridor.
+.
+.
+.
+.
+set_routing_rule -min_routing_layer m3 \ -max_routing_layer m9 \ -min_layer_mode allow_pin_connection \ -max_layer_mode hard {net1 net2} set_app_options -name custom.route.skip_connect_pin_type \ -value stdcell set_app_options -name custom.route.distance_to_net_pin \ -value {{{net1 5.0} {net2 3.0}}} route_custom -nets {net1 net2} route_eco -nets {net1 net2} remove_redundant_shapes -nets {net1 net2} route_detail -incremental true using a ddr routing flow this topic describes how to use custom router to perform routing on a double data rate (ddr) design.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+"for example, if your machine has two cpus and each cpu has three cores, specify six as the maximum number of threads: fc_shell> set_host_options -max_cores 6 fusion compiler™ user guide v-2023.12-sp3 65 chapter 1: working with the fusion compiler tool enabling multicore processing feedback configuring distributed processing distributed processing performs tasks in parallel by using multiple machines; each process uses its own process memory image."
+.
+.
+.
+361 preventing specific clocks from being synthesized .
+these tap locations are derived by tracing the redhawk parasitics data.
+• the clock-gate stage is related to the fanout of a clock gate.
+.
+this technique greatly reduces dynamic power consumption by reducing the switching activity on the clock inputs to registers and eliminating the multiplexers.
+.
+"by default, the tool fusion compiler™ user guide v-2023.12-sp3 526 chapter 6: routing and postroute optimization routing signal nets feedback uses medium effort and performs a maximum of three rerouting phases."
+.
+"fusion compiler™ user guide v-2023.12-sp3 582 chapter 7: chip finishing and design for manufacturing inserting tap cells feedback for example, fc_shell> create_tap_cells -lib_cell myreflib/mytapcell -distance 30 note: if the place.legalize.enable_pin_color_alignment_check application option is true (its default is false), the command ensures that internal cell pins and metal of the tap cells align with a routing track of the appropriate color when inserting the tap cells and shifts the tap cells to avoid violating color alignment."
+.
+you must specify the rule to fix by using the -replacement_rule option.
+.
+.
+this difference in the clock-network delay at the registers and at the clock- gating cell results in tighter constraints for the setup condition at the enable input of the clock-gating cell.
+"◦ to perform a string comparison, select the contains comparison type and specify a string value in the value field."
+.
+"• io custom router completes the pin connections for all pins in the block, except for i/o cell pins."
+.
+.
+.
+.
+.
+.
+balance points that the tool derives are clock and corner specific.
+.
+fc_shell> set matchnets {net1 net2 net3 net4} fc_shell> create_bundle -name matchl1 $matchnets fc_shell> create_wire_matching -for matchl1s \ -match_type length -tolerance 1 \ -force matchl1_con fc_shell> route_custom -nets {net1 net2 net3 net4} the following example creates a differential group and then performs custom routing.
+.
+.
+.
+.
+.
+.
+.
+the following example specifies a less restrictive setting for the top level and a more restrictive setting for the lower-level group named rp1.
+• changes to the power intent are easily tracked in the supplemental upf file.
+.
+"fc_shell> read_def block.def note: when possible, use def v5.8 or later, as this version supports more types of physical objects and obstructions than previous versions."
+.
+"figure 148 power grid augmentation the fusion compiler tool supports the following methods of power grid augmentation: • standard power grid augmentation, which inserts as many pg augmentation shapes as possible to lower the instance voltage drop • timing-driven power grid augmentation, which inserts pg augmentation shapes in the specified regions of the block, except around timing-critical nets • guided power grid augmentation, which inserts pg augmentation shapes only from cells with ir violations to their tap with the minimum path resistance each method uses redhawk fusion analysis to drive the power grid augmentation and uses the ic validator tool to insert the pg augmentation shapes."
+.
+.
+.
+.
+.
+.
+"shielding before signal routing, which is referred to as preroute shielding, provides better shielding coverage but can result in congestion issues during signal routing."
+"(optional) enable ir-driven sizing, which uses the redhawk dynamic voltage drop analysis results to identify cells involved in voltage drop violations, and then tries to replace those cells with cells having smaller leakage current."
+.
+.
+.
+.
+.
+.
+"for example, to remove only the clock tree in the current mode named my_clk, use the following command: fc_shell> remove_clock_trees -clocks [get_clocks my_clk] table 28 shows how clock tree removal is affected by the structure of the clock tree."
+"before you run the get_drc_errors command, you must load the error data files that you want to query."
+.
+.
+.
+.
+"to disallow pin connections that use rotated vias, set the -allow_via_rotation option to false."
+.
+.
+.
+mx_max_fill_length 5 microns specifies the maximum length of the metal fill shapes.
+.
+.
+.
+.
+"performing power or area recovery on the clock network if you enable concurrent clock and data optimization for the clock_opt command, the tool performs clock power recovery on clock cells and registers during the final_opt stage."
+◦ use the -boundaries option to restrict filler cell insertion to the specified regions.
+the tool recognizes gas stations automatically and uses them by trading off the cost of a routing detour with the cost of using a dual-rail cell.
+.
+.
+.
+340 identifying the clock endpoints .
+the fusion compiler tool can analyze all clock gates and insert additional clock gates to take advantage of shared enable signals.
+.
+.
+.
+.
+x x opt-1007 library analysis failure - no technology data.
+.
+• you use the precolored flow if the cells in your standard cell library have assigned masks on the metal shapes inside the cells.
+.
+"in the uncolored flow, the tool determines the appropriate mask settings for the pins and net shapes."
+599 finding and fixing antenna violations .
+.
+.
+.
+"to delete the existing constraint group, use the -force option."
+"inserting interior tap walls an interior tap wall is a row or column of tap cells that is placed inside the boundary of the standard cell placement area of a block, a macro, hard placement blockage, or nondefault voltage area."
+.
+"the default contains five fields: ""group period wns num_paths max_level""."
+.
+.
+.
+"if you do not specify an entry for a layer, all weight groups are used for that layer."
+"• wire delay fraction histogram to report the ratio between the wire delay and the total delay for each logic stage of the clock tree in a histogram format, use the -histogram_type wire_delay_fraction option."
+you can split the chip-level constraints in to separate top- and block-level constraints by using the split_constraints command.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+this helps to identify specific clock gates driving wrapper cells during automatic test pattern generation (atpg).
+the tool uses the power scenarios you specify to generate the high-level summary of the power qor in the qorsum report.
+.
+.
+.
+.
+"fusion compiler™ user guide v-2023.12-sp3 208 chapter 2: preparing the design applying mega-switch command settings feedback when using this command, perform the following steps before placement, optimization, and routing: 1. load and link the design."
+.
+.
+.
+.
+.
+.
+.
+.
+"if your block contains global routing cells that have no available routing resources, an additional bin named blocked is displayed that shows the number of global routing cells with no routing resources."
+.
+.
+.
+.
+"to avoid the warning message, run the close_rail_result command to remove all rail data from memory before proceeding to another analyze_rail command run."
+.
+.
+.
+.
+"to enable multicore processing, you must define the configuration by using the set_host_options command."
+you can manually annotate the latency values on the existing clock-gating cells in your design using the apply_clock_gate_latency command.
+.
+use this feature for blocks that have many cells with small to medium displacements during legalization and use the rms displacement values reported during legalization to see if it reduces the displacement.
+.
+figure 204 shows an example of the electromigration map in which problem areas are highlighted in different colors.
+.
+.
+.
+• the number of cores to use on each host use the -max_cores option to specify the number of cores per host.
+.
+354 setting clock tree design rule constraints .
+.
+.
+.
+"fusion compiler™ user guide v-2023.12-sp3 688 chapter 8: ic validator in-design performing signoff design rule checking feedback to prevent fixes that might impact timing-critical nets, use one or both of the following options: ◦ -nets this option explicitly specifies the critical nets."
+.
+.
+.
+"by default, path-based routing corridors have flush end caps at the start and end of the path."
+.
+.
+.
+"fc_shell> spread_wires -min_jog_length 3 \ -min_jog_spacing_by_layer_name {{m1 0.07} {m2 0.08}} after spreading, the spread_wires command performs detail routing iterations to fix any drc violations caused as a result of spreading."
+.
+.
+.
+.
+.
+the default is 0.
+.
+.
+.
+"to exclude specific standard cells from consideration, use the -exception_cells option."
+.
+.
+.
+note: • quality of results of the top-level flow might get impacted due to the toleration and repair of errors.
+.
+.
+.
+note: you must have a mapped design to run logic-level reporting.
+you can apply the annotation files as a standalone step by using the -apply_annotation option.
+.
+.
+"the grid boxes are sorted by the maximum effective voltage drop value in each grid box and are indexed with an integer number starting from 0. to create rows based on standard cell site rows, and columns by using vertical pg straps on the lowest metal layers, use the -site_row option."
+.173 preserving pin names during sizing .
+.
+"5. generate a binary name-mapping file that maps rtl object names to gate-level objects by using the saif_map -write_map command, which is needed if you want to continue the flow using ascii files in a later fusion compiler session."
+.
+.
+the following example specifies that parent hierarchies of blocks with upf and sdc constraints should preserved and that automatic ungrouping of other hierarchies should begin from the third level: fc_shell> set_autoungroup_options -keep_parent_hierarchies upf fc_shell> set_autoungroup_options -keep_parent_hierarchies sdc fc_shell> set_autoungroup_options -start_level 3 fusion compiler™ user guide v-2023.12-sp3 218 chapter 3: physical synthesis controlling mapping and optimization feedback the set_autoungroup_options command is cumulative and the settings are saved in the design library.
+.
+"to remove specific clock cell spacing rules, use the -lib_cells option."
+.
+.
+.
+.
+.
+.
+.
+.
+.
+"(pvt-032) warning: technology layer 'm1' setting 'routing-direction' is not valid (nex-001)... warning: technology layer 'mrdl' setting 'routing-direction' is not valid (nex-001) information: design average rc for design top (nex-011) fusion compiler™ user guide v-2023.12-sp3 216 chapter 3: physical synthesis controlling mapping and optimization feedback generating verification checkpoints during compilation you can generate intermediate verification checkpoints during the compile_fusion command, which you can use in the formality tool to provide a netlist snapshot of the synthesis design state and verify the intermediate netlists."
+.
+.
+.
+signoff.check_drc_live.
+.
+.
+.
+"see also • reporting hotspots • removing hotspots • voltage hotspot analysis examples reporting hotspots after you generate hotspots on the block using the generate_hot_spots command, run the report_hot_spots command to report cells with voltage-related cell attributes for a hotspot grid box."
+.
+.
+.
+.
+.
+"therefore, these gui shapes cannot be queried using layout object collection commands (such as, get_shapes), and are not saved to the design library when you save the block."
+.
+.
+set_app_options -name rail.generate_file_type -value python #use user-defined test_def_files for def variable to match #with customized python.
+.
+.
+.
+fusion compiler™ user guide v-2023.12-sp3 785 chapter 10: physical datapath with relative placement adding objects to a group feedback specifying orientations for leaf cells you can specify orientations for leaf cells when you add them to a relative placement group.
+305 controlling the number of clock-gate levels .
+this computation based on toggle rate has a direct dependency on power saving which can be used to improve gating efficiency.
+• the pattern used to insert the tap cells use the -pattern option to specify one of the following tap cell insertion patterns: ◦ every_row (the default) this pattern inserts tap cells in every row.
+.
+to route using the balance mode: ►set the custom.route.balance_mode application option to true.
+.
+.
+.
+.
+.
+.
+.
+• choose file > execute script in the gui.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+the tool considers all the switched or internal power nets of the specified power nets in the analysis.
+.
+.
+(eco-329) error: the cell driver1 of the pin driver1/x is not placed.
+.
+.
+.
+.
+.
+.
+"for example, the rtl contains the reg_state bused register."
+.
+.
+.
+.
+"the syntax of the set_clock_gating_enable command is as follows: status set_clock_gating_enable [-exclude objects_to_exclude] [-undo objects_to_remove_exclusion] fusion compiler™ user guide v-2023.12-sp3 297 chapter 4: clock gating setting up clock gating feedback the following figure shows a circuit before enable exclusion: in this step, a forward traversal is performed from all user-specified exclusion signals until endpoints (primary output ports, input ports of sequential cells, including clock gating cells, black boxes, and so on) are reached."
+.
+fc_shell> set_app_options \ -name route.common.pg_shield_distance_threshold -value distance note that this option affects only the shielding ratio calculation and does not change the routing behavior.
+.
+relative placement flow the relative placement flow consists of the following steps: 1. prepare the design as described in preparing the design.
+.
+"to modify the default behavior, use the following options: • -select_layers to restrict the layers on which to insert metal fill, use this option, as described in specifying the layers for metal fill insertion."
+"therefore, it is important to enable this feature earlier in the design flow."
+.
+the fusion compiler tool provides chip finishing and design for manufacturing and design for yield capabilities that you can apply throughout the various stages of the design flow to address process design issues encountered during chip manufacturing.
+.
+this chapter describes how to use the redhawk fusion or redhawk-sc fusion feature to perform rail analysis in the environment.
+.
+.
+.
+.
+set_app_options -name custom.route.balance_mode -value true when custom.route.balance_mode is true: • the custom router creates feedthrough routes between two μbumps and a c4 bump on the same net.
+.
+.
+.
+"after you specify how many cores to use on different hosts, the ic validator tool determines exactly how to take advantage of multithreading and parallel command execution to achieve the fastest runtimes."
+.
+.
+.
+.
+.
+◦interleave: inserts shared shielding between adjacent wires.
+.
+"to change a clock routing rule, first reset it to the default routing rule and then use the -rule option after resetting the assignment to the default routing rule."
+"• to remove a rule between labels, use the -rule option to specify two labels associated with the rule."
+"the voltage-related cell attributes are: current, overlap_current, effective_resistance, timing_ window, slack, output_load and static_power."
+.215 generating verification checkpoints during compilation .
+"you can limit the report to specific • portions of a clock network by using the -from, -to, and -through options • clock trees by using the -clock option • skew groups by using the -skew_group option • modes by using the -mode option • corners by using the -corner option • scenarios by using the -scenario option if you use the -scenario option, you cannot use the -mode and -corner options."
+.
+"to define a precoloring rule, use the create_routing_rule command using the following syntax: create_routing_rule rule_name -mask_constraints {layer1 constraint1 layer2 constraint2 ... layern constraintn} where constraint is one of same_mask, mask1_soft, or mask2_soft."
+.
+.
+.
+the supported analysis types are: voltage_drop and min_path_resistance.
+.
+.
+"for example, to define a routing corridor named corridor_a and assign the nets named n1 and n2 to this routing corridor, use the following commands: fc_shell> create_routing_corridor -name corridor_a \ -boundary { {10 10} {20 35} } \ -min_layer_name m2 -max_layer_name m4 fc_shell> create_routing_corridor_shape -routing_corridor corridor_a \ -boundary { {20 25} {40 35} } \ -min_layer_name m2 -max_layer_name m4 fc_shell> create_routing_corridor_shape -routing_corridor corridor_a \ -boundary { {40 10} {50 35} } \ -min_layer_name m2 -max_layer_name m4 fc_shell> add_to_routing_corridor corridor_a [get_nets {n1 n2}] fusion compiler™ user guide v-2023.12-sp3 492 chapter 6: routing and postroute optimization routing constraints feedback note: you can also assign nets or supernets to the routing corridor by using the -object option when you use the create_routing_corridor command to create the routing corridor."
+.
+.
+.
+.
+.
+.
+.
+check if checkerboard snapping service can find free space for a repeater set_repeater_group eco-277 warning: you are trying to override cells of repeater group %d.
+"if there are multiple levels of physical hierarchy, to specify the number of level for which you want to report, use the -levels option."
+.
+.
+.
+.
+"when doing so, you must specify the two libraries you want to compare by using the -ref_lib and -target_lib options."
+.
+.
+fusion compiler™ user guide v-2023.12-sp3 698 chapter 8: ic validator in-design improving instance voltage drop by augmenting the power grid feedback improving instance voltage drop by augmenting the power grid power grid augmentation is a technique used to improve the instance voltage drop.
+.
+fusion compiler™ user guide v-2023.12-sp3 580 feedback 7 chip finishing and design for manufacturing the fusion compiler tool provides chip finishing and design for manufacturing and yield capabilities that you can apply throughout the various stages of the design flow to address process design issues encountered during chip manufacturing.
+.
+.
+.
+create_differential_group defines a differential group for routing.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+"to modify the cut pattern, use the -cut_pattern option."
+.
+.
+"figure 191 shows a block and its abstract view, where the logic is preserved between • the input port and the first register of each timing path • the last register of each timing path and the output port fusion compiler™ user guide v-2023.12-sp3 831 chapter 11: hierarchical implementation overview of abstract views feedback logic associated with pure combinational input-port-to-output-port timing paths (a to x) is also preserved."
+.
+.
+.
+.
+.
+.
+"the default is 100, starting with the library cell with the worst pass rate."
+-layer_widths specifies the minimum width for each routing layer.
+.
+.
+.
+the tool does not modify any set_clock_latency constraints that you specify on clock- gating cells.
+siteid_based mode the variant mapping and flipped mapping information are defined in the cell group.
+.
+.
+this is a soft optimization constraint.
+"when you do so, you must specify a list consisting of the type for the orthogonal stripes and detect, with the type for the horizontal direction specified first in the list."
+"to further improve total power, at the expense of runtime, you can use the -mode extreme_power option, with the -metric total_power option."
+.
+.
+the map mode panel also displays a histogram showing the number of global routing cells in different ranges (bins) of congestion values for the selected layers.
+.
+.
+.
+"fusion compiler™ user guide v-2023.12-sp3 541 chapter 6: routing and postroute optimization shielding nets feedback • ties the shielding wires to the ground net if the block contains multiple ground nets or you want to tie the shielding wires to the power net, use the -with_ground option to specify the power or ground net to which to tie the shielding wires."
+.
+"after inserting fusion compiler™ user guide v-2023.12-sp3 579 chapter 6: routing and postroute optimization inserting and removing cut metal shapes feedback the cut metal shapes, the command propagates the color of the metal shapes to the cut metal shapes."
+.
+.
+.
+"• to specify the bounding box to confine the structure, use the -boundary option."
+.
+.
+.
+.
+.
+.
+the fusion compiler tool does not perform any checking on the specified string.
+.
+.
+.
+the grid pitch is route width + minspacing between shapes.
+the two labels can be the same or different.
+table 29 describes the types of guidance provided by the routing constraints.
+.
+.
+.
+"specifying the naming convention for boundary cells by default, the tool uses the following naming convention for inserted boundary cells: boundarycell!library_cell_name!number to change the separator character from its default of “!,” use the -separator option with the set_boundary_cell_rules command.. to identify the boundary cells inserted in a specific run, use the -prefix option with the set_boundary_cell_rules command to specify a prefix string."
+please make sure the cells in repeater group keep in order.
+.
+.
+.
+"fusion compiler™ user guide v-2023.12-sp3 436 chapter 5: clock tree synthesis analyzing the clock tree results feedback • transition to generate a transition time report, use the -type transition option."
+.
+.
+"example 26 default global route congestion report **************************************** report : congestion design : fusion compiler™ user guide v-2023.12-sp3 564 chapter 6: routing and postroute optimization analyzing the routing results feedback version: date : **************************************** layer | overflow | # grcs has name | total | max | overflow (%) | max overflow --------------------------------------------------------------- both dirs | 39 | 8 | 14 ( 0.26%) | 1 h routing | 6 | 2 | 4 ( 0.07%) | 2 v routing | 33 | 8 | 10 ( 0.18%) | 1 in the default congestion report, • “h routing” refers to results for horizontal routes only and “v routing” refers to results for vertical routes only."
+.
+.
+.
+.
+"the following example creates a skew group named sg1 consisting of sinks reg1/cp, reg2/ cp, and reg3/cp: fc_shell> create_clock_skew_group -name sg1 \ -objects {reg1/cp reg2/cp reg3/cp} to report skew groups, use the report_clock_skew_groups command."
+.
+.
+.
+.
+"◦ does not check for shorts with zero-spacing blockages to enable this checking, use the -check_zero_spacing_blockages true option."
+.
+.
+.
+.
+fusion compiler™ user guide v-2023.12-sp3 695 chapter 8: ic validator in-design performing signoff design rule checking feedback figure 147 drc toolbar table 46 drc toolbar buttons button description runs design rule checking using live drc.
+.
+.
+.
+.
+.
+"to enable via density modeling, set the route.global.via_cut_modeling application option to true."
+"you can specify one of the following thresholds for selecting cells for optimization: • a threshold for the cell voltage drop, as a percentage of the supply voltage, by using the ccd.voltage_drop_voltage_threshold application option."
+.
+.
+.
+.
+"the resulting hierarchical relative placement group is shown in figure 168. example 43 including groups in a hierarchical group create_rp_group -name rp1 -columns 2 -rows 1 add_to_rp_group rp1 -cells u1 -column 0 -row 0 add_to_rp_group rp1 -cells u4 -column 1 -row 0 create_rp_group -name rp2 -columns 2 -rows 1 add_to_rp_group rp2 -cells u2 -column 0 -row 0 add_to_rp_group rp2 -cells u5 -column 1 -row 0 fusion compiler™ user guide v-2023.12-sp3 787 chapter 10: physical datapath with relative placement adding objects to a group feedback create_rp_group -name rp3 -columns 2 -rows 1 add_to_rp_group rp3 -cells u3 -column 0 -row 0 add_to_rp_group rp3 -cells u6 -column 1 -row 0 create_rp_group -name rp4 -columns 1 -rows 3 add_to_rp_group rp4 -rp_group rp1 \ -column 0 -row 0 add_to_rp_group rp4 -rp_group rp2 \ -column 0 -row 1 add_to_rp_group rp4 -rp_group rp3 \ -column 0 -row 2 figure 168 including groups in a hierarchical group rp3 rp2 rp1 u3 u2 u4 u5 u6 u1 rp4 rp1 u4 u1 u3 u6 rp2 u2 u5 rp3 col 0 col 1 col 0 col 1 col 0 col 1 row 0 row 0 row 0 row 2 row 0 row 1 col 0 using hierarchical relative placement for straddling a cell can occupy multiple column positions or multiple row positions, which is known as straddling."
+.
+.
+"if you want to use different options for the route_global command, you can modify this command before clicking ok. fusion compiler™ user guide v-2023.12-sp3 566 chapter 6: routing and postroute optimization analyzing the routing results feedback figure 118 shows an example of a congestion map."
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+"after the vias are checked and replaced, the detail router rechecks for drc violations and corrects any violations."
+.
+.
+.
+.
+.
+.
+.
+.
+.
+fusion compiler™ user guide v-2023.12-sp3 392 chapter 5: clock tree synthesis implementing clock trees and performing post-cts optimization feedback performing voltage optimization the voltage level of a design is determined by the technology node (at device level) and the performance requirement.
+.
+.
+.
+note: these keepout margins are in addition to any existing keepout margins on the cells; the command does not modify the existing keepout margins.
+.
+.139 defining area-based placement blockages .
+.
+.
+fixing remaining mask design rule violations some mask design rules are not handled during filler cell insertion because they have a low probability of occurrence and they require extensive computation time if handled during insertion.
+.
+.
+"set_app_options -list { rail.enable_new_rail_scenario true rail.enable_parallel_run_rail_scenario true } set_app_options -name rail.generate_file_type -value python #use user-defined test_def_files for def variable to match #with customized python set_app_options -name rail.generate_file_variables \ -value {def test_def_files } create_rail_scenario -name func.ss_125c -scenario func.ss_125c set_rail_scenario -name func.ss_125c -voltage_drop dynamic create_rail_scenario -name func.ff_125c_ -scenario func.ff_125c set_rail_scenario -name func.ff_125c \ -generate_file {ploc def spef twf lef} \ -custom_script_file ./customized.py set_host_options -submit_protocol sge \ -submit_command {qsub -v -notify -b y -cwd -j y \ -p bnormal -l mfree=16g} # enable ir-driven ccd analysis before running route_opt set_app_options -name opt.common.power_integrity -value true route_opt see also • specifying redhawk and redhawk-sc working directories specifying ideal voltage sources as taps taps are used to model the external voltage source environment in which the device under analysis operates; they are not part of the design itself, but can be thought of as virtual models of voltage sources."
+.
+.
+.
+.
+.
+.
+"2. for multivoltage designs, ◦ enable multivoltage support by using the following application option setting: fc_shell> set_app_options \ -name cts.multisource.enable_full_mv_support -value true ◦ enable the addition of physical feedthrough cells, which belong to a voltage area physically but not logically, by using the following application option setting: fc_shell> set_app_options \ -name opt.common.allow_physical_feedthrough -value true ◦ run the check_mv_design command and fix all multivoltage issues 3. enable cell electromigration fixing by setting the cts.multisource.cell_em_aware application option to true."
+.
+the estimated qor for the block should meet your requirements before you start clock tree synthesis.
+.
+.
+.
+.
+physical synthesis design flow overview figure 1 shows the basic physical synthesis design flow.
+.
+.
+.
+.
+"• for pattern-based metal fill insertion, you pass the parameter file to the ic validator tool by setting the signoff.create_metal_fill.user_defined_options application option."
+.
+.
+.
+.
+the following topics describe how to start and exit the tool using the command-line interface.
+.
+"to consider only those timing paths with slack less than a specified value, use the -slack_less_than option with the derive_clock_balance_constraints command."
+.
+"however, the command does not change level-shifter library cells."
+.
+.
+.
+.
+hierarchy_level visible specifies the maximum hierarchical depth processed by live drc.. signoff.check_drc_live.
+you can specify either uniform or alternating as the mask pattern.
+.
+a positive value must be less than half of the smaller of the width or height of the block boundary.
+.
+.
+.
+.
+.
+.
+.
+8. perform postroute optimization at the optimized voltage by using the route_opt command.
+.
+"table 12 settings for the place.legalize.optimize_pin_access_strategies application option to do this use this setting align horizontal pin shapes horizontal_align move cells away from areas of high pin density avoid_high_pin_density align horizontal pin shapes and move cells away from areas of high pin density horizontal_align avoid_high_pin_density during advanced legalization and legality checking, the tool can simultaneously check for drc violations between multiple cells and pg net shapes."
+.
+.
+.
+"the m2 and m4 fusion compiler™ user guide v-2023.12-sp3 772 chapter 9: routing using custom router routing with the custom router feedback layers are used for horizontal connections; and the m1, m3, and m5 layers are used for vertical connections."
+.
+.
+.
+.
+"if you do not set this option, the metal fill is not trimmed."
+.
+• provides flexibility for the configuration you want.
+.
+.
+.
+.
+.
+"figure 172 bottom-left, bottom-right, top-left and top-right anchor corners bottom-left anchor corner bottom-right anchor corner top-left anchor corner top-right anchor corner for example, to anchor a relative placement by its bottom let corner at location (100, 100), as shown figure 173, use the following command: fc_shell> set_rp_group_options misc1 -anchor_corner bottom_left \ -x_offset 100 -y_offset 100 fusion compiler™ user guide v-2023.12-sp3 794 chapter 10: physical datapath with relative placement specifying options for relative placement groups feedback figure 173 anchored relative placement group i33 i32 i34 misc1 i30 i31 i35 i43 i42 i44 i40 i41 i45 i53 i52 i54 i50 i51 i55 (100,100) ... the following example specifies that relative placement cell at column 1, row 2 of the rp1 relative placement group should be anchored at location (100, 100)."
+.
+.
+note that using this option might increase the runtime.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+table 25 shows how different types of clock gates are renamed.
+.
+.
+.
+"by default, this command places and maps all eco cells."
+.
+.
+.
+"to remove the redundant diodes during routing, set the route.detail.delete_redundant_diodes_during_routing application option to true."
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+fusion compiler™ user guide v-2023.12-sp3 56 chapter 1: working with the fusion compiler tool adding changes to a script with checkpoints feedback • specify the checkpoint report name with the -enable option.
+.
+.
+fusion compiler™ user guide v-2023.12-sp3 362 chapter 5: clock tree synthesis specifying the clock tree synthesis settings feedback 3. check clock cell spacing rule violations by using the check_legality -verbose command.
+.
+.
+"• uses the following naming convention for the inserted mim capacitor cells: mimcap!library_cell_name!number to identify the mim capacitor cells inserted in a specific run, use the -prefix option to specify a prefix string."
+.
+.
+.
+.
+.
+"for example, - set the routing layers for route group a to the m3 and m4 layers, and for group b to the m5 and m6 layers, or - set the routing layers for route groups a and b to the m3 and m4 layers, and route all mismatched nets on the m5 and m6 layers."
+.
+.
+"• to force the router to route all nets in the preferred direction within the routing guide boundary, use the -preferred_direction_only option with the create_routing_guide command."
+"fusion compiler™ user guide v-2023.12-sp3 842 chapter 11: hierarchical implementation checking designs with abstracts for top-level-closure issues feedback • apply the top-level upf constraints, which you can create from the full-chip upf constraints by using the split_constraints command."
+.506 controlling off-grid routing .
+.
+.
+.
+this might help to reduce the area while optimizing power.
+.
+.
+.
+"if the height of the obstruction is below a certain threshold, the relative placement cells are shifted vertically; otherwise, the relative placement column is shifted horizontally."
+.
+.
+"to load the signal electromigration constaints into the design library, use the read_signal_em_constraints command."
+.
+.
+.
+.
+.
+the global routing results can vary depending on whether the initial net delays were calculated by using global route information or virtual routing.
+the regions are called access preference areas.
+.
+.
+.
+.
+the original design and any collections that contain it or its objects are no longer accessible.
+.
+"when you use these settings, the tool performs conventional leakage-power optimization during the clock_opt command."
+.
+.
+"although the nets are not assigned to the actual wire tracks during global routing, the number of nets assigned to each global routing cell is noted."
+.
+.
+.
+"placement can be wire length, timing, and congestion driven."
+.
+.
+.
+the following example inserts filler cells on the left and right sides of the sc1 standard cells and only on the left side of the sc2 standard cells.
+.
+"to modify the stacking order of the voltage area shapes, use the set_voltage_area_shape command, as described in modifying the stacking order."
+.
+.
+.
+.
+"• to change the boundary of a metal fill shape, use the set_attribute command to modify its bbox attribute."
+opt.common.enable_multibit_feature to true 5.
+.
+"to insert diodes after detail routing, use the create_diodes command."
+1) 89.00% (total shield ratio/number of shielded nets) 2) 87.92% (total shield length/total shielded net length) fusion compiler™ user guide v-2023.12-sp3 543 chapter 6: routing and postroute optimization shielding nets feedback note: in some cases there is a slight difference in the shielding ratios reported by the create_shields and report_shields commands.
+inserting level shifters level-shifter cells function as the interface between power domains that operate at different voltage levels.
+.
+fusion compiler™ user guide v-2023.12-sp3 934 chapter 12: redhawk and redhawk-sc fusion displaying maps in the gui feedback figure 212 displaying a rail instance effective voltage drop map hover over the red spot to see the voltage drop number on the instance select the instance to display choose rail instance effective voltage drop click “zoom to critical” to examine the critical area histogram for the range of map values (in volts) options for map display control fusion compiler™ user guide v-2023.12-sp3 935 chapter 12: redhawk and redhawk-sc fusion displaying maps in the gui feedback figure 213 displaying maps for switch cells choose rail instance switch cell.
+.
+.
+742 setting options for fixing isolated vias .
+.
+enabling enhanced delay optimization to improve total negative slack you can improve the total negative slack of a block by using path groups to focus the tool on fixing more violating paths during optimization.
+.
+"during the early stages of design process, you can use automatically-generated floorplan information to run physical synthesis, as described in using automatic floorplanning."
+"fusion compiler™ user guide v-2023.12-sp3 281 chapter 3: physical synthesis performing design analysis feedback to define the filter, select the column and comparison type, and then specify the comparison value."
+"if not, the tool issues the following error message: error: create_multibit command failed: multibit flow is disabled."
+.
+.
+"when specified, the tool derives the minimum and maximum layer information from the list."
+.
+.
+.
+"by default, this option is set to false and inserts fill only for the routing layers (metal and via layers)."
+compression removes empty space in rows to create a more compact structure.
+max_vertical_constraint tap cell spacing this rule restricts the distance between a tap cell’s oxide diffusion (od) layer and the neighboring od layers.
+valid values are: ◦auto (default): automatically determines the optimal corner type for the bit or pin alignment to reduce routing congestion.
+.
+.
+"the tool merges single-bit registers only if they have the same timing constraints, and it copies the timing constraints to the resulting multibit register."
+.
+"figure 85 regular multisource clock tree with an h-tree-only global clock structure to implement a regular multisource clock tree structure with an h-tree-only global clock tree structure, 1. specify your clock tree constraints and settings."
+.
+(optional) analyze the multibit banking components in the gui as described in viewing multibit components in the gui.
+.
+.
+"by default, the tool uses the following naming convention for inserted tap cells: tapfiller!library_cell_name!number use the -separator option to change the separator character from its default of “!.” to identify the tap cells inserted in a specific run, use the -prefix option to specify a prefix string."
+.
+"to delete the existing constraint group, use the -force option."
+.
+.
+use the following options to change the default behavior: • -name blockage_name specifies a name for the routing blockage.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+"library(""block1"") { ... comment : ""primetime extracted model."""
+.
+.
+.
+"fusion compiler™ user guide v-2023.12-sp3 990 chapter 13: eco flow swapping variant cell feedback 1. to define register path connections (virtual connection) for each set of repeater groups, use the set_repeater_group command."
+.
+.
+.
+fusion compiler™ user guide v-2023.12-sp3 194 chapter 2: preparing the design setting up for power-related features feedback the primepower in-design ui allows you to pass input waveforms using the native zebu database (ztdb).
+.
+.
+"rail power map displays instance-based power map or power density map for the block when voltage drop analysis is complete, based on the redhawk power calculation results."
+.
+.
+this is the setup condition.
+.
+"• does not report on the insertion status to report the via ladder insertion status for each target pin, use the -verbose true option."
+"to insert level shifters in the current block, use the create_mv_cells command."
+.
+"this configuration represents both optional resources and maximum resources – the resources can be given to the ic validator tool at the beginning, middle, or end of the run, or not given at all."
+.
+"this difference occurs because the report_design command reports the double via rate for both pg vias and signal vias, while zroute reports the double via rate only for signal vias."
+.
+this flow is recommended if you have taped out your design and you want to avoid the expense of generating a whole new mask set.
+.
+.
+"in this case, the tool first checks out two licenses and waits for other licenses to become available."
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+"however, you can associate these checkpoints with flow changes or reports that you want to run before, after, or in place of the code the checkpoints enwrap."
+.
+.
+.
+.
+table 65 comparing analysis features between redhawk fusion and redhawk-sc fusion redhawk fusion redhawk-sc fusion -redhawk_script_file supported supported -voltage_drop supported supported -switching_activity supported supported fusion compiler™ user guide v-2023.12-sp3 868 chapter 12: redhawk and redhawk-sc fusion running rail analysis using redhawk-sc fusion feedback table 65 comparing analysis features between redhawk fusion and redhawk-sc fusion (continued) redhawk fusion redhawk-sc fusion -electromigration supported supported -power_analysis supported supported -result_name supported supported -script_only supported supported -bg supported supported -min_path_resistance supported supported together with the -voltage_drop option only -effective_resistance supported supported together with the -voltage_drop -option only -check_missing_via supported supported together with the -voltage_drop option only displaying missing via check results does not honor the ir threshold setting.
+.
+.
+"-summary reports a summary for all grids, such as the number of grids created, the number of instances in the block, and the number of grids whose voltage drop values are higher than the specified percentage of the ideal voltage drop value."
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+"the following example puts the top 1.5 percent of the cells in the va1 voltage area into the upper category and the next 4.5 percent of the cells into the middle category: fc_shell> set_placement_ir_drop_target va1 high 1.5 fc_shell> set_placement_ir_drop_target va1 low 4.5 the following example puts the cells with a voltage drop larger than 10 percent of the supply voltage in the va2 voltage area into the upper category and the cells with a voltage drop between 5 and 10 percent of the supply voltage into the middle category: fc_shell> set_placement_ir_drop_target va2 high 10 -irdrop fc_shell> set_placement_ir_drop_target va2 low 5 -irdrop to get, report, and reset the voltage-area-based constraints, use the get_placement_ir_drop_target, report_placement_ir_drop_target, and reset_placement_ir_drop_target commands."
+.
+.
+.
+"if a 2:1 multiplexer primitive cell does not exist in the library, you see the following warning message: warning: target library does not contain any 2-1 multiplexer."
+choose this option for gridless routing.
+.
+you must specify the name of the output file by using the -write_changes option.
+"note: the existing fill is not considered when determining the critical nets for pattern-based metal fill, but not for track-based metal fill."
+"to prevent power net violations caused by filler cell insertion, use the -rules check_pnet option."
+.
+.
+.
+.
+.
+.
+.
+.
+"4. generates timing annotation files containing set_disable_timing, set_annotated_delay, and set_annotated_transition commands, using the simulation results as input."
+add_group_repeaters place_group_repeat ers eco-271 error: candidate reference '%s' and reference (%s) of cell (%s) are not in the same variant cell group.
+.
+441 prerequisites for routing .
+.
+.
+.
+.
+.
+338 prerequisites for clock tree synthesis .
+.
+"to locate issues that are reported in a block-level design, run the open_rail_result command with the -top_design and -block_instance options to excerpt block-level instance data from the top-level rail database."
+.
+.
+.
+.
+.
+.
+.
+"• identify gaps in library cell families, which you can provide as feedback to your library vendor with the goal of improving the reference libraries."
+.
+.
+851 generating a report of early data check records .
+.
+.
+.
+.
+.
+.
+.
+.
+.
+"2. specify the optimization target by using one or both of the following settings: ◦ specify the path groups to optimize by using the ccd.targeted_ccd_path_groups application option note: if a path group you specify with this application option is also specified as a path group to skip by using the ccd.skip_path_groups application option, the path group is skipped during targeted concurrent clock and data optimization."
+.
+.
+821 synthesizing a subblock .
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+"fusion compiler™ user guide v-2023.12-sp3 343 chapter 5: clock tree synthesis defining the clock trees feedback if necessary, you can override the default balancing and ignore pin settings by using the set_clock_balance_points command, as described in defining clock tree exceptions."
+.
+.
+"7. final_opto during this stage, the tool performs final optimization and legalization to improve timing, power, and logical drcs."
+.
+.
+.
+.
+"depending on the type of analysis you run, the tool generates visual displays (maps) of the results that you can view in the fusion compiler gui, as well as error data that you can display in the fusion compiler error browser."
+.
+.
+.
+.
+"controlling the automatic ungrouping of specific objects to force or prevent specific cell instances or modules being ungrouped during optimization, use the set_ungroup command with the true or false setting."
+.
+.
+.
+.
+.
+.
+.983 reporting the constraints assigned to a group of a repeaters .
+.
+.
+.
+.
+.
+.
+.
+"enabling local skew optimization during clock tree synthesis, by default, the tool tries to minimize the global skew, which is the difference between the longest and shortest clock paths."
+.
+.
+.
+.
+.
+.
+.
+.
+"to specify a different reference latency value, use the -reference_latency option."
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.732 querying metal fill .
+.
+◦ icv_sdrc.conclude this file contains an error summary report.
+.
+.
+fc_shell> set_rail_command_options -script_file mesh.tcl \ -command setup_design -order after_the_command the tool generates the redhawk script file and sources the mesh.tcl file after design setup.
+"enabling ic validator multicore processing by default, the ic validator in-design commands use a single process to perform design rule checking."
+.
+.
+.
+.
+.
+.
+.
+.
+fusion compiler™ user guide v-2023.12-sp3 685 chapter 8: ic validator in-design performing signoff design rule checking feedback table 44 application options for signoff drc fixing (continued) application option default description signoff.fix_drc.
+.
+.
+.
+.
+.
+"if you specify three nets, the nets form a differential group."
+.
+.
+"to do so, set the following application variable before you begin clock tree synthesis: fc_shell> set_app_options \ -name cts.common.enable_dirty_design_mode -value true when you use this application option setting, the tool • ignores dont_touch and dont_touch_network attribute settings on clock nets."
+.
+149 defining placement attractions .
+.
+.
+.
+"fusion compiler™ user guide v-2023.12-sp3 77 chapter 2: preparing the design setting up libraries feedback note: if a library cell has a dont_use attribute, it is excluded from all uses, which is the same as if you specified set_lib_cell_purpose -include none for that cell."
+.
+.
+.
+.
+"to specify this requirement, set the following application options: ▪ route.auto_via_ladder.connect_within_metal this application option controls via enclosures for all types of via ladders: performance, electromigration, and pattern-must-join."
+"fusion compiler™ user guide v-2023.12-sp3 674 chapter 8: ic validator in-design performing signoff design rule checking feedback figure 135 icv heat map fusion compiler™ user guide v-2023.12-sp3 675 chapter 8: ic validator in-design performing signoff design rule checking feedback configuring an icv heat map you can select or unselect violation types from the heat map, as shown in figure figure 136 and figure 137. figure 136 violation type fusion compiler™ user guide v-2023.12-sp3 676 chapter 8: ic validator in-design performing signoff design rule checking feedback figure 137 violation type in icv heat map to control the opacity of the heat map squares, adjust the alpha percentage value."
+.
+.
+.
+you can control these latency adjustments by using the set_latency_adjustment_options command.
+.
+.
+.
+.
+"when you use this option, the tool uses the following naming convention: mimcap!prefix!library_cell_name!number inserting filler cells to ensure that all power nets are connected, you can fill empty space in the standard-cell rows with filler cells."
+.
+"• -top_left_outside_corner_cell, -top_right_outside_corner_cell, -bottom_left_outside_corner_cell, and -bottom_right_outside_corner_cell these options specify a single library cell that is used for each outside corner location."
+.
+.
+.
+.
+4. apply your design-specific application option or command settings to override the generic setting of the set_technology command.
+shielding options the following custom router shielding application options allow you to control shielding: application option description custom.route.shield_connect_mesh_overlap creates multiple shield connections to the power mesh for a shield.
+.
+.
+"for ungrouping of designware and datapath cells, see datapath implementation."
+.
+.
+.
+.
+.
+"if you prefer to resolve the issues differently, you can use manual editing commands to resolve the issues before running the commit_upf command."
+.
+.
+.
+.
+.
+.
+note: this parameter is used only colored fill is enabled.
+.
+.
+"to control design rule checking on specific nets in the current design, use the options with the set_auto_disable_drc_nets command as shown in table 14. table 14 options for the set_auto_disable_drc_nets command use this option to do this -none enable drc for all nets."
+319 reporting sequential clock gates .
+"see also • standard power grid augmentation • timing-driven power grid augmentation • removing pg augmentation shapes removing pg augmentation shapes to remove pg augmentation shapes, use the -mode remove option with the signoff_create_pg_augmentation command."
+.
+.
+the following examples show the command usage.
+.
+.
+"for example, you might define an ignore pin to exclude all branches of the clock tree that fan out from some combinational logic or to exclude a tool-derived sink pin."
+"fc_shell> set_attribute -name ccd.skew_opt_merge_dcg_cells_by_driver -value true splitting clock cells you can manually split clock cells that have drc violations by using the split_clock_cells -cells command, as shown in the following example: fc_shell> split_clock_cells -cells [get_cells u1/icg*] the tool does not split the specified cells if • they do not have drc violations • they have don’t-touch, size-only, or fixed-placement attribute settings • it is necessary to punch ports on the boundaries of power domains or blocks that have been identified with the set_freeze_ports command after splitting a cell, the tool • names the new cells using the <original_cell_name>_split_<integer> naming convention • copies all the settings and constraints from the original cell to the newly created cells fusion compiler™ user guide v-2023.12-sp3 385 chapter 5: clock tree synthesis implementing clock trees and performing post-cts optimization feedback instead of specifying the cells to split, you can specify one or more collection of loads that are driven by the same driver by using the -loads option, as shown in the following example: fc_shell> set loads1 [get_pins i1/reg*/ck] fc_shell> set loads2 [get_pins i2/reg*/ck] fc_shell> split_clock_cells -loads [list $load1 $load2] after splitting, each set of loads is driven by a newly created driver."
+.
+"when you save a upf file with the save_upf command, the tool uses the same syntax for the user-specified and tool-derived upf constraints for physical-only cells."
+.
+.
+.
+.
+.
+.
+.
+"to • list the supported high performance core types and implementation stages, use the -list option • specify the type of high performance core, use the -core option • specify the stage of the implementation flow, use the -stage option if your design uses a 12 or 7 nanometer technology node, apply the node-specific tool settings by using the set_technology command before you run the set_hpc_options command, as shown in the following example script: set_technology -node 7 set_hpc_options -core a72 -stage clock_opt_cts ... clock_opt -from build_clock -to route_clock ... fusion compiler™ user guide v-2023.12-sp3 209 chapter 2: preparing the design applying mega-switch command settings feedback set_hpc_options -core a72 -stage clock_opt_opto ... clock_opt -from final_opto ... set_hpc_options -core a72 -stage route_auto ... route_auto ... set_hpc_options -core a72 -stage route_opt ... route_opt ... applying required settings for improving specific qor metrics to apply tool settings required for improving specific qor metrics, use the set_qor_strategy -stage synthesis command."
+.
+.
+"the default is 0.1, meaning that error cells are created for the grids with voltage drop values greater than 10% of the ideal supply voltage."
+"fusion compiler™ user guide v-2023.12-sp3 407 chapter 5: clock tree synthesis implementing multisource clock trees feedback you must specify ◦ the clock for synthesizing the subtrees by using the -clock option ◦ the drivers of the subtrees to be synthesized by using the -driver_objects option optionally you can ◦ prevent the tool from merging specific clock tree cells by using the -dont_merge_cells option ◦ balance the levels of the local subtree by using the -balance_levels true option and specify a target number of levels, which applies to all sinks of the local subtree, by using the -target_level option optionally, you can apply a different target number of levels to specific sink pins and clock balance points by using the set_multisource_clock_subtree_constraints command with the -pins and -target_level options."
+.
+.
+"note that if abutting shapes have guard bands, they are no longer abutting, but overlapping, due to the effective boundary that includes the guard bands."
+.
+.
+.
+.
+.
+.
+"for example, fc_shell> set_app_options \ -name signoff.physical.merge_stream_files \ -value {stdcell.gds macro.oas} for information about controlling the objects displayed for design rule checking, see displaying objects for design rule checking."
+.
+"after that, the pattern is repeated."
+"for example, to specify that clock tree synthesis should use an insertion delay of 2.0 ns for rising-edge shortest-path calculations for the u2/clk pin for the clk clock in the current corner, use the following command: fc_shell> set_clock_balance_points -clock [get_clocks clk] \ -rise -early -delay 2.0 -balance_points [get_pins u2/clk] to report the user-defined insertion delay for sink pins, use the remove_clock_tre_exceptions comand-stop_pinscomandsremove_clock_tre_exceptions-stop_pins report_clock_balance_points command."
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+"fusion compiler™ user guide v-2023.12-sp3 311 chapter 4: clock gating controlling the number of clock-gate levels feedback to specify the maximum number of clock-gate levels, use the set_clock_gating_tree_options command with one of the following mutually exclusive options: • the -max_total_levels option specifies the maximum number of levels for all clock gates."
+you can also modify metal fill shapes in the gui.
+.
+.
+• ensure sure that the power and ground nets in the block have been routed.
+.
+.
+.
+.
+.
+.
+"to define the priority for a collection of nets or bundles, create a constraint group by using the create_net_priority command."
+.
+.
+.
+.
+.
+.
+"figure 81 improving the repeater levels in clock tree to enable clock level improvement, set the cts.buffering.reduce_clock_level_effort application option to high before the build_clock stage of the clock_opt command."
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+"the -hierarchy option is mutually exclusive with the other report types, but can be used with the -datapath_cells_only and -standard_cells_only options."
+.
+.
+"running the signoff_fix_isolated_via command you can use the signoff_fix_isolated_via command either to check for isolated vias only, or to check for and fix the isolated vias."
+.442 defining vias .
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+pin_cost_aware place.coarse.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+note: reserving space during routing increases the routing runtime.
+"to enable this feature for the clock_opt command, set the clock_opt.flow.enable_multibit_rewiring application option to true."
+.
+.
+• off_cost <costvalue>: snaps routes and shields to tracks when possible.
+.
+table 73 group repeater placement and insertion troubleshooting command error code message troubleshooting tips place_group_repeat ers ecoui-136 error: the repeater group (%d) is invalid.
+.
+3. set the application options for fixing isolated vias.
+.
+fusion compiler™ user guide v-2023.12-sp3 42 chapter 1: working with the fusion compiler tool fusion compiler concepts feedback multiple-patterning considerations affect all parts of the place and route flow.
+.
+.
+.
+.
+.
+.
+2. configure for multithreading as described in configuring multithreading.
+.
+.
+"when you specify this object type, the command creates routing blockages parallel to the boundary edges in the specified directions."
+.
+.
+.
+.
+.
+"to specify that a library pin requires an electromigration via ladder, set the is_em_via_ladder_required pin attribute to true, as shown in the following example: fc_shell> set_attribute [get_lib_pins lib1/inv4/a] \ is_em_via_ladder_required true if you set the is_em_via_ladder_required pin attribute to true for a specific library pin, you must specify an electromigration via ladder as a candidate with the set_via_ladder_candidate command."
+.
+"to prevent the tool from making any changes to the clock paths between the sinks that have a cts_fixed_balance_pin attribute set to true and the clock root, set the fusion compiler™ user guide v-2023.12-sp3 378 chapter 5: clock tree synthesis implementing clock trees and performing post-cts optimization feedback ccd.respect_cts_fixed_balance_pins application option to upstream instead of true."
+.
+.
+.
+.
+.
+.
+"for more information, see automatically fixing signoff drc violations."
+.
+.
+.
+.
+.
+.
+.
+"fc_shell> set ddr_buf ""buf001"" fc_shell> add_buffer_on_route -net_prefix ddr_buf \ -cell_prefix ddr_buf \ -repeater_distance_length_ratio 0.2 \ -respect_blockages [get_nets $ddr_nets] $ddr_buf 8. perform legalization and verify that the placement is legal."
+.
+.
+.
+"to restrict the clock cell spacing rules to specific • library cells, use the -lib_cells option • clocks, use the -clocks option if adjoining clock cells both have cell spacing rules for a given direction, the sum of the spacing values applies."
+.
+.963 adding buffers on routed nets .
+.
+.
+"figure 4 shows an example of double-patterning, where the layout mask is partitioned into two separate masks, mask a and mask b. figure 4 double-patterning example to use multiple patterning, you must be able to decompose the layout into two or more masks, each of which meets the multiple-patterning spacing requirements."
+.
+.
+.
+"see also • using setup files using variables in general, the fusion compiler tool modifies default behavior by using application options rather than application variables; however it does support user-defined tcl variables, as well as a minimal number of application variables, such as the search_path variable."
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+the level shifter converts a signal from the voltage swing of the first domain to that of the second domain.
+.955 25 contents feedback manually instantiating spare cells .
+.
+3. enable ir-drop-aware placement by setting the place.coarse.ir_drop_aware application option to true.
+.
+.
+.
+.
+the default is 32.
+.
+349 setting size-only settings .
+.
+.
+.
+"in the redhawk-sc analysis flow, you must use the -voltage_drop option together with the -min_path_resistance option for minimum path resistance analysis."
+"figure 204 displaying a pg electromigration map checking pg electromigration violations when pg electromigration analysis is complete, you can check the generated error files in the error browser or write the generated errors to an output file."
+.
+.
+.
+.
+.
+.
+.
+.
+"however, you can specify more restrictive design rule constraints by using the constraint commands given in table 7. during optimization, the fusion compiler tries to meet the design rule constraints, even if it means violating optimization constraints such as timing, power, and area goals; these design rule constraints have a higher priority."
+.
+.
+"when you run a routing command, zroute writes the settings for any routing options that you have set (or that the tool has set for you) in the routing log."
+.
+.
+layer m2 wire length = 3959478.25 ... phase3.
+.
+"you can remove leaf cells (-cells), relative placement groups (-rp_group), and blockages (-blockage)."
+"fusion compiler™ user guide v-2023.12-sp3 533 chapter 6: routing and postroute optimization routing signal nets feedback • performs iterations until one of the following conditions exists: ◦ all of the violations have been fixed ◦ the maximum number of iterations has been reached by default, the maximum number of iterations is 40. you can change this limit by setting the -max_number_iterations option."
+.
+.
+.
+.
+place_group_repeat ers eco-224 error: the option -repeater_groups cannot be used when the app option eco.placement.eco_enable_ pipeline_register_placer is false.
+269 setting your baseline run .
+.
+.
+.
+"in this layout view, you can see that the integrated clock gates (shown in red) are physically closer to their gated registers."
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+"specifying settings for preroute optimization optimizing the design for performance, power, and area (ppa) is one of the primary goals of the tool."
+"to remove user-defined skew or latency targets, use the remove_clock_tree_options command."
+.
+.
+.
+.
+.
+.
+.
+.
+"to consider only violations on specific layers, use the -layer_rules option."
+.
+.
+.
+.
+.
+.
+.
+.
+"for more information about the early data check manager, see the fusion compiler data model user guide."
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+• bestavailable means the sum of wire length of all nets irrespective of the stage they are in the current design.
+.
+.
+.
+.
+see balance mode option.
+.
+.
+.
+.
+932 displaying eco shapes in the gui .
+.
+.
+.
+179 specifying settings for preroute optimization .
+.
+.
+.
+.
+.
+.
+.
+"when you define a nondefault routing rule, you must specify a name for the nondefault routing rule."
+.
+.
+.
+.
+.
+.
+.
+.
+"when you add macro cells to a relative placement group, you cannot specify • a pin name with which to align the macro cell by using the -pin option • an orientation for the macro cells by using the -orientation option when you add hard macro cells, use the following steps: 1. create the relative placement groups, add the cells, including the hard macro cells, and specify the relative placement options and settings."
+"fusion compiler™ user guide v-2023.12-sp3 668 chapter 8: ic validator in-design performing signoff design rule checking feedback reading blocks for signoff design rule checking by default, the ic validator tool reads the design view for the top-level block and library cell instances, and the pin information from the frame view for the macro cell and i/o pad cell instances."
+.
+.
+.
+.
+table 35 diode protection mode settings diode protection mode definition 0 the diodes do not provide any protection.
+the designated routing layers are m1 through m5.
+.
+17 diode protection is limited; the sum of the diode-protection values for all diodes is used to calculate the equivalent gate area.
+.
+.
+.
+.
+"for example, to remove the new_width_rule routing rule, use the following command: fc_shell> remove_routing_rules new_width_rule deriving routing guides routing guides provides routing directives for specific areas of a block."
+"when you use the set_dont_touch command, keep the following in mind: • the command prevents the ungrouping of hierarchy."
+.
+"inserting metal fill after routing, you can fill the empty spaces in the block with metal wires to meet the metal density rules required by most fabrication processes."
+.
+"• the percentage of empty space to fill by default, the command fills all the empty space."
+.
+.
+"when you insert mesh or tap drivers, • specify the loads to drive by using the -loads option."
+.
+"to insert a dense tap array, use the create_dense_tap_cells command, as described in inserting dense tap arrays."
+.
+.
+.
+.
+.
+"the group repeater query • provides capability to query group repeater path info • supports cross-session query operation • supports query operation before group repeater placement to query the group repeater during planning, you must be familiar with the following key information • cells of a repeater group • cutline of a repeater group • group virtual connection if a group has either driver group or path drivers, then it is categorized as group virtual connection."
+.
+fusion compiler™ user guide v-2023.12-sp3 484 chapter 6: routing and postroute optimization routing constraints feedback • the metal shapes have the length specified by the length_value argument the length value must be greater than 0 and less than or equal to the smaller of the width or height of the block boundary.
+"querying relative placement groups to query relative placement groups that contain specific objects or attribute values, use the get_rp_groups command."
+performing signoff design rule checking signoff design rule checking runs the ic validator tool within the fusion compiler tool to check the routing design rules defined in the foundry runset.
+.
+.
+.
+.
+983 adding voltage area aware group repeaters .
+"• performs design rule checking for all rules specified in the foundry runset ◦ to check only specific rules, use the -select_rules option."
+.
+.
+.
+.
+.
+.
+the rail analysis results are used to display maps and query attributes to determine the problem areas with large voltage drops.
+.
+"note: before inserting filler cells, ensure that the block is legalized by using the check_legality command."
+.
+.
+.
+"for example, assume a cell named nd2d1svt in the reference library matches a cell named nd2d1 in the target library."
+"after clock tree synthesis, the tool sets the synthesized clocks as propagated."
+.
+.
+.
+.
+"after you insert the tap cells, visually check to ensure that all standard-cell placeable areas are properly protected by tap cells."
+.
+"then, the tool reduces congestion along the edges and corners by spreading the repeater cells in an orthogonal direction."
+.
+.
+.
+"fusion compiler™ user guide v-2023.12-sp3 130 chapter 2: preparing the design setting up multivoltage designs feedback inserting multivoltage cells a multivoltage design requires special multivoltage cells, such as level shifters and isolation cells, at the interface between power domains."
+.
+.
+.
+.
+.
+.
+.
+"to do so, run the legalize_placement command."
+.
+.
+the default is infinite.
+.
+.
+.
+.
+the default is 0.
+the string that you specify in this option is added to the command line used to invoke the ic validator tool.
+.
+.
+.
+.
+.
+.
+3. run the analyze_rail command with the -extra_gsr_option_file or -redhawk_script_file option to perform the analysis defined in the gsr or redhawk script file.
+• block-scoped application options apply only to the block on which they are set.
+332 controlling the selection of self-gating objects .
+.
+.
+.
+"the following example creates a grid of eight by eight mesh drivers, places them in a regular pattern that covers the full core area, shorts the outputs of the clock drivers and connects to the net named clk_mesh, and transfers preexisting routing shapes and vias from the net named clk to this net: fc_shell> create_clock_drivers -loads [get_nets clk1_mesh] \ -boxes {8 8} -lib_cells [get_lib_cells my_lib/ckbuf8x] \ -short_outputs -output_net_name clk_mesh \ -transfer_wires_from [get_nets clk] fusion compiler™ user guide v-2023.12-sp3 410 chapter 5: clock tree synthesis implementing multisource clock trees feedback the following example creates a grid of five by five tap drivers that are placed within the rectangle bounded at the lower-left by (200, 200) and upper right by (1000, 1000)."
+.
+"• for the left_filler_cells and right_filler_cells arguments, ◦ at least one of these arguments must contain one or more filler library cells if only one of the arguments contains filler library cells, the tool inserts filler cells only on that side of the standard cells."
+"an example of the compile log for a run that includes self-gating is as follows: number of pre-exsting clock gates with dont_touch attribute: 0 number of icg library cells with cts purpose: 12 --------------------------------------------------------------------------- tool gated register summary --------------------------------------------------------------------------- clock gating type | number of clock gates | register count | bitwidth | | | equivalent --------------------------------------------------------------------------- regular clock gating | 1 | 2 | 2 self gating | 0 | 0 | 0 --------------------------------------------------------------------------- --------------------------------------------------------------------------- regular clock gating ungated register summary --------------------------------------------------------------------------- ungated reason | count | bitwidth --------------------------------------------------------------------------- enable is constant one | 2 | 2 --------------------------------------------------------------------------- fusion compiler™ user guide v-2023.12-sp3 289 chapter 4: clock gating introduction to clock gating feedback --------------------------------------------------------------------------- self gating ungated register summary --------------------------------------------------------------------------- ungated reason | count | bitwidth --------------------------------------------------------------------------- register is clock gated, and ineraction | | is set to none | 2 | 2 the tool as not able to find enough registers | | that are compatible to this register | | in order to be gated."
+max_errors_per_rule 1000 specifies the maximum number of drc violations to fix per rule.
+.
+x x opt-4008 design has no site rows defined.
+.
+.
+.
+.
+.
+"◦ all the tool creates the non-pg cells, nets, and ports that exist only in the def file, as if you had specified cells, nets, and ports."
+.
+.
+"before you run the signoff_fix_drc command, set the signoff.fix_drc.custom_guidance application option to dpt."
+"to verify that your block meets the last three prerequisites, you can check the routability of its placement as explained in checking routability."
+.
+.
+"however, the tool makes the design view of the block read-only, preventing any changes from being made to the block."
+.
+.
+.
+.
+.
+.
+.
+.
+"for example, when the tool combines the single-bit registers named reg1 and reg2, the multibit register is named reg1_reg2."
+illegal_abutment maximum horizontal length this rule restricts the horizontal length of a continuous row of filler cells.
+"when you do so, you must specify a name for the relative placement group by using the -name option."
+"fusion compiler™ user guide v-2023.12-sp3 548 chapter 6: routing and postroute optimization performing postroute optimization feedback performing postroute logic optimization before performing postroute optimization, ensure that the block is fully routed and legalized and does not have excessive logical or routing drc violations."
+.
+.
+770 single-loop matching .
+.
+.
+.
+526 global routing during design planning .
+.
+.
+.
+.
+.
+.
+.
+.
+example 19 shows a global routing report.
+.
+.
+.
+.
+.
+.
+3.
+"• avoid placement blockages and macro cells when placing buffers by using the -respect_blockages option • specify a name prefix for the new cells and nets by using -cell_prefix and -net_prefix options by default, the tool uses eco_cell and eco_net as the name prefix for the new cells and nets."
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+"2. in the task assistant - rail window that opens, click mpr mouse tool."
+.
+.
+.
+.
+.
+.
+"if you do not specify the -from option, the tool begins from the build_clock stage."
+.
+.
+.
+◦ vias must be created for routes.
+6.
+.
+"for example, to read an unencrypted itf file, use the following command: fc_shell> read_signal_em_constraints em.itf for example, to read an encrypted itf file, use the following command: fc_shell> read_signal_em_constraints -encrypted em.itf.enc to read an alf file, use the following command: fc_shell> read_signal_em_constraints -format alf em.alf analyzing signal electromigration the comandsreport_signal_emreport_signal_em comandreport_signal_em command performs signal electromigration analysis for each net by calculating the current on every edge and comparing this data with the constraints set by the read_signal_em_constraints command."
+.
+.
+.
+.
+.
+.
+3. check and report invalid paths based on real connection with the set_repeater_group -check connection command.
+.
+.
+• -net_types list_of_types applies the routing blockage only to the specified net types.
+.
+.
+.
+.
+"fusion compiler™ user guide v-2023.12-sp3 506 chapter 6: routing and postroute optimization routing constraints feedback by default, the set_clock_routing_rules command assigns the specified clock routing rule to all clock trees in the block."
+.
+.
+.
+558 routing nets in the gui .
+.
+"when you run the signoff_check_drc and signoff_fix_drc commands, use the -unselect_rules option to ignore the double-patterning rules during signoff design rule checking."
+.
+"by default, the command inserts cells only from the generic library."
+"to see the list of supported keywords, use the following command: fc_shell> signoff_create_metal_fill -track_fill list ▪ -select_layers to restrict the layers on which to insert metal fill, use this option, as described in specifying the layers for metal fill insertion."
+"if both layer hopping and diode insertion are enabled, by default, zroute first tries to use layer hopping to fix the antenna violation."
+.
+.
+"fusion compiler™ user guide v-2023.12-sp3 716 chapter 8: ic validator in-design inserting metal fill with ic validator in-design feedback 3. inserts metal and via fill in the empty regions by default, the command uses the design rules defined in the technology file to insert fill shapes on-track on all metal and via layers for the entire block."
+.
+.
+"to change the location of a cell marked with fixed placement status, specify the -ignore_fixed option with the command."
+4.
+bold indicates a graphical user interface (gui) element that has an action associated with it.
+.
+.
+.
+.
+"power switch cells have different voltage thresholds (vt) and are classified as high, standard, low, and ultra-low."
+"during redundant via insertion, the detail router also checks the design rules within the neighboring partition to minimize drc violations."
+.
+.
+.
+the following example creates taps for all the top-level supply pins.
+.
+.
+.
+.
+.
+.
+"postroute redundant via insertion to perform postroute redundant via insertion, use the add_redundant_vias command."
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+"the command names the differential pair differential_pair_0, because there is no name assigned to the different pair."
+.
+.
+.
+• route.common.via_on_grid_by_layer_name this option controls off-grid routing for via layers.
+.
+.
+.
+.
+.
+.
+.
+"fusion compiler™ user guide v-2023.12-sp3 518 chapter 6: routing and postroute optimization routing application options feedback setting the rerouting mode by default, zroute can reroute nets as needed."
+.
+.
+.
+.
+.
+"• to specify a margin within which the tool can move a strap from the position it derives based on the -grid option settings, use the -margins option."
+.
+.
+.
+"• to swap two rows or columns, use the -swap_rows or -swap_columns option respectively."
+.
+"figure 170 straddling with hierarchical relative placement rp3 rp2 rp1 u3 u2 u4 u7 u6 u1 rp4 u4 u1 u2 u3 u6 rp1 rp2 rp3 rp5 u4 u1 u2 u3 u6 col 0 col 1 row 0 col 0 col 1 col 0 col 1 row 0 row 0 row 2 row 1 row 0 col 0 row 2 row 1 row 0 col 0 col 1 u7 col 1 row 2 row 1 row 0 rp4 example 44 straddling with hierarchical relative placement create_rp_group -name rp1 -columns 2 -rows 1 add_to_rp_group rp1 -cells u1 -column 0 -row 0 add_to_rp_group rp1 -cells u4 -column 1 -row 0 create_rp_group -name rp2 -columns 1 -rows 1 add_to_rp_group rp2 -cells u2 -column 0 -row 0 create_rp_group -name rp3 -columns 2 -rows 1 add_to_rp_group rp3 -cells u3 -column 0 -row 0 add_to_rp_group rp3 -cells u6 -column 1 -row 0 create_rp_group -name rp4 -columns 1 -rows 3 add_to_rp_group rp4 -rp_group rp1 -column 0 -row 0 add_to_rp_group rp4 -rp_group rp2 -column 0 -row 1 add_to_rp_group rp4 -rp_group rp3 -column 0 -row 2 create_rp_group -name rp5 -columns 2 -rows 1 fusion compiler™ user guide v-2023.12-sp3 789 chapter 10: physical datapath with relative placement adding objects to a group feedback add_to_rp_group rp5 -rp_group rp4 -column 0 -row 0 add_to_rp_group rp5 -cells u7 -column 1 -row 0 using hierarchical relative placement for compression by default, construction for relative placement aligns cells from their bottom-left corner."
+.
+.
+"for a complete list of the supported drc names, see the man page."
+.
+.
+.
+.
+"to enable the redhawk-sc fusion capability, you need to enable the rail.enable_redhawk_sc application option and disable the rail.enable_redhawk application option at the same time."
+this is known as sequential output inversion.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+"◦ use one or more of the following command options with the signoff_create_metal_fill command: ▪ -select_layers or -all_runset_layers to restrict the layers on which to insert metal fill, use these options, as described in specifying the layers for metal fill insertion."
+.
+"after insertion, the command fixes the placement of the inserted tap cells."
+2. incorporate the primetime eco changes and begin tracking the eco changes to the design by using the record_signoff_eco_changes -start -input command as shown in the following example: fc_shell> record_signoff_eco_changes -start -input pt_eco.tcl 3.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+m1 overflow = 1475 max = 2 (grcs = 1) grcs = 2426 (0.09%) phase3.
+388 performing global-route-based optimization using machine learning data .
+.
+"when you use this option, the net shapes can touch, but not overlap, the routing blockage boundary."
+.
+.
+"when you run a standalone routing command, such as route_global or route_detail, zroute reads in the block at the beginning of each routing command and updates the block at the end of each command."
+"fusion compiler™ user guide v-2023.12-sp3 423 chapter 5: clock tree synthesis implementing multisource clock trees feedback for the analyze_subcircuit command, you must specify • the clock mesh net you want to simulate by using the -net option."
+◦ level 0 refers to a clock source.
+the filler cells considered to replace violating cells are called unconstrained cells.
+.
+.
+.
+.
+.
+.
+.768 tapoffs .
+.
+.
+.
+"the congestion map supports two methods for calculating the congestion value: • sum of overflow for each layer (the default) in this mode, the tool calculates the congestion value as the sum of the overflow for all selected layers."
+library requirements you need to have multiplexer cells in the logic library and also require to use multiplexing logic from the cell library.
+.
+"figure 55 clock latency with clock-gating design clock- gating cell register clock tree delay clock tree delay lat_reg lat_cgtoreg for all clock pins of registers (gated or ungated) in the design that are driven by a specific clock, use the lat_reg value for the set_clock_latency command."
+.
+.
+.
+.
+you can run either a single command or source a tcl script that contains fusion compiler™ user guide v-2023.12-sp3 69 chapter 1: working with the fusion compiler tool enabling multicore processing feedback only supported commands.
+.
+querying group repeater the group repeater query commands provide improved ease of use for interconnect repeater while planning.
+.
+.
+.
+.
+.
+• off: does not snap routes and shields to tracks or grids.
+"place_group_repeat ers unplace_group_repeat ers eco-262 warning: the number of path loads is not an integral multiple of the number of cells in group (%d), so use path loads in order."
+.
+"figure 107 root, internal, and sink clock net types sink nets internal nets root nets 200 sinks 200 sinks 200 sinks the following example specifies routing rules for the root, internal, and sink nets: fc_shell> set_clock_routing_rules -rules ndr1 -net_type root fc_shell> set_clock_routing_rules -rules ndr2 -net_type internal fc_shell> set_clock_routing_rules -rules ndr3 -net_type sink 2. you can use this option with the -clocks option to further restrict the assignment."
+the setting does not affect object-level specifications.
+.
+.
+fc_shell> set_implementation cla3 u1 • set_synlib_dont_use fusion compiler™ user guide v-2023.12-sp3 224 chapter 3: physical synthesis controlling mapping and optimization feedback this command prevents using specific implementation.
+.
+.
+specifying library subset restrictions you can restrict the mapping and optimization of sequential cells and instantiated combinational cells to a subset of reference libraries and library cells.
+.
+.
+.
+.
+"a typical example is when a checkpointed run fails and you want to clear some or all of the data associated with that run, depending on whether you plan to rerun a portion of the flow or the entire flow."
+.
+"for example, the -isolation option specifies to check isolation strategy and isolation cell rules, while the -pg_pin option specifies to check rules associated with pg pins."
+.
+.
+.
+nor gate falling-edge triggered latch-based clock gate.
+.
+.
+.
+"◦ to place all the spare cells that belong to specific voltage areas, use the -voltage_areas option."
+fill output mode parameters mx_compress_fill vx_compress_fill 0 controls whether the fill is compressed (1) or uncompressed (0) for the specified layer.
+.
+.
+"the ideal voltage sources can be power or ground pins, user-defined taps, or packages."
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+"0.0%...2.0%...4.0%...6.0%...8.0%...10.0%........ lib cell pass rate ---------------------------------- --------- saed32_lvt_lsup:lsupx1_lvt.frame 0.4450 saed32_lvt_lsup:lsupx8_lvt.frame 0.4780 saed32_lvt_lsup:lsupx2_lvt.frame 0.4810 saed32_lvt_lsup:lsupx4_lvt.frame 0.5040 .............. .............. .............. saed32_rvt_std:haddx1_rvt.frame 0.8600 saed32_lvt_std:oa21x1_lvt.frame 0.8610 fusion compiler™ user guide v-2023.12-sp3 168 chapter 2: preparing the design controlling the optimization of cells, nets, pins, and ports feedback controlling the optimization of cells, nets, pins, and ports the following topics describe how you can control the optimization of cells, nets, pins, and ports: • resolving multiple references with the uniquify process • preserving cells and nets during optimization • restricting optimization to cell sizing only • preserving networks during optimization • marking the clock networks • disabling design rule checking (drc) • preserving pin names during sizing • preserving ports of existing hierarchies • isolating input and output ports • fixing multiple-port nets • controlling the addition of new cells to modules, hierarchical cells, and voltage areas • specifying a cell name prefix for optimization resolving multiple references with the uniquify process the uniquify command resolves multiple references, except those with the dont_touch attribute, throughout the hierarchy in the current design."
+.
+.
+.
+.
+.
+.
+.
+"50 microns for information about defining the metal density and density gradient rules in the technology file, including the windowsize attribute, see the synopsys technology file and routing rules reference manual."
+.
+.
+.
+.
+.
+.
+.
+• datapath implementation uses a datapath generator to generate the best implementations for the extracted components.
+.
+.
+.
+.
+.
+"• to remove all routing guides, specify the -all option."
+.
+872 redhawk/redhawk-sc fusion analysis flow .
+"2. setup for dynamic-power optimization by performing the following steps: a. annotate switching activity on the design, as described in annotating the switching activity."
+"see also • overview of abstract views • creating abstract views • creating a frame view partitioning and planning the full chip design the hierarchical synthesis flow using abstracts includes the following two cases: • floorplans of subblock and top-level design are not available • floorplans of subblock and top-level design are available fusion compiler™ user guide v-2023.12-sp3 818 chapter 11: hierarchical implementation performing hierarchical synthesis using abstracts feedback hierarchical synthesis flow when floorplans are not available to partition and plan the top-level design and create the lower-level blocks for subsequent bottom-up synthesis, when the floorplans of subblock and top-level design are not available, perform the following steps: figure 187 hierarchical synthesis flow when floorplans are not available 1. read in the full chip design and apply constraints as shown in the following example: fc_shell> set ref_libs ""stdcell.ndm macro.ndm"" fc_shell> create_lib top -technology techfile \ -ref_libs $ref_libs fc_shell> analyze -format verilog $rtl_files fc_shell> elaborate top fc_shell> set_top_module top fc_shell> load_upf fullchip.upf fc_shell> read_sdc fullchip.sdc 2. identify the design partitions and split the constraints as shown in the following example: fc_shell> set_budget_options -add_blocks {block1 block2} fc_shell> split_constraints 3. create the subblock design libraries with design information and enable block-specific reference library setup as shown in the following example: fc_shell> copy_lib -to_lib block1.nlib -no_design fc_shell> copy_lib -to_lib block2.nlib -no_design fusion compiler™ user guide v-2023.12-sp3 819 chapter 11: hierarchical implementation performing hierarchical synthesis using abstracts feedback fc_shell> set_attribute -objects block1.nlib \ -name use_hier_ref_libs -value true fc_shell> set_attribute -objects block2.nlib \ -name use_hier_ref_libs -value true fc_shell> save_lib -all 4. create the subblock design partitions as shown in the following example: fc_shell> commit_block -library block1.nlib block1 fc_shell> commit_block -library block2.nlib block2 fc_shell> save_lib -all 5. load the upf and sdc constraints for the unmapped subblocks and the top-level, which are generated by the split_constraints command earlier as shown in the following example: fc_shell> set_constraint_mapping_file ./split/mapfile fc_shell> load_block_constraints -all_blocks -type sdc \ -type upf -type clknet fc_shell> save_lib -all 6. run the compile_fusion command until logic optimization with auto floorplanning for sub blocks is complete as shown in the following example: fc_shell> compile_fusion -to logic_opto 7. run the compile_fusion command until technology mapping for the top-level design is complete as shown in the following example: fc_shell> compile_fusion -to initial_map 8. perform design planning operations starting from floorplan initialization, subblock and voltage area shaping, hard macro and standard cell placement, power network creation until pin assignment."
+.
+.
+.
+.
+.
+.
+.
+"set these application options to soft to specify a soft constraint, allow_pin_connection to allow the use of lower layers only for pin connections, or hard to specify a hard constraint."
+.
+.
+.
+.
+.
+.
+.
+.
+the following topics describe how to specify additional physical constraints that affect placement and legalization: • defining keepout margins • defining area-based placement blockages • defining placement bounds • defining placement attractions • specifying locations for unmapped cells • defining cell spacing constraints for legalization defining keepout margins a keepout margin is a region (the shaded portions in figure 21) around the boundary of fixed cells in a block in which no other cells are placed.
+this allows you to identify possible power integrity issues by running optimization and rail analysis on one or more rail scenarios.
+you can define access preference areas for both wires and vias.
+fc_shell> set_size_only [get_cells cell_name] true this example queries the size_only attribute on the cell_name cell.
+.
+.
+.
+.
+.
+"if you do not do so, the tool create a relative placement group with one row and column."
+.
+"you should ensure that the insertion region does not contain any placement blockages, fixed cells, or macros."
+.
+• reduces long and short path violations.
+.
+.
+• route.detail.default_port_external_antenna_area specifies the antenna area used for ports (top-level pins) during antenna analysis if the antenna area is not specified in the e view of the cell.
+a supply net is a conductor that carries a supply voltage or ground throughout a given power domain.
+.
+.
+.
+.
+.
+(place-089) warning: placement continues with over utilized regions in the design.
+"accumulating current for an instance in a grid box, the overlap current is estimated by accumulating the timing- window-based current across its neighboring cells."
+637 controlling standard filler cell insertion .
+.
+.
+"for example, fc_shell> create_mim_capacitor_array \ -lib_cell my_lib/mim_ref_cell -x_increment 20 -y_increment 20 by default, the create_mim_capacitor_array command • inserts mim capacitors for the entire block to restrict the insertion to a specific region, use the -boundary option to specify the rectangular or rectilinear region."
+.
+.
+.
+.
+.
+.
+.873 running redhawk fusion commands in the background .
+.
+.
+.
+"to enable diode insertion during detail routing, set the route.detail.insert_diodes_during_routing application option to true."
+.
+.
+258 performing test insertion and scan synthesis .
+.
+.
+.
+figure 80 latency driven clock-gate splitting improving the repeater levels in clock tree the tool supports clock level improvement which ensures considering level improvement as a metric while building the clock trees and also considers buffering solutions which helps to improve the repeater levels.
+.
+.
+.
+.
+merge_exclude_libraries (none) specifies the cell libraries whose cells are excluded from replacement with the cell data in the stream files specified in the signoff.physical.
+this script uses the primepower read_ztdb command to perform time-based analysis and issues a gate-level saif file that is automatically back-annotated into the fusion compiler tool.
+.
+"by default, the checking results are stored in an error data file named block_name.err."
+.
+set_app_options -list { rail.enable_new_rail_scenario true rail.enable_parallel_run_rail_scenario true } #required.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+"defining ignore pins to define one or more pins as ignore pins, use the following syntax: set_clock_balance_points [-clock clock] -consider_for_balancing false -balance_points pins the -clock option is not required."
+.
+.
+.
+.
+"by default, the checkpoints run only the code they enwrap."
+.
+.
+.
+"the following example specifies cts_ as the name prefix for the cells added on the clock network during clock tree synthesis: fc_shell> set_app_options \ -name cts.common.user_instance_name_prefix -value ""cts_"" to specify a name prefix for the cells added on the data nets during optimization, including during the clock_opt command, use the opt.common.user_instance_name_prefix application option, as described in specifying a cell name prefix for optimization."
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+297 report clock gating options .
+.
+.
+.
+.
+.
+.
+the default is infinite.
+.
+.
+"for example, to specify that any clock net with a transitive fanout of more than 300 be considered as a root net, use the following command: fc_shell> set_clock_tree_options -root_ndr_fanout_limit 300 figure 108 shows the root, internal, and sink nets of the same clock tree when a transitive fanout limit of 300 is used for identifying the clock root nets."
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+"to specify this requirement, use one or both of the following options: ◦ -connect_within_metal true this option controls via enclosures for all types of via ladders: performance, electromigration, and pattern-must-join."
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+"10 percent • the grid sizes for the layer the tool determines the grid sizes for each layer by using the following settings, in order of priority: 1. the setting of the mx_min_density_window or mx_density_gradient_window parameter in the ic validator parameter file specified by the signoff.report_metal_density.user_defined_options application option 2. the setting of the signoff.report_metal_density.density_window or signoff.report_metal_density.gradient_window_size application option 3. the setting of the windowsize attribute in the densityrule section of the technology file 4."
+.
+note: zroute stops before completing the maximum number of iterations if it determines that all violations have been fixed or that it cannot fix the remaining violations.
+.
+.
+.
+default_layers (none) specifies the layers with color masks to write into the default layers for live drc.
+.
+.
+"you can further restrict pin connections to the access edge mark, which can be a narrow rectangle, a short line, or even a single point, by setting the -access_edge_whole_side option to true."
+.
+.
+.
+.
+.
+.
+.
+"fusion compiler™ user guide v-2023.12-sp3 517 chapter 6: routing and postroute optimization routing constraints feedback controlling the tapering width by default, the wire is tapered to the default routing width, which is the routing width that is defined for the metal layer in the technology file."
+see differential-pair options.
+.
+.
+.
+.
+.
+.
+remove any timing settings that cause an incorrect clock tree definition.
+.
+.
+.
+"fusion compiler™ user guide v-2023.12-sp3 918 chapter 12: redhawk and redhawk-sc fusion voltage driven power switch cell sizing feedback note: if the tool does not find any suitable power cell that matches the targeted voltage drop and ron value, it skips cell resizing."
+.
+.
+"note: if you use both methods, the command uses only the information specified in the -refill_table option."
+.
+"fusion compiler™ user guide v-2023.12-sp3 172 chapter 2: preparing the design controlling the optimization of cells, nets, pins, and ports feedback disabling design rule checking (drc) you can disable design rule checking (drc) on clock, constant, scan enable, and scan clock nets by using the set_auto_disable_drc_nets command."
+.
+.
+.449 generating via ladder rules for performance via ladders .
+.
+.
+.
+.
+• only one object can be added in one location of relative placement group.
+"◦ to insert an exterior tap wall, use the create_exterior_tap_walls command, as described in inserting exterior tap walls."
+"see also • analyzing signal electromigration • performing eco routing performing eco routing whenever you modify the nets in your block, you need to run engineering change order (eco) routing to reconnect the routing."
+.
+"however, the tool does not consider the congestion due to soft routing rules."
+.
+890 missing via and unconnected pin checking .
+.
+"b. enable the addition of physical feedthrough cells, which belong to a voltage area physically but not logically, by setting the opt.common.allow_physical_feedthrough application option to true."
+"otherwise, an error message is issued."
+.
+.
+"2. apply the settings required for the technology nodes by using the set_technology -node command, as shown in the following example: fc_shell> set_technology -node 7 3."
+"therefore, the tool issues an error message when you enable both the rail.enable_redhawk_sc and rail.display_eco_shapes application options."
+.
+.
+"starting from the top, the second buffer is staggered by a distance of 2 from the first, the third a distance of 3 from the second, and the fourth a distance 2 from the third."
+"note: in an incremental compile, enabling concurrent clock and data optimization has no effect."
+.
+.
+.
+.
+.
+you must enclose the vcs command-line options in double quotation marks.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+"for example, to see the man page that summarizes all application options that affect the report_timing command, use the following command: fc_shell> man report_timing_options if you enter the man command on the fc_shell command line, the man page is displayed in the fusion compiler shell and in the console log view if the gui is open."
+.
+.
+"at a minimum, you must specify the coordinates of the placement blockage."
+.
+.
+.
+.
+.
+"if you must perform incremental pg augmentation because your design contains more than one power net, use the -mode add command on subsequent runs to append the pg augmentation shapes to the existing shapes."
+"if a saif file is not available, disable this feature by setting the compile.clockgate.enable_activity_drivel_level_expansion application option to false (the default is true)."
+the global router divides a block into global routing cells.
+.
+.
+.
+.
+use the following options to set the constraints and change the default behavior.
+"fusion compiler™ user guide v-2023.12-sp3 530 chapter 6: routing and postroute optimization routing signal nets feedback crosstalk-driven global routing by default, the route_global command is not crosstalk-driven."
+"however, the clock drivers typically have relaxed or no maximum capacitance or maximum fanout constraint, which can affect the multisource clock tree qor."
+.
+• improves timing after the clock_opt command with ccd offsets.
+.
+.
+.
+.
+.
+.
+.
+.
+"if you specify only one coordinate, the fusion compiler tool determines the placement by maintaining the specified coordinate and sliding the group along the line passing through the unspecified coordinate."
+.
+.
+.
+"for example, to specify that all cells whose names end with _vta have a threshold voltage type of vta and the invx1 cell has a threshold voltage type of default, use the following commands: fc_shell> set_cell_vt_type -lib_cells ""*/*_vta"" -vt_type vta fc_shell> set_cell_vt_type -lib_cells ""mylib/invx1"" -vt_type default 3. define the rules for inserting the filler cells by using the set_vt_filler_rule command."
+.
+.
+.
+.
+61 using setup files .
+.
+.
+.
+.
+total number of contacts = 2530044 phase3.
+.
+.
+"when performing timing-driven metal fill insertion, the signoff_create_metal_fill command inserts metal fill on all routing layers (or all changed layers, if you perform metal fill insertion only in the changed regions)."
+.
+.
+.
+.
+.
+you control whether the tool spreads the wires by layer and whether the tool complies with nondefault routing rules.
+"fusion compiler™ user guide v-2023.12-sp3 874 chapter 12: redhawk and redhawk-sc fusion setting up the executables feedback note: when back-annotating the analysis results from the previous run after moving nets in the design, the instance-based map reflects the updated instance location change, but the parasitic map does not."
+.
+.
+you would typically use this option only when all the shapes to be merged are abutted or overlapping and therefore merge into a single shape.
+.
+.
+.
+.
+cached 41757 vias out of 99466 total vias.
+.
+.
+.
+• improved quality of results (qor) the unified preroute optimization framework uses consistent costs in optimization algorithms to improve qor.
+.
+.
+.
+"example 26 shows the default report, which includes only the hard congestion data."
+.
+.
+.
+.
+.
+.
+using this option modifies the object names in the vcd or saif file to make them compatible with the object names in the block.
+any unspecified layers use the default spacing.
+.
+"for more information, see the following topics: • introduction to clock gating • clock-gating prerequisite conditions • setting up clock gating • clock gating flows • replacing clock gates • controlling clock-gate latencies • controlling the number of clock-gate levels • merging clock gates • setting clock gating transformations • setting routing rules for clock gates • clock gating and multibit registers fusion compiler™ user guide v-2023.12-sp3 285 chapter 4: clock gating introduction to clock gating feedback • placement-aware clock gating • fanin-based sequential clock gating • reporting clock-gating results • reporting clock-gate enable signals • clock gate efficiency reporting • self-gating optimization • special naming and querying for dft wrapper clock gates introduction to clock gating clock gating applies to synchronous load-enable registers, which are flip-flops that share the same clock and synchronous control signals."
+.
+"for example, in figure 58, clock gates a1 and a2 are each common to two paths and are therefore candidates for multilevel expansion."
+the command uses the information in the configuration file and associated information from the technology file to generate the via ladder rules.
+.
+.
+"◦ bounding box, use the -boundary option."
+.
+.
+.
+.
+.
+.
+"• uses via cuts other than those specified in the template if they improve compliance with fat via rules to require the command to use only those via cuts specified in the template, use the -strictly_honor_cut_table true option."
+.
+.
+.
+.
+"see also • timing-driven metal fill insertion fusion compiler™ user guide v-2023.12-sp3 712 chapter 8: ic validator in-design inserting metal fill with ic validator in-design feedback reading blocks for signoff metal fill insertion by default, the ic validator tool reads the design view for the top-level block and the library cell instances, and the pin information from the frame view for the macro cell and i/o pad cell instances."
+.
+.
+.
+.962 resizing cells .
+.
+.
+◦outside (default): places shields on the outside of the trunk or group.
+.
+.
+.
+.
+843 handling design data using the early data check manager .
+.178 specifying a cell name prefix for optimization .
+.
+.
+.
+.
+"note: when you use the -nets option to perform eco routing on specific nets, zroute fixes drc violations only within the bounding box of the specified nets."
+.
+"see also • configuring checkpoints • querying checkpoints and checkpoint behaviors configuring checkpoints for a checkpoint to affect your flow, you must associate it with a flow change or report that you want to run before, after, or in place of the code the checkpoint enwraps."
+.
+"in the abstract flow, the upf constraints are handled automatically by the tool."
+• incorrect orientation of boundary cells this check verifies that the orientation of each boundary cell matches the allowed orientations specified by the set_boundary_cell_rules command.
+.
+.
+.
+.
+.
+.
+.
+note that this option affects only the global router and not the net delay calculation that occurs before timing-driven or crosstalk-driven global routing.
+.
+.
+"for example, to remove dangling net shapes, floating net shapes, and loops from the net named my_net, use the following command: fc_shell> remove_redundant_shapes -nets my_net \ -remove_loop_shapes true after cleaning up the routed nets, reverify the routing, as described in performing design rule checking using zroute."
+.
+.
+.
+.
+.
+.
+984 removing constraints for a group of repeaters .
+.
+.
+.
+.
+"however, for smaller register banks, the overhead of adding logic to the clock tree might not compare favorably to the power saved by eliminating a few feedback nets and multiplexers."
+.
+"the valid values are tie_low, tie_high, or open."
+.
+"as shown in this example, when you elaborate the top-level module with parameters, the top- level module name also contains the parameterized module name."
+.
+.
+.
+.
+"if there is not enough space, the last cell might not abut the right corner."
+"fc_shell> open_lib block.nlib fc_shell> open_block block fc_shell> set_app_options -name rail.database -value rail_database fc_shell> open_rail_result redhawk_result \ -top_design bit_coin \ -block_instance slice_5 fc_shell> report_rail_result generating instance-based analysis reports use the get_instance_result command to write the cell instances with rail data to an output text file, in the units defined with the report_units command."
+.
+.
+.
+.
+.
+.
+.
+.
+.
+specify the routing layers by using the layer names from the technology file.
+.
+.
+.
+.
+.
+.
+macro models are supported in both redhawk fusion and redhawk-sc fusion analysis flows.
+report_timing report the timing information of the current design.
+.
+.
+.
+.
+.
+.
+-pitch specifies the pitch for missing vias on parallel wires crossing or touching gdsii blocks.
+.
+.
+the derived margins are subject the minimum and maximum fusion compiler™ user guide v-2023.12-sp3 138 chapter 2: preparing the design specifying physical constraints for placement and legalization feedback values specified by the -min_padding_per_macro and -max_padding_per_macro options.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+365 specifying constraints for clock nets .
+"the final configuration is shown in figure 59. figure 59 after clock-gate level expansion if clock-gate level expansion is enabled, the fusion compiler tool performs activity- driven analysis by default."
+"isolation logic can be either a buffer or a pair of inverters; by default, the command places buffers to isolate • an input port from its fanout networks • an output port from its driver when you specify the -force option with the set_isolate_ports command, the tool ensures that the library cells specified by the -driver option are not sized."
+"the fusion compiler tool supports fanin-based sequential clock gating, in which a register can be gated during a given clock cycle if all the registers in the transitive fanin did not change state in the previous clock cycle."
+.
+.
+"the following tcl commands can be embedded in an rtl design: • set_attribute • set_ungroup • set_size_only • set_dont_touch • set_dont_retime • set_implementation • set_optimize_registers fusion compiler™ user guide v-2023.12-sp3 102 chapter 2: preparing the design mitigating design mismatches feedback • get_modules • get_cells • get_pins • get_nets • get_ports the following rtl example contains an embedded tcl command that applies a size_only setting on all the registers with the iport1.dout_reg name prefix: module bot ( myintf1.datin iport1 ); always @(posedge iport1.clk or negedge iport1.rst) begin if (iport1.rst == 1'b0) begin iport1.dout <= '0; end else begin iport1.dout <= iport1.idata1 + iport1.idata2; end end // synopsys fc_tcl_script_begin // set_size_only [get_cells iport1.dout_reg*] // synopsys fc_tcl_script_end endmodule mitigating design mismatches during early design development, frequent design updates can cause incomplete or inconsistent data, such as pin mismatches between a block-level design and the reference to it from a top-level design."
+443 reading via definitions from a lef file .
+.
+.
+.
+.
+"reporting sequential clock gates if sequential clock gating is enabled, the report_clock_gating command automatically displays a summary table, similar to the following: sequential clock gating summary ------------------------------------------------------------------------------ | | bitwidth | ------------------------------------------------------------------------------ |no of sequential clock gates | 2 | | | | | | |no of fanin-based sequential clock gates | 2 (100.0%) | | | | | | |no of sequentially-gated registers | 7 (21.2%) | 7 (21.2%) | | | | | |no of fanin-based sequentially-gated regs | 7 (21.2%) | 7 (21.2%) | | | | | |no of registers not sequentially gated | 26 (78.8%) | 26 (78.8%) | | | | | |total number of registers | 33 | 33 | ------------------------------------------------------------------------------ use the report_clock_gating -ungated command to report the reasons why sequential clock gating is not implemented."
+.
+.
+.
+.
+-histogram (optional) includes a histogram that shows the average voltage drop value per net in the report.
+"convention description courier indicates syntax, such as write_file courier italic indicates a user-defined value in syntax, such as write_file design_list courier bold indicates user input—text you type verbatim—in examples, such as prompt> write_file top purple • within an example, indicates information of special interest."
+.
+"querying voltage areas you can query the following information about voltage areas: • the voltage areas in the current block to create a collection of voltage areas in the current block, including the default voltage area, use the get_voltage_areas command."
+.
+4. execute compile_fusion -from initial_place.
+.
+.
+.
+.
+.
+"for all other technology nodes, you can control the maximum local pin density during placement by setting the place.coarse.pin_density_aware application option to true."
+4. route the inserted clock drivers by using the synthesize_multisource_global_clock_trees -roots -leaves -use_zroute_for_pin_connections command.
+.
+.
+.
+"fusion compiler™ user guide v-2023.12-sp3 332 chapter 4: clock gating self-gating optimization feedback to report self-gating options, use the report_self_gating_options command."
+.
+keeping the placement of cells out of such regions avoids congestion and net detouring and produces better qor.
+.
+the option must always be used with the -tolerance option.
+2.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+physopt_rp_enable_orient_opt variablevariablesphysopt_rp_enable_orient_optthe tool chooses one legal orientation from the list of orientations that you provide.
+.
+you can submit multiple redhawk jobs to the target farm machines and run the jobs in parallel in the same fusion compiler session.
+.
+.
+.
+593 specifying the library cells for boundary cell insertion .
+add_group_repeaters eco-276 warning: unable to find free area for repeater on net (%s) at location (%s) within range {%s}.
+.
+.
+"• the routing guides are inserted on all routing layers to insert the routing guides only on specific routing layers, use the -layers option."
+.
+"to enable proper routing to pins of different sizes, the command sets the is_rectangle_only_rule_waived attribute on the macro pins to true to waive the rectangle-only rule."
+.
+you must specify the instance pins and the via ladder templates that can be used for those pins.
+"▪ -coordinates and -excluded_coordinates to restrict the regions on which to insert metal fill, use these options, as described in specifying the regions for metal fill insertion."
+.
+.
+.
+.
+.
+.
+.
+the focused view for it opens.
+.
+.
+.
+.
+• routability optimization this optimization increases the spacing between cells to fix routing drc violations caused by pin access issues.
+.
+"in the fusion compiler environment, you can use custom router to create interconnects (or routes) for critical signals between blocks and continue with the fusion compiler tool to complete the physical implementation."
+.
+.
+.
+.
+.
+.
+.
+.
+"fc_shell> set_attribute [get_shapes -of_object $all_nets] \ physical_status ""minor_change"" fc_shell> set_attribute [get_vias -of_object $all_nets] \ physical_status ""minor_change"" 11. run eco routing to reconnect the nets by using the route_eco command."
+.
+.
+▪ -coaxial_below_skip_tracks this option specifies the number of open tracks between used tracks for coaxial shielding below the shielded net segment layer (-coaxial_below true).
+.
+.
+"controlling congestion-driven restructuring during placement by default, the tool restructures nets to reduce congestion during • the create_placement command, except when you use the -timing_driven option • the initial_place stage of the compile_fusion command you can control the congestion-driven restructuring as follows: • specify an effort level by setting the place.coarse.cong_restruct_effort application option to low, medium (default), high, or ultra."
+.
+.
+.
+.
+"you can further improve the dynamic voltage drop by enabling ir-driven sizing, which uses the redhawk dynamic voltage drop analysis results to identify cells involved in voltage drop violations, and then tries to replace those cells with cells having smaller leakage current."
+.
+fusion compiler™ user guide v-2023.12-sp3 986 chapter 13: eco flow adding a group of repeaters feedback specifying cut space and cut distance for repeater groups use one of the following mutually exclusive options to control cutting for repeater groups: • -layer_cutting_spacing specifies the cut space of the routes to the driver pin.
+.
+.
+"the tool uses the following order of precedence to determine the setting to use during optimization: 1. setting applied on pins of hierarchical cell instances 2. setting applied on hierarchical cell instances, which applies to its pins as well 3. setting applied on modules, which applies to all its cells and pins as well fusion compiler™ user guide v-2023.12-sp3 220 chapter 3: physical synthesis controlling mapping and optimization feedback the following table shows the level of boundary optimization you can specify with the set_boundary_optimization command and the types of boundary optimization that are enabled for each level."
+"place_group_repeat ers unplace_group_repeat ers eco-242 warning: the cell (%s) has no driver or load (number of driver: %d, number of load: %d)."
+.
+"note: because track assignment replaces the global routes with actual metal shapes, the block no longer contains global routes after track assignment completes."
+7. perform routing at the optimized voltage by using the route_auto command.
+.
+.
+.
+.
+set_repeater_group_constraints -type type_list \ [-horizontal_repeater_spacing spacing] \ [-vertical_repeater_spacing spacing] \ [-layer_cutting_distance layer_scale_list] adding voltage area aware group repeaters voltage area aware group repeaters choose legal library cells for repeaters based on the corresponding voltage area and updates supply nets for repeaters to meet multivoltage constraints.
+.
+"if you specify multirow-height cells with the -lib_cell option of the create_clock_drivers command, the tool might not be able to place them due to the temporary placement blockages it creates for the preroutes."
+.
+"for detailed information about specifying • clock and clock effects, see the “defining clocks” topic in the fusion compiler timing analysis user guide."
+.
+.
+.
+add_group_repeaters place_group_repeat ers eco-269 error: unable to check the current reference of cell '%s': %s.
+.
+.
+.
+"see also • automatically fixing signoff drc violations running the signoff_check_drc command to perform signoff design rule checking by running the signoff_check_drc command, 1. set up the ic validator environment as described in setting up the ic validator environment."
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+"to perform placement and optimization, use the place_opt command."
+.
+.
+.
+.
+.
+.
+156 considering wide cell density during placement .
+"to specify the name for the error data file, use the -error_data option."
+.
+.
+.
+.
+"if you run the command on an unmapped design, the report_transformed_registers command reports no information."
+.
+.
+you cannot disable clock gating.
+the collapse can occur across hierarchies.
+"when more than one net is specified, an error message is displayed."
+"to place the cells with a different orientation, use the -orientation option."
+.
+note: the tool cannot balance skew between a generated clock and other clocks.
+"compile.auto_floorplan.place_hard_macros, compile.auto_floorplan.shape_voltage_areas ◦ true: keeps existing placement blockages."
+.
+.
+.
+.
+"you can report the options you specified by using the report_regular_multisource_clock_tree_options command, and remove them by using the remove_regular_multisource_clock_tree_options command."
+.
+fusion compiler™ user guide v-2023.12-sp3 160 chapter 2: preparing the design specifying placement settings feedback you can change the percentage of cells in the upper and middle categories by using the place.coarse.ir_drop_default_target_high_percentage and place.coarse.ir_drop_default_target_low_percentage application options.
+you can restrict the types of rules to check with the check_mv_design command.
+"to ignore the hard placement blockages and insert filler cells in those regions, use the -ignore_hard_blockages option."
+"improving the correlation between the smscts and ccd to improve the correlation between the structural multisource clock tree synthesis (smscts) and concurrent clock and data (ccd), the fusion compiler tool supports the enhanced ccd engine with more smscts specific offsets."
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+the set_clock_gate_latency command takes the following arguments: • -clock clock_list • -stage clock_gate_stage • -fanout_latency fanout_list the fanout_list is a list of tuples specifying a fanout range and a delay decrement.
+9.
+.
+◦ set a larger value for the custom.route.single_loop_match_max_spacing application option.
+.
+"by default, the derive_clock_balance_points command • generates balance point constraints for all ideal primary clocks of all active scenarios that are enabled for setup analysis, hold analysis, or both."
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+629 preserving timing during redundant via insertion .
+"these settings prevent the synthesize_multisource_clock_subtrees command from merging or splitting clock cells, if necessary."
+.971 reporting available sites for placing eco cells .
+.
+• remove rectangles from the routing corridor.
+• via_standard_cell_pins only the connections to standard cell pins by using a via are restricted.
+.
+.
+.
+"by default, the write_rp_groups command writes out commands for creating the specified relative placement groups and to add leaf cells, hierarchical groups, and blockages to these groups."
+.
+.
+each list can contain only one cell of each size.
+.
+.
+.
+.
+"% grep ""mismatch"" log_file 6. reduce the number of the mismatched nets (if any) by using one of the following methods: ◦ rebalance the net routing of one or more groups in the same channel among the available routing layers by a. resetting the routing layers."
+.
+153 performing placement with inaccurate constraints at early stages .
+.781 introduction to physical datapath with relative placement .
+clock-gate levels are counted from the clock source toward the register.
+.
+"when you use this option, the resulting block might have legalization errors that must be fixed manually."
+.
+◦interleave: inserts shared shielding between adjacent wires.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+"by default, this option has a setting of high, which favors timing qor over drc convergence."
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+"the fusion compiler command language provides capabilities similar to linux command shells, including variables, conditional execution of commands, and control flow commands."
+.
+.
+.
+"to assign different data types for the colored fill, set the following parameters in the ic validator parameter file: mx_fill_datatype_color1, viax_fill_datatype_color1, mx_fill_datatype_color2, and viax_fill_datatype_color2."
+.
+.
+.
+.
+.
+.
+.
+.
+"however, if you specify only the policies, but not the checks, the configuration supports only the strict and lenient policies."
+.
+"for details on the gated registers, use the -gated option."
+.
+.
+.
+.
+.
+(optional) set a specific logic-level threshold other than the default by using the set_analyze_rtl_logic_level_threshold command.
+.
+380 specifying optimization targets at the preroute stage .
+.
+.
+.
+.
+.
+in total 703 placement blockages created.
+"yes denotes the command operation of the dont_touch attribute is supported, while no denotes the command operation is not supported."
+.
+.
+"performing layout-versus-schematic checking to perform layout-versus-schematic (lvs) checking, which checks for inconsistencies in the physical layout, use the check_lvs command."
+the default is eight percent of the supply voltage.
+.
+.
+hdl compiler then connects these signals to the synch_clear and synch_preset pins on the seqgen wvgtech cell to communicate to the mapper that these are the synchronous control signals and they should be kept as close to the register as possible.
+.
+.
+fc_shell> route_detail -max_number_iterations 20 ◦ it cannot fix any of the remaining violations you can change the effort that the detail router uses for fixing the remaining violations before it gives up by setting the route.detail.drc_convergence_effort_level application option.
+.
+.
+"2. use the machine learning data to improve correlation by performing the following steps in the subsequent iteration, iteration n+1: a. perform clock tree synthesis and clock routing by completing the build_clock and route_clock stages of the clock_opt command."
+.
+"you can specify either a relative path, in which case the directory is created under the current working directory, or an absolute path."
+"this action removes drc violating fusion compiler™ user guide v-2023.12-sp3 706 chapter 8: ic validator in-design inserting metal fill with ic validator in-design feedback pg augmentation metal shapes or vias from design, including any floating connections created due to removal of drc violating shape."
+.
+.
+.
+"the route_custom command uses the specified routing constraints, as well as information from the technology file and the design, to perform automatic routing using the custom router."
+.
+"use the view settings and hierarchy settings panels to control the layers, levels, and cell types displayed in the layout window."
+"however, it has less effect during subsequent incremental placement stages."
+.
+"for information about the chip finishing and design for manufacturing features, see the following topics: • inserting tap cells • performing boundary cell insertion • finding and fixing antenna violations • inserting redundant vias • optimizing wire length and via count • reducing critical areas • inserting metal-insulator-metal capacitors • inserting filler cells • inserting metal fill inserting tap cells a tap cell is a special nonlogic cell with a well tie, substrate tie, or both."
+.
+"fusion compiler™ user guide v-2023.12-sp3 562 chapter 6: routing and postroute optimization cleaning up routed nets feedback cleaning up routed nets after routing is complete, you can clean up the routed nets by running the remove_redundant_shapes command."
+checking missing vias and unconnected pins use the analyze_rail -check_missing_via command to check for missing vias and unconnected pins in the block based on the settings specified by the set_missing_via_check_options command.
+fc_shell> create_bundle -name grp1 [get_nets $nets] ◦ create and apply the routing rules for the ddr nets.
+157 considering the effects of cell pins during placement .
+831 creating abstract views .
+.
+"3. verify the boundary cell placement by using the check_boundary_cells or check_targeted_boundary_cells command, as described in verifying the boundary cell placement."
+.
+.
+.
+.
+.
+working with the 3dic compiler user interfaces the fusion compiler tool operates in the x window environment on linux.
+.
+.
+◦ -timing_preserve_setup_slack_threshold this option enables the tool to automatically determine the critical nets based on a setup slack threshold.
+.
+"you can specify the minimum spacing by specifying a multiplier that is applied to the default spacing for each layer, by specifying the minimum spacings in microns for each layer, or both."
+.
+.
+.
+.
+.
+.
+.
+.
+.
+"you can also create a rectilinear routing blockage by specifying the polygon as the combined area of a heterogeneous collection of objects with physical geometry, such as poly_rects, geo_masks, shapes, layers, and other physical objects."
+.
+.
+.
+.
+.
+"• automatically add spare cells after placement by using the add_spare_cells command, as described in automatically adding spare cells."
+.
+.
+"for more information about redhawk-sc fusion, see setting up the executables and specifying redhawk and redhawk-sc working directories."
+"however, you must specify all 40 values when defining the antenna fusion compiler™ user guide v-2023.12-sp3 610 chapter 7: chip finishing and design for manufacturing finding and fixing antenna violations feedback rule."
+.
+.
+.
+.
+.
+.
+14 diode protection is limited; two separate calculation formulas.
+the following example specifies to use the cla3 implementation for the instantiated designware cell u1.
+.
+"in addition, you can ignore violations of nondefault spacing rules for short parallel distances."
+.
+"removing routing blockages to remove routing blockages from the current block, use the remove_routing_blockages command."
+.
+.
+.
+.
+.
+.
+w is the default width for the layer and s is the spacing specified for the layer by the -spacing_from_boundary option.
+"to delete the existing constraint group, use the -force option."
+.
