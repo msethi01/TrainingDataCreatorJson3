@@ -1,13 +1,12 @@
 import fitz  # PyMuPDF
 import re
+import json
 import random
-import csv
+from sklearn.model_selection import train_test_split
 import nltk
 from nltk.tokenize import sent_tokenize
-
 nltk.download('punkt')
 
-# Function to extract text from a PDF file using PyMuPDF
 def extract_text_from_pdf(pdf_path):
     try:
         document = fitz.open(pdf_path)  # Open the PDF file
@@ -19,80 +18,132 @@ def extract_text_from_pdf(pdf_path):
                 print(f"Extracting text from page {page_num + 1}")
                 text += page_text + '\n'
         document.close()
-        print("Complete extracted text:")
-        print(text[:1000])  # Print the first 1000 characters of the extracted text for verification
         return text
     except Exception as e:
         print("Error processing PDF:", e)
         return None
 
-# Function to preprocess the extracted text
-def preprocess_text(text):
-    # Normalize case
-    text = text.lower()
-    # Remove extra whitespace
-    text = ' '.join(text.split())
-    print("Preprocessed Text:")
-    print(text[:1000])  # Print the first 1000 characters of the preprocessed text
+def clean_text(text):
+    """Cleans the extracted text."""
+    text = re.sub(r'\n+', '\n', text)
+    text = re.sub(r'\s+', ' ', text)
+    text = text.strip()
     return text
 
-# Function to split the text data into training, validation, and test sets
-def split_data(text, train_ratio=0.8, val_ratio=0.1, test_ratio=0.1):
-    # Split text into sentences
-    sentences = sent_tokenize(text)
-    print("First 5 sentences after tokenization:")
-    print(sentences[:5])  # Print the first 5 sentences for verification
-    random.shuffle(sentences)
-    total_sentences = len(sentences)
-    print(f"Total sentences: {total_sentences}")
+def find_start_of_instructions(text):
+    """Finds the start of the relevant instructional content, triggered the 2nd time a keyword is encountered."""
+    lower_text = text.lower()
+    start_keywords = ["working with the fusion compiler tool", "physical synthesis design flow overview"]
+    start_idx = -1
 
-    train_end = int(total_sentences * train_ratio)
-    val_end = train_end + int(total_sentences * val_ratio)
+    for keyword in start_keywords:
+        first_idx = lower_text.find(keyword)  # Find the first occurrence
+        if first_idx != -1:
+            second_idx = lower_text.find(keyword, first_idx + len(keyword))  # Find the second occurrence
+            if second_idx != -1:
+                start_idx = second_idx
+                break
 
-    train_data = sentences[:train_end]
-    val_data = sentences[train_end:val_end]
-    test_data = sentences[val_end:]
+    if start_idx == -1:
+        start_idx = 1000  # Adjust this based on your document structure
 
-    print(f"Training sentences: {len(train_data)}")
-    print(f"Validation sentences: {len(val_data)}")
-    print(f"Test sentences: {len(test_data)}")
+    return text[start_idx:]
 
-    return train_data, val_data, test_data
+def split_into_paragraphs(text):
+    """Splits the text into paragraphs to make it easier to process."""
+    # Split on either double newlines, single newlines, or periods followed by a space
+    paragraphs = re.split(r'\.\s|\n\s*\n|\n', text)
+    for i, para in enumerate(paragraphs):
+        print(f"Paragraph {i+1}: {para[:100]}...")  # Print the first 50 characters of each paragraph
+    return [p.strip() for p in paragraphs if p.strip()]
 
-# Function to save the data to a CSV file
-def save_data_to_csv(data, filename):
-    with open(filename, 'w', newline='') as csvfile:
-        writer = csv.writer(csvfile)
-        writer.writerow(['text'])
-        for sentence in data:
-            if sentence.strip():  # Check if the sentence is not empty
-                writer.writerow([sentence.strip()])
+def extract_instructions(text):
+    """Extracts potential instructional content from the text."""
+    instructions = []
+    paragraphs = split_into_paragraphs(text)
 
-# Main function to process the PDF and create datasets
-def process_pdf_to_datasets(pdf_path):
-    # Extract text from the PDF
-    text = extract_text_from_pdf(pdf_path)
+    for paragraph in paragraphs:
+        # Expanded regex to capture more instructional patterns, including lists and bullet points
+        matches = re.findall(r'(?i)(step \d+[:]?.*?|instruction.*?|note[:]?.*?|procedure.*?|guideline.*?|•.*?|[-*] .*?|\d+\..*?|\d+\)\s+.*?)(?=\n|$)', paragraph)
+        if matches:
+            print(f"Matches in paragraph: {[m[:50] for m in matches[:5]]}...")
+        instructions.extend(matches)
+
+    return instructions
+
+def create_conversational_data(instructions):
+    """Formats the instructions into a question-answer conversational style dataset."""
+    data = []
+    for instruction in instructions:
+        question = f"How do I {instruction.split(':')[0].lower()}?"
+        answer = instruction
+        data.append({"instruction": question, "response": answer})
+    return data
+
+def split_data(data, train_size=0.8, val_size=0.1, test_size=0.1):
+    if len(data) < 2:
+        return data, [], []
+    elif len(data) < 3:
+        train_data, test_data = train_test_split(data, test_size=0.5, random_state=42)
+        return train_data, [], test_data
+    else:
+        train_data, test_data = train_test_split(data, test_size=test_size, random_state=42)
+        train_data, val_data = train_test_split(train_data, test_size=val_size/(train_size+val_size), random_state=42)
+        return train_data, val_data, test_data
+
+def save_to_jsonl(data, output_file_path):
+    with open(output_file_path, 'w') as output_file:
+        for item in data:
+            output_file.write(json.dumps(item) + '\n')
+
+def pdf_to_conversational_data(pdf_file_path, output_dir, train_size=0.8, val_size=0.1, test_size=0.1):
+    print(f"Extracting text from {pdf_file_path}...")
+    text = extract_text_from_pdf(pdf_file_path)
 
     if text is None:
-        print("Failed to extract text from PDF.")
+        print("No text extracted from the PDF.")
         return
 
-    # Preprocess the text
-    cleaned_text = preprocess_text(text)
+    print("Cleaning extracted text...")
+    cleaned_text = clean_text(text)
 
-    # Split the data into training, validation, and test sets
-    train_data, val_data, test_data = split_data(cleaned_text)
+    print("Finding start of relevant instructions...")
+    relevant_text = find_start_of_instructions(cleaned_text)
+    print("Relevant text starts with:")
+    print(relevant_text[:100])  # Print the first 100 characters
 
-    # Save the datasets to CSV files
-    save_data_to_csv(train_data, 'train_data.csv')
-    save_data_to_csv(val_data, 'val_data.csv')
-    save_data_to_csv(test_data, 'test_data.csv')
+    print("Extracting instructions from the text...")
+    instructions = extract_instructions(relevant_text)
+    print(f"Number of instructions extracted: {len(instructions)}")
 
-    print("Datasets created successfully:")
-    print("Training data: train_data.csv")
-    print("Validation data: val_data.csv")
-    print("Test data: test_data.csv")
+    if not instructions:
+        print("No instructions found in the text.")
+        return
+
+    print("Creating conversational data...")
+    conversational_data = create_conversational_data(instructions)
+
+    if len(conversational_data) < 3:
+        print("Not enough data to split into train, val, and test. Using all data for training.")
+        train_data, val_data, test_data = conversational_data, [], []
+    else:
+        print("Splitting data into training, validation, and test sets...")
+        train_data, val_data, test_data = split_data(conversational_data, train_size, val_size, test_size)
+
+    print(f"Saving training data to {output_dir}/train.jsonl...")
+    save_to_jsonl(train_data, f"{output_dir}/train.jsonl")
+
+    if val_data:
+        print(f"Saving validation data to {output_dir}/val.jsonl...")
+        save_to_jsonl(val_data, f"{output_dir}/val.jsonl")
+
+    if test_data:
+        print(f"Saving test data to {output_dir}/test.jsonl...")
+        save_to_jsonl(test_data, f"{output_dir}/test.jsonl")
+
+    print("Conversion complete!")
 
 # Example usage
-pdf_path = 'fcug.pdf'  # Update with the path to your PDF file
-process_pdf_to_datasets(pdf_path)
+pdf_file_path = "fcug.pdf"  # Replace with your PDF file path
+output_dir = "."  # Replace with your desired output directory
+pdf_to_conversational_data(pdf_file_path, output_dir)
