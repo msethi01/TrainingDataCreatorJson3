@@ -25,6 +25,8 @@ def extract_text_from_pdf(pdf_path):
 
 def clean_text(text):
     """Cleans the extracted text."""
+    # Replace bullet characters with a placeholder or remove them
+    text = text.replace('\u2022', '- ')  # Replaces bullet points with a hyphen and space
     text = re.sub(r'\n+', '\n', text)
     text = re.sub(r'\s+', ' ', text)
     text = text.strip()
