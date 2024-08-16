@@ -22,10 +22,12 @@ def clean_text(text):
     text = re.sub(r'\b(Courier|italic|bold|purple|edit)\b', '', text)
     text = re.sub(r'\n+', '\n', text)
     text = re.sub(r'\s+', ' ', text).strip()
+
+    # Remove trailing hyphens or other placeholders if the text is empty
+    if text == '-' or len(text) <= 1:
+        text = ''
+        
     return text
-
-
-
 
 
 def extract_text_with_headers(pdf_path):
@@ -45,22 +47,53 @@ def extract_text_with_headers(pdf_path):
                     for span in line["spans"]:
                         cleaned_text = clean_text(span["text"])
                         if cleaned_text.strip():
-                            # Detect headers based on font size and boldness
-                            if span["size"] >= 10 and (span["flags"] & 2 > 0):  # Adjust these thresholds based on PDF
+                            # Check if the text should be considered as a header
+                            #is_italic = "Arial-ItalicMT" in span["font"] and (span["size"] >= 11)
+                            
+                            is_italic = "Arial-ItalicMT" in span["font"] and (span["size"] >= 11) and (span["flags"] == 6)
+
+                            
+                            if is_italic:
+                                print(f"Detected italic font: {span['font']} " 
+                                f"is_italic: {is_italic} ")
+                                print(f"Current Text:  {cleaned_text} ")
+                            #else:
+                            #    print(f"Not italic font: {span['font']} "
+                            #    f"is_italic: {is_italic} ")
+
+                            is_header = (
+                                ((span["size"] >= 11 and  # Font size 11 or higher
+                                (span["flags"] & 2 > 0)) or
+                                
+                                (span["size"] >= 14 and  # Font size 11 or higher
+                                (span["font"] == "Arial-BoldMT") and
+                                (span["flags"] == 20)) or
+                                
+                                 (span["size"] >= 20 and
+                                (span["flags"] & 20 > 0))) and
+                                not is_italic
+                            )
+
+                            print(f"is_header: {is_header}")
+                        
+                            # Specific exclusion for "Arial-ItalicMT" to not be considered as header
+                            #if "Italic" in span["font"]:
+                            #    is_header = False
+
+                            if is_header:
                                 if current_header and current_paragraph.strip():
                                     headers_with_paragraphs.append({
                                         "header": current_header,
+                                        "size": span['size'],
+                                        "font": span['font'],
+                                        "flags": span['flags'],
                                         "text": current_paragraph.strip()
                                     })
                                 current_header = cleaned_text
                                 current_paragraph = ""
                             else:
-                                # Check if the text is part of a bullet or numbered list
-                                if re.match(r'^\d+\.', cleaned_text) or re.match(r'^[-•]', cleaned_text):
-                                    current_paragraph += "\n" + cleaned_text
-                                else:
-                                    current_paragraph += cleaned_text + " "
-
+                                # Append text to the current paragraph
+                                current_paragraph += cleaned_text + " "
     # Save the last header and paragraph
     if current_header:
         headers_with_paragraphs.append({
@@ -70,6 +103,31 @@ def extract_text_with_headers(pdf_path):
 
     document.close()
     return headers_with_paragraphs
+
+def examine_text_properties(pdf_path, output_file_path):
+    """Examines the properties of text spans in the PDF and logs the start of each new paragraph."""
+    document = fitz.open(pdf_path)
+
+    with open(output_file_path, 'w', encoding='utf-8') as output_file:
+        for page_num in range(len(document)):
+            page = document.load_page(page_num)
+            blocks = page.get_text("dict")["blocks"]  # Get text as dictionary blocks
+            output_file.write(f"Examining text properties on page {page_num + 1}\n")
+            output_file.write("=" * 80 + "\n")
+            for block in blocks:
+                if "lines" in block:
+                    for line in block["lines"]:
+                        for span in line["spans"]:
+                            # Write out the span text and its properties to the file
+                            output_file.write(f"Text: {span['text']}\n")
+                            output_file.write(f"Size: {span['size']}\n")
+                            output_file.write(f"Font: {span['font']}\n")
+                            output_file.write(f"Flags: {span['flags']}\n")  # This shows whether it's bold, italic, etc.
+                            output_file.write("-" * 40 + "\n")
+
+    document.close()
+    print(f"Text properties have been logged to {output_file_path}")
+
 
 
 
@@ -256,5 +314,10 @@ def pdf_to_paragraphs_jsonl(pdf_file_path, output_jsonl_path):
 pdf_file_path = "fcug.pdf"  # Replace with your PDF file path
 output_jsonl_path = "paragraphs.jsonl"
 
+examine_text_properties(pdf_file_path, "text_properties_debug.txt")
+
 headers_with_paragraphs = extract_text_with_headers(pdf_file_path)
 save_headers_to_jsonl(headers_with_paragraphs, "headers_with_paragraphs.jsonl")
+
+
+
