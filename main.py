@@ -74,7 +74,7 @@ def extract_text_with_headers(pdf_path):
                                 not is_italic
                             )
 
-                            print(f"is_header: {is_header}")
+                            #print(f"is_header: {is_header}")
                         
                             # Specific exclusion for "Arial-ItalicMT" to not be considered as header
                             #if "Italic" in span["font"]:
@@ -129,30 +129,6 @@ def examine_text_properties(pdf_path, output_file_path):
     print(f"Text properties have been logged to {output_file_path}")
 
 
-
-
-def identify_headers(text_blocks, size_threshold=11, bold_threshold=True):
-    """Identifies headers based on font size and boldness."""
-    headers = []
-    current_header = None
-    current_content = []
-
-    for block in text_blocks:
-        if block["size"] >= size_threshold or block["bold"] == bold_threshold:
-            if current_header:
-                headers.append((current_header, ' '.join(current_content)))
-            current_header = block["text"]
-            current_content = []
-        else:
-            current_content.append(block["text"])
-
-    if current_header:
-        headers.append((current_header, ' '.join(current_content)))
-
-    return headers
-
-
-
 def remove_unwanted_lines(text, pattern):
     """Removes lines that match the pattern 'User Guide <number> Chapter <number>'."""
     lines = text.splitlines()
@@ -198,43 +174,6 @@ def find_start_of_instructions(text):
 
 
 
-def split_into_paragraphs(text):
-    """Splits the text into questions (headers) and their corresponding answers."""
-    paragraphs = []
-    current_header = None
-    current_paragraph = []
-
-    # Regex to detect headers (you may need to adjust this based on the specific format of headers in your PDF)
-    header_pattern = re.compile(r'^[A-Z].*?:$')
-
-    for line in text.splitlines():
-        line = line.strip()
-        if not line:
-            continue  # Skip empty lines
-
-        if header_pattern.match(line):
-            if current_header:
-                # Save the previous header and its paragraph
-                #paragraphs.append((current_header, ' '.join(current_paragraph)))
-                paragraphs.append({
-                    "question": current_header,
-                    "answer": ' '.join(current_paragraph)
-                })
-            # Start a new paragraph
-            current_header = line
-            current_paragraph = []
-        else:
-            current_paragraph.append(line)
-
-    # Don't forget to add the last paragraph
-    if current_header:
-        #paragraphs.append((current_header, ' '.join(current_paragraph)))
-        paragraphs.append({
-            "question": current_header,
-            "answer": ' '.join(current_paragraph)
-        })
-
-
 
 
 
@@ -274,41 +213,26 @@ def save_text_blocks_to_text(text_blocks, output_text_file):
             output_file.write("\n" + "-"*80 + "\n\n")
 
 
-def pdf_to_paragraphs_jsonl(pdf_file_path, output_jsonl_path):
-    """Main function to extract text, identify headers, and save to JSONL."""
-    text_blocks = extract_text_with_formatting(pdf_file_path)
+# Load the data from the headers_with_paragraphs.jsonl file
+def load_jsonl_data(jsonl_file_path):
+    data = []
+    with open(jsonl_file_path, 'r', encoding='utf-8') as file:
+        for line in file:
+            data.append(json.loads(line))
+    return data
 
-    # Save the raw extracted text blocks for inspection
-    save_text_blocks_to_jsonl(text_blocks, "text_blocks.jsonl")
+def save_jsonl_data(data, output_file_path):
+    with open(output_file_path, 'w', encoding='utf-8') as file:
+        for item in data:
+            file.write(json.dumps(item) + '\n')
 
-    # Save text blocks to a plain text file
-    save_text_blocks_to_text(text_blocks, "text_blocks.txt")
-    
-    # Combine the text blocks into a single text string for further processing
-    combined_text = ' '.join([block['text'] for block in text_blocks])
-    
-    # Save the combined text before finding the start of instructions
-    save_to_file(combined_text, "combined_text.txt")
-    
-    # Find the start of relevant instructions
-    relevant_text = find_start_of_instructions(combined_text)
-    
-    # Save the relevant text
-    save_to_file(relevant_text, "relevant_text.txt")
-    
-    # Further process relevant text if needed (e.g., additional cleaning)
-    cleaned_relevant_text = clean_text(relevant_text)
-    
-    # Save the cleaned relevant text
-    save_to_file(cleaned_relevant_text, "cleaned_relevant_text.txt")
-    
-    # Identify headers and their corresponding content
-    headers = identify_headers(text_blocks)
-    
-    # Save headers and content to JSONL
-    save_headers_to_jsonl(headers, output_jsonl_path)
-    
-    print(f"Headers and content have been saved to {output_jsonl_path}")
+# Split the data into training, validation, and testing sets
+def split_data(data, train_size=0.8, val_size=0.1, test_size=0.1):
+    train_data, test_data = train_test_split(data, test_size=test_size, random_state=42)
+    train_data, val_data = train_test_split(train_data, test_size=val_size / (train_size + val_size), random_state=42)
+    return train_data, val_data, test_data
+
+
 
 # Example usage
 pdf_file_path = "fcug.pdf"  # Replace with your PDF file path
@@ -319,5 +243,15 @@ examine_text_properties(pdf_file_path, "text_properties_debug.txt")
 headers_with_paragraphs = extract_text_with_headers(pdf_file_path)
 save_headers_to_jsonl(headers_with_paragraphs, "headers_with_paragraphs.jsonl")
 
+jsonl_file_path = "headers_with_paragraphs.jsonl"
+data = load_jsonl_data(jsonl_file_path)
 
+train_data, val_data, test_data = split_data(data)
+
+# Save the split data to JSONL files
+save_jsonl_data(train_data, "train_data.jsonl")
+save_jsonl_data(val_data, "val_data.jsonl")
+save_jsonl_data(test_data, "test_data.jsonl")
+
+print("Training, validation, and testing JSONL files have been created.")
 
