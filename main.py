@@ -104,6 +104,18 @@ def extract_text_with_headers(pdf_path):
     document.close()
     return headers_with_paragraphs
 
+def transform_data_for_finetuning(data):
+    """Transforms the dataset to the format required for fine-tuning LLaMA."""
+    transformed_data = []
+    for item in data:
+        transformed_item = {
+            "instruction": item["header"],  # Using 'header' as the question or instruction
+            "input": "",  # No additional input context
+            "output": item["text"]  # Using 'text' as the response
+        }
+        transformed_data.append(transformed_item)
+    return transformed_data
+    
 def examine_text_properties(pdf_path, output_file_path):
     """Examines the properties of text spans in the PDF and logs the start of each new paragraph."""
     document = fitz.open(pdf_path)
@@ -246,7 +258,10 @@ save_headers_to_jsonl(headers_with_paragraphs, "headers_with_paragraphs.jsonl")
 jsonl_file_path = "headers_with_paragraphs.jsonl"
 data = load_jsonl_data(jsonl_file_path)
 
-train_data, val_data, test_data = split_data(data)
+# Transform the data for fine-tuning
+transformed_data = transform_data_for_finetuning(data)
+
+train_data, val_data, test_data = split_data(transformed_data)
 
 # Save the split data to JSONL files
 save_jsonl_data(train_data, "train_data.jsonl")
