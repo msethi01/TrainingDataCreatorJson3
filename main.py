@@ -5,29 +5,43 @@ import random
 from sklearn.model_selection import train_test_split
 import nltk
 from nltk.tokenize import sent_tokenize
+from transformers import AutoTokenizer
+
 
 nltk.download('punkt')
+
+# Initialize the tokenizer (use the appropriate model name for your specific model)
+tokenizer = AutoTokenizer.from_pretrained("gpt2")  # Replace with your model's tokenizer
 
 def clean_text(text):
     """Cleans the extracted text, removes specific unwanted lines and phrases."""
     text = re.sub(r'\u2022', '- ', text)  # Replaces bullet points with a hyphen and space
     text = re.sub(r'\u2122', '', text)  # Removes the trademark symbol
     text = re.sub(r'Fusion Compiler™ User Guide', '', text)
+    text = re.sub(r'Fusion Compiler User Guide', '', text)
+    text = re.sub(r'^Chapter.*\n?', '', text, flags=re.MULTILINE)
     text = re.sub(r'V-2023.12-SP3', '', text)
     text = re.sub(r'(?i)user\s?guide\s?\d+\s?chapter\s?\d+', '', text)  # Removes "User Guide <number> Chapter <number>"
     text = text.replace('\u00ae', '(R)')  # Registered trademark symbol
     text = text.replace('\u201c', '"').replace('\u201d', '"')  # Curly quotes
     text = text.replace('\u2018', "'").replace('\u2019', "'")  # Curly single quotes
     text = text.replace('\u201a', '"').replace('\u201b', '"')
+    text = text.replace("(FILE-007)", "")
     text = re.sub(r'\b(Courier|italic|bold|purple|edit)\b', '', text)
     text = re.sub(r'\n+', '\n', text)
     text = re.sub(r'\s+', ' ', text).strip()
+    text = re.sub(r'-{2,}', '', text)
+
+    # Remove any remaining unwanted Unicode characters
+    text = re.sub(r'\\u[0-9A-Fa-f]{4}', '', text)  # Removes \uXXXX Unicode sequences
+
 
     # Remove trailing hyphens or other placeholders if the text is empty
     if text == '-' or len(text) <= 1:
         text = ''
         
     return text
+
 
 
 def extract_text_with_headers(pdf_path):
@@ -53,10 +67,10 @@ def extract_text_with_headers(pdf_path):
                             is_italic = "Arial-ItalicMT" in span["font"] and (span["size"] >= 11) and (span["flags"] == 6)
 
                             
-                            if is_italic:
-                                print(f"Detected italic font: {span['font']} " 
-                                f"is_italic: {is_italic} ")
-                                print(f"Current Text:  {cleaned_text} ")
+                            #if is_italic:
+                                #print(f"Detected italic font: {span['font']} " 
+                                #f"is_italic: {is_italic} ")
+                                #print(f"Current Text:  {cleaned_text} ")
                             #else:
                             #    print(f"Not italic font: {span['font']} "
                             #    f"is_italic: {is_italic} ")
@@ -80,30 +94,81 @@ def extract_text_with_headers(pdf_path):
                             #if "Italic" in span["font"]:
                             #    is_header = False
 
+                            #if is_header:
+                            #    if current_header and current_paragraph.strip():
+                            #        headers_with_paragraphs.append({
+                            #            "header": current_header,
+                            #            "size": span['size'],
+                            #            "font": span['font'],
+                            #            "flags": span['flags'],
+                            #            "text": current_paragraph.strip()
+                            #        })
+                            #    current_header = cleaned_text
+                            #    current_paragraph = ""
+                            #else:
+                            #    # Append text to the current paragraph
+                            #    current_paragraph += cleaned_text + " "
+                                    
                             if is_header:
                                 if current_header and current_paragraph.strip():
-                                    headers_with_paragraphs.append({
-                                        "header": current_header,
-                                        "size": span['size'],
-                                        "font": span['font'],
-                                        "flags": span['flags'],
-                                        "text": current_paragraph.strip()
-                                    })
+                                    paragraphs = split_paragraph(current_paragraph.strip(), 2048, current_header)
+                                    for para in paragraphs:
+                                        headers_with_paragraphs.append({
+                                            "header": "How do I " + current_header,
+                                            "size": span['size'],
+                                            "font": span['font'],
+                                            "flags": span['flags'],
+                                            "text": para
+                                        })
                                 current_header = cleaned_text
                                 current_paragraph = ""
                             else:
                                 # Append text to the current paragraph
                                 current_paragraph += cleaned_text + " "
-    # Save the last header and paragraph
+
+    #if current_header:
+    #    headers_with_paragraphs.append({
+    #        "header": current_header,
+    #        "text": current_paragraph.strip()
+    #    })
+
+    #document.close()
+    #return headers_with_paragraphs
+    
     if current_header:
-        headers_with_paragraphs.append({
-            "header": current_header,
-            "text": current_paragraph.strip()
-        })
+        paragraphs = split_paragraph(current_paragraph.strip(), 2048, current_header)
+        for para in paragraphs:
+            headers_with_paragraphs.append({
+                "header": "How do I " + current_header,
+                "text": para
+            })
 
     document.close()
     return headers_with_paragraphs
 
+def split_paragraph(paragraph, max_tokens, header):
+    """Splits a paragraph into sections of no more than max_length tokens."""
+
+    # Tokenize the paragraph
+    tokens = tokenizer.tokenize(paragraph)
+
+    # Calculate the number of tokens
+    token_count = len(tokens)
+
+    # If the paragraph is longer than the max tokens allowed
+    if token_count > max_tokens:
+        print(f"Splitting paragraph under header: {header} (Length: {token_count} tokens)")
+
+    # Break the tokens into sections of max_tokens length
+    sections = []
+    for i in range(0, token_count, max_tokens):
+        section_tokens = tokens[i:i + max_tokens]
+        # Decode the tokens back to a string and add to the sections list
+        sections.append(tokenizer.decode(tokenizer.convert_tokens_to_ids(section_tokens)).strip())
+
+    return sections
+
+    
 def transform_data_for_finetuning(data):
     """Transforms the dataset to the format required for fine-tuning LLaMA."""
     transformed_data = []
