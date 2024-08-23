@@ -26,6 +26,7 @@ def clean_text(text):
     text = text.replace('\u201c', '"').replace('\u201d', '"')  # Curly quotes
     text = text.replace('\u2018', "'").replace('\u2019', "'")  # Curly single quotes
     text = text.replace('\u201a', '"').replace('\u201b', '"')
+    text = text.replace('\u25ba', '')
     text = text.replace("(FILE-007)", "")
     text = re.sub(r'\b(Courier|italic|bold|purple|edit)\b', '', text)
     text = re.sub(r'\n+', '\n', text)
