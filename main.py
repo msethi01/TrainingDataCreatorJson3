@@ -174,20 +174,6 @@ def examine_text_properties(pdf_path, output_file_path):
     print(f"Text properties have been logged to {output_file_path}")
 
 
-def remove_unwanted_lines(text, pattern):
-    """Removes lines that match the pattern 'User Guide <number> Chapter <number>'."""
-    lines = text.splitlines()
-    filtered_lines = []
-
-    for line in lines:
-        if re.search(pattern, line, re.IGNORECASE):
-            print(f"Removing line: {line}")
-        else:
-            filtered_lines.append(line)
-
-    return '\n'.join(filtered_lines)
-
-
 
 def find_start_of_instructions(spans):
     """Finds the start of the relevant instructional content based on specific font size, font, and keyword."""
@@ -200,20 +186,20 @@ def find_start_of_instructions(spans):
 
     return False  # Return False if the conditions are not met
 
+def transform_data_for_openai_finetuning(data):
+    """Transforms the dataset to the format required for fine-tuning OpenAI's models."""
+    transformed_data = []
+    for item in data:
+        transformed_item = {
+            "messages": [
+                {"role": "system", "content": "You are a chip design assistant. You should help the user to answer their question."},
+                {"role": "user", "content": item["header"]},
+                {"role": "assistant", "content": item["text"]}
+            ]
+        }
+        transformed_data.append(transformed_item)
+    return transformed_data
 
-
-
-
-
-
-
-
-def save_paragraphs_to_jsonl(paragraphs, output_file_path):
-    """Saves the paragraphs to a JSONL file."""
-    with open(output_file_path, 'w', encoding='utf-8') as output_file:
-        for header, content in paragraphs:
-            json.dump({"question": header, "answer": content}, output_file)
-            output_file.write('\n')
 
 def save_headers_to_jsonl(headers_with_paragraphs, output_file_path):
     """Saves the headers and their content to a JSONL file."""
@@ -226,22 +212,6 @@ def save_to_file(content, filename):
     with open(filename, 'w', encoding='utf-8') as file:
         file.write(content)
 
-def save_text_blocks_to_jsonl(text_blocks, output_file_path):
-    """Saves the text blocks to a JSONL file."""
-    with open(output_file_path, 'w', encoding='utf-8') as output_file:
-        for block in text_blocks:
-            output_file.write(json.dumps(block) + '\n')
-
-
-
-def save_text_blocks_to_text(text_blocks, output_text_file):
-    """Saves the text blocks to a plain text file for debugging purposes."""
-    with open(output_text_file, 'w', encoding='utf-8') as output_file:
-        for block in text_blocks:
-            output_file.write(f"Text: {block['text']}\n")
-            output_file.write(f"Size: {block['size']}\n")
-            output_file.write(f"Bold: {block['bold']}\n")
-            output_file.write("\n" + "-"*80 + "\n\n")
 
 
 # Load the data from the headers_with_paragraphs.jsonl file
@@ -264,6 +234,11 @@ def split_data(data, train_size=0.8, val_size=0.1, test_size=0.1):
     return train_data, val_data, test_data
 
 
+def split_openai_data(data, train_size=0.8, val_size=0.2):
+    """Splits the OpenAI-formatted data into training and validation sets."""
+    train_data, val_data = train_test_split(data, test_size=val_size, random_state=42)
+    return train_data, val_data
+
 
 # Example usage
 pdf_file_path = "fcug.pdf"  # Replace with your PDF file path
@@ -280,6 +255,18 @@ data = load_jsonl_data(jsonl_file_path)
 # Transform the data for fine-tuning
 transformed_data = transform_data_for_finetuning(data)
 save_jsonl_data(transformed_data, "full_data.jsonl")
+
+# Transform the data for fine-tuning OpenAI models
+openai_transformed_data = transform_data_for_openai_finetuning(data)
+save_jsonl_data(openai_transformed_data, "openai_full_data.jsonl")
+
+# Split the OpenAI data into training and validation sets
+openai_train_data, openai_val_data = split_openai_data(openai_transformed_data)
+
+# Save the split OpenAI data to JSONL files
+save_jsonl_data(openai_train_data, "openai_train_data.jsonl")
+save_jsonl_data(openai_val_data, "openai_val_data.jsonl")
+
 
 train_data, val_data, test_data = split_data(transformed_data)
 
