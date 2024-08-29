@@ -51,90 +51,57 @@ def extract_text_with_headers(pdf_path):
     headers_with_paragraphs = []
     current_header = None
     current_paragraph = ""
+    start_of_instructions_found = False
 
     for page_num in range(len(document)):
         page = document.load_page(page_num)
         blocks = page.get_text("dict")["blocks"]  # Get text as dictionary blocks
+    
         print(f"Extracting text from page {page_num + 1}")
         for block in blocks:
             if "lines" in block:
-                for line in block["lines"]:
-                    for span in line["spans"]:
-                        cleaned_text = clean_text(span["text"])
-                        if cleaned_text.strip():
-                            # Check if the text should be considered as a header
-                            #is_italic = "Arial-ItalicMT" in span["font"] and (span["size"] >= 11)
-                            
-                            is_italic = "Arial-ItalicMT" in span["font"] and (span["size"] >= 11) and (span["flags"] == 6)
-
-                            
-                            #if is_italic:
-                                #print(f"Detected italic font: {span['font']} " 
-                                #f"is_italic: {is_italic} ")
-                                #print(f"Current Text:  {cleaned_text} ")
-                            #else:
-                            #    print(f"Not italic font: {span['font']} "
-                            #    f"is_italic: {is_italic} ")
-
-                            is_header = (
-                                ((span["size"] >= 11 and  # Font size 11 or higher
-                                (span["flags"] & 2 > 0)) or
-                                
-                                (span["size"] >= 14 and  # Font size 11 or higher
-                                (span["font"] == "Arial-BoldMT") and
-                                (span["flags"] == 20)) or
-                                
-                                 (span["size"] >= 20 and
-                                (span["flags"] & 20 > 0))) and
-                                not is_italic
-                            )
-
-                            #print(f"is_header: {is_header}")
-                        
-                            # Specific exclusion for "Arial-ItalicMT" to not be considered as header
-                            #if "Italic" in span["font"]:
-                            #    is_header = False
-
-                            #if is_header:
-                            #    if current_header and current_paragraph.strip():
-                            #        headers_with_paragraphs.append({
-                            #            "header": current_header,
-                            #            "size": span['size'],
-                            #            "font": span['font'],
-                            #            "flags": span['flags'],
-                            #            "text": current_paragraph.strip()
-                            #        })
-                            #    current_header = cleaned_text
-                            #    current_paragraph = ""
-                            #else:
-                            #    # Append text to the current paragraph
-                            #    current_paragraph += cleaned_text + " "
-                                    
-                            if is_header:
-                                if current_header and current_paragraph.strip():
-                                    paragraphs = split_paragraph(current_paragraph.strip(), 2048, current_header)
-                                    for para in paragraphs:
-                                        headers_with_paragraphs.append({
-                                            "header": "How do I " + current_header,
-                                            "size": span['size'],
-                                            "font": span['font'],
-                                            "flags": span['flags'],
-                                            "text": para
-                                        })
-                                current_header = cleaned_text
-                                current_paragraph = ""
-                            else:
-                                # Append text to the current paragraph
-                                current_paragraph += cleaned_text + " "
-
-    #if current_header:
-    #    headers_with_paragraphs.append({
-    #        "header": current_header,
-    #        "text": current_paragraph.strip()
-    #    })
-
-    #document.close()
-    #return headers_with_paragraphs
+                # Pass all spans in the block to find_start_of_instructions
+                spans = [span for line in block["lines"] for span in line["spans"]]
+    
+                if not start_of_instructions_found:
+                    start_of_instructions_found = find_start_of_instructions(spans)
+    
+                if start_of_instructions_found:
+                    for line in block["lines"]:
+                        for span in line["spans"]:
+                            cleaned_text = clean_text(span["text"])
+                            if cleaned_text.strip():
+                                is_italic = "Arial-ItalicMT" in span["font"] and (span["size"] >= 11) and (span["flags"] == 6)
+    
+                                is_header = (
+                                    ((span["size"] >= 11 and  # Font size 11 or higher
+                                    (span["flags"] & 2 > 0)) or
+    
+                                    (span["size"] >= 14 and  # Font size 11 or higher
+                                    (span["font"] == "Arial-BoldMT") and
+                                    (span["flags"] == 20)) or
+    
+                                     (span["size"] >= 20 and
+                                    (span["flags"] & 20 > 0))) and
+                                    not is_italic
+                                )
+    
+                                if is_header:
+                                    if current_header and current_paragraph.strip():
+                                        paragraphs = split_paragraph(current_paragraph.strip(), 2048, current_header)
+                                        for para in paragraphs:
+                                            headers_with_paragraphs.append({
+                                                "header": "How do I " + current_header,
+                                                "size": span['size'],
+                                                "font": span['font'],
+                                                "flags": span['flags'],
+                                                "text": para
+                                            })
+                                    current_header = cleaned_text
+                                    current_paragraph = ""
+                                else:
+                                    # Append text to the current paragraph
+                                    current_paragraph += cleaned_text + " "
     
     if current_header:
         paragraphs = split_paragraph(current_paragraph.strip(), 2048, current_header)
@@ -143,10 +110,10 @@ def extract_text_with_headers(pdf_path):
                 "header": "How do I " + current_header,
                 "text": para
             })
-
+    
     document.close()
     return headers_with_paragraphs
-
+    
 def split_paragraph(paragraph, max_tokens, header):
     """Splits a paragraph into sections of no more than max_length tokens."""
 
@@ -222,31 +189,17 @@ def remove_unwanted_lines(text, pattern):
 
 
 
+def find_start_of_instructions(spans):
+    """Finds the start of the relevant instructional content based on specific font size, font, and keyword."""
+    start_keywords = "physical synthesis design flow overview"
 
+    for span in spans:
+        cleaned_text = clean_text(span["text"]).lower()
+        if (span["size"] == 11 and span["font"] == "ArialMT" and start_keywords in cleaned_text):
+            return True  # Return True as soon as the conditions are met
 
-def find_start_of_instructions(text):
-    """Finds the start of the relevant instructional content, triggered the 2nd time a keyword is encountered."""
-    lower_text = text.lower()
-    start_keywords = [
-        "working with the fusion compiler tool",
-        "physical synthesis design flow overview"
-    ]
-    start_idx = -1
+    return False  # Return False if the conditions are not met
 
-    for keyword in start_keywords:
-        first_idx = lower_text.find(keyword)  # Find the first occurrence
-        if first_idx != -1:
-            second_idx = lower_text.find(
-                keyword,
-                first_idx + len(keyword))  # Find the second occurrence
-            if second_idx != -1:
-                start_idx = second_idx
-                break
-
-    if start_idx == -1:
-        start_idx = 1000  # Adjust this based on your document structure
-
-    return text[start_idx:]
 
 
 
@@ -326,6 +279,7 @@ data = load_jsonl_data(jsonl_file_path)
 
 # Transform the data for fine-tuning
 transformed_data = transform_data_for_finetuning(data)
+save_jsonl_data(transformed_data, "full_data.jsonl")
 
 train_data, val_data, test_data = split_data(transformed_data)
 
