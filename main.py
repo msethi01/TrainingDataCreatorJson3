@@ -53,39 +53,41 @@ def extract_text_with_headers(pdf_path):
     current_paragraph = ""
     start_of_instructions_found = False
 
+    sentence_endings = re.compile(r'(?<=[.!?])\s')  # Regex to detect end of sentence followed by space
+
     for page_num in range(len(document)):
         page = document.load_page(page_num)
         blocks = page.get_text("dict")["blocks"]  # Get text as dictionary blocks
-    
+
         print(f"Extracting text from page {page_num + 1}")
         for block in blocks:
             if "lines" in block:
                 # Pass all spans in the block to find_start_of_instructions
                 spans = [span for line in block["lines"] for span in line["spans"]]
-    
+
                 if not start_of_instructions_found:
                     start_of_instructions_found = find_start_of_instructions(spans)
-    
+
                 if start_of_instructions_found:
                     for line in block["lines"]:
                         for span in line["spans"]:
                             cleaned_text = clean_text(span["text"])
                             if cleaned_text.strip():
                                 is_italic = "Arial-ItalicMT" in span["font"] and (span["size"] >= 11) and (span["flags"] == 6)
-    
+
                                 is_header = (
                                     ((span["size"] >= 11 and  # Font size 11 or higher
                                     (span["flags"] & 2 > 0)) or
-    
+
                                     (span["size"] >= 14 and  # Font size 11 or higher
                                     (span["font"] == "Arial-BoldMT") and
                                     (span["flags"] == 20)) or
-    
+
                                      (span["size"] >= 20 and
                                     (span["flags"] & 20 > 0))) and
                                     not is_italic
                                 )
-    
+
                                 if is_header:
                                     if current_header and current_paragraph.strip():
                                         paragraphs = split_paragraph(current_paragraph.strip(), 2048, current_header)
@@ -101,8 +103,9 @@ def extract_text_with_headers(pdf_path):
                                     current_paragraph = ""
                                 else:
                                     # Append text to the current paragraph
-                                    current_paragraph += cleaned_text + " "
-    
+                                    # Insert \n at sentence endings
+                                    current_paragraph += sentence_endings.sub('\n ', cleaned_text + " ")
+
     if current_header:
         paragraphs = split_paragraph(current_paragraph.strip(), 2048, current_header)
         for para in paragraphs:
@@ -110,9 +113,10 @@ def extract_text_with_headers(pdf_path):
                 "header": "How do I " + current_header,
                 "text": para
             })
-    
+
     document.close()
     return headers_with_paragraphs
+
     
 def split_paragraph(paragraph, max_tokens, header):
     """Splits a paragraph into sections of no more than max_length tokens."""
