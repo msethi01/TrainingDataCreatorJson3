@@ -17,9 +17,10 @@ def clean_text(text):
     """Cleans the extracted text, removes specific unwanted lines and phrases."""
     text = re.sub(r'\u2022', '- ', text)  # Replaces bullet points with a hyphen and space
     text = re.sub(r'\u2122', '', text)  # Removes the trademark symbol
-    text = re.sub(r'Fusion Compiler™ User Guide', '', text)
-    text = re.sub(r'Fusion Compiler User Guide', '', text)
+    #text = re.sub(r'Fusion Compiler™ User Guide', '', text)
+    #text = re.sub(r'Fusion Compiler User Guide', '', text)
     text = re.sub(r'^Chapter.*\n?', '', text, flags=re.MULTILINE)
+    text = re.sub(r'^Figure.*\n?', '', text)
     text = re.sub(r'V-2023.12-SP3', '', text)
     text = re.sub(r'(?i)user\s?guide\s?\d+\s?chapter\s?\d+', '', text)  # Removes "User Guide <number> Chapter <number>"
     text = text.replace('\u00ae', '(R)')  # Registered trademark symbol
@@ -45,8 +46,8 @@ def clean_text(text):
 
 
 
-def extract_text_with_headers(pdf_path):
-    """Extracts text with formatting details and associates paragraphs with headers."""
+def extract_text_with_headers(pdf_path, clean, debug_file_path="debug_log.txt"):
+    """Extracts text with formatting details and associates paragraphs with headers and logs debug information."""
     document = fitz.open(pdf_path)
     headers_with_paragraphs = []
     current_header = None
@@ -55,67 +56,94 @@ def extract_text_with_headers(pdf_path):
 
     sentence_endings = re.compile(r'(?<=[.!?])\s')  # Regex to detect end of sentence followed by space
 
-    for page_num in range(len(document)):
-        page = document.load_page(page_num)
-        blocks = page.get_text("dict")["blocks"]  # Get text as dictionary blocks
+    # Open debug file for logging
+    with open(debug_file_path, 'w', encoding='utf-8') as debug_file:
 
-        print(f"Extracting text from page {page_num + 1}")
-        for block in blocks:
-            if "lines" in block:
-                # Pass all spans in the block to find_start_of_instructions
-                spans = [span for line in block["lines"] for span in line["spans"]]
+        for page_num in range(len(document)):
+            page = document.load_page(page_num)
+            blocks = page.get_text("dict")["blocks"]  # Get text as dictionary blocks
 
-                if not start_of_instructions_found:
-                    start_of_instructions_found = find_start_of_instructions(spans)
+            debug_file.write(f"Extracting text from page {page_num + 1}\n")
+            print(f"Extracting text from page {page_num + 1}")
 
-                if start_of_instructions_found:
-                    for line in block["lines"]:
-                        for span in line["spans"]:
-                            cleaned_text = clean_text(span["text"])
-                            if cleaned_text.strip():
-                                is_italic = "Arial-ItalicMT" in span["font"] and (span["size"] >= 11) and (span["flags"] == 6)
+            for block in blocks:
+                if "lines" in block:
+                    # Pass all spans in the block to find_start_of_instructions
+                    spans = [span for line in block["lines"] for span in line["spans"]]
 
-                                is_header = (
-                                    ((span["size"] >= 11 and  # Font size 11 or higher
-                                    (span["flags"] & 2 > 0)) or
+                    if not start_of_instructions_found:
+                        start_of_instructions_found = find_start_of_instructions(spans)
 
-                                    (span["size"] >= 14 and  # Font size 11 or higher
-                                    (span["font"] == "Arial-BoldMT") and
-                                    (span["flags"] == 20)) or
+                    if start_of_instructions_found:
+                        for line in block["lines"]:
+                            line_text = ""  # Collect the entire line's text
+                            is_header = False  # Track if any span in the line qualifies as a header
 
-                                     (span["size"] >= 20 and
-                                    (span["flags"] & 20 > 0))) and
-                                    not is_italic
-                                )
+                            debug_file.write(f"\nProcessing line:\n")
 
-                                if is_header:
-                                    if current_header and current_paragraph.strip():
-                                        paragraphs = split_paragraph(current_paragraph.strip(), 2048, current_header)
-                                        for para in paragraphs:
-                                            headers_with_paragraphs.append({
-                                                "header": "How do I " + current_header,
-                                                "size": span['size'],
-                                                "font": span['font'],
-                                                "flags": span['flags'],
-                                                "text": para
-                                            })
-                                    current_header = cleaned_text
-                                    current_paragraph = ""
-                                else:
-                                    # Append text to the current paragraph
-                                    # Insert \n at sentence endings
-                                    current_paragraph += sentence_endings.sub('\n ', cleaned_text + " ")
+                            for span in line["spans"]:
+                                # Skip text with specific size, font, and flags
+                                if ((span["size"] == 10.0 and span["font"] == "ArialMT" and span["flags"] == 4) or
+                                    (span["size"] == 10.0 and span["font"] == "Helvetica-Bold" and span["flags"] == 20)):
+                                    continue  # Skip this span and proceed to the next
 
-    if current_header:
-        paragraphs = split_paragraph(current_paragraph.strip(), 2048, current_header)
-        for para in paragraphs:
-            headers_with_paragraphs.append({
-                "header": "How do I " + current_header,
-                "text": para
-            })
+                                text = span["text"]
 
-    document.close()
+                                # Conditionally clean the text
+                                if clean:
+                                    text = clean_text(text)
+
+                                debug_file.write(f"Span text: {text}, Size: {span['size']}, Font: {span['font']}, Flags: {span['flags']}\n")
+
+                                if text.strip():
+                                    is_italic = "Arial-ItalicMT" in span["font"] and (span["size"] >= 11) and (span["flags"] == 6)
+
+                                    # Check if this span qualifies as part of a header
+                                    if ((span["size"] >= 11 and (span["flags"] & 2 > 0)) or
+                                        (span["size"] >= 14 and span["font"] == "Arial-BoldMT" and span["flags"] == 20) or
+                                        (span["size"] >= 20 and (span["flags"] & 20 > 0))) and not is_italic:
+                                        is_header = True
+
+                                    # Append the current span to the full line text
+                                    line_text += text + " "
+
+                            # If a header is detected for the entire line
+                            if is_header:
+                                debug_file.write(f"Header detected: {line_text.strip()}\n")
+                                current_header = line_text.strip()
+
+                                if current_header and current_paragraph.strip():
+                                    paragraphs = split_paragraph(current_paragraph.strip(), 2048, current_header)
+                                    for para in paragraphs:
+                                        headers_with_paragraphs.append({
+                                            "header": "How do I " + current_header,
+                                            "size": span['size'],
+                                            "font": span['font'],
+                                            "flags": span['flags'],
+                                            "text": para
+                                        })
+                                current_paragraph = ""
+                            else:
+                                # Append text to the current paragraph
+                                current_paragraph += sentence_endings.sub('\n ', line_text.strip() + " ")
+
+        # Add remaining paragraph text under the current header
+        if current_header:
+            paragraphs = split_paragraph(current_paragraph.strip(), 2048, current_header)
+            for para in paragraphs:
+                headers_with_paragraphs.append({
+                    "header": "How do I " + current_header,
+                    "text": para
+                })
+
+        document.close()
+
+    print(f"Debug information has been logged to {debug_file_path}")
     return headers_with_paragraphs
+
+
+
+
 
     
 def split_paragraph(paragraph, max_tokens, header):
@@ -154,7 +182,7 @@ def transform_data_for_finetuning(data):
     return transformed_data
     
 def examine_text_properties(pdf_path, output_file_path):
-    """Examines the properties of text spans in the PDF and logs the start of each new paragraph."""
+    """Examines the properties of text spans in the PDF and logs any differences in font, text, size, or flags within the same line."""
     document = fitz.open(pdf_path)
 
     with open(output_file_path, 'w', encoding='utf-8') as output_file:
@@ -163,20 +191,44 @@ def examine_text_properties(pdf_path, output_file_path):
             blocks = page.get_text("dict")["blocks"]  # Get text as dictionary blocks
             output_file.write(f"Examining text properties on page {page_num + 1}\n")
             output_file.write("=" * 80 + "\n")
+
             for block in blocks:
                 if "lines" in block:
                     for line in block["lines"]:
+                        previous_span = None  # Keep track of the previous span
+
                         for span in line["spans"]:
-                            # Write out the span text and its properties to the file
-                            output_file.write(f"Text: {span['text']}\n")
-                            output_file.write(f"Size: {span['size']}\n")
-                            output_file.write(f"Font: {span['font']}\n")
-                            output_file.write(f"Flags: {span['flags']}\n")  # This shows whether it's bold, italic, etc.
+                            current_font = span["font"]
+                            current_text = span["text"]
+                            current_size = span["size"]
+                            current_flags = span["flags"]
+
+                            # Write out the current span's properties to the file
+                            output_file.write(f"Text: {current_text}\n")
+                            output_file.write(f"Size: {current_size}\n")
+                            output_file.write(f"Font: {current_font}\n")
+                            output_file.write(f"Flags: {current_flags}\n")
                             output_file.write("-" * 40 + "\n")
+
+                            # If there is a previous span, compare it with the current span
+                            if previous_span:
+                                prev_font = previous_span["font"]
+                                prev_text = previous_span["text"]
+                                prev_size = previous_span["size"]
+                                prev_flags = previous_span["flags"]
+
+                                # Check for differences in font, text, size, or flags
+                                if current_font != prev_font or current_size != prev_size or current_flags != prev_flags:
+                                    output_file.write("Difference detected within the line:\n")
+                                    output_file.write(f"Previous -> Text: {prev_text}, Size: {prev_size}, Font: {prev_font}, Flags: {prev_flags}\n")
+                                    output_file.write(f"Current  -> Text: {current_text}, Size: {current_size}, Font: {current_font}, Flags: {current_flags}\n")
+                                    output_file.write("-" * 40 + "\n")
+
+                            # Update previous_span to the current span for comparison
+                            previous_span = span
 
     document.close()
     print(f"Text properties have been logged to {output_file_path}")
-
 
 
 def find_start_of_instructions(spans):
@@ -250,7 +302,10 @@ output_jsonl_path = "paragraphs.jsonl"
 
 examine_text_properties(pdf_file_path, "text_properties_debug.txt")
 
-headers_with_paragraphs = extract_text_with_headers(pdf_file_path)
+headers_with_paragraphs = extract_text_with_headers(pdf_file_path, False)
+save_headers_to_jsonl(headers_with_paragraphs, "headers_with_paragraphs_noclean.jsonl")
+
+headers_with_paragraphs = extract_text_with_headers(pdf_file_path, True)
 save_headers_to_jsonl(headers_with_paragraphs, "headers_with_paragraphs.jsonl")
 
 jsonl_file_path = "headers_with_paragraphs.jsonl"
