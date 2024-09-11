@@ -32,6 +32,7 @@ def clean_text(text):
     text = re.sub(r'\b(Courier|italic|bold|purple|edit)\b', '', text)
     text = re.sub(r'\n+', '\n', text)
     text = re.sub(r'\s+', ' ', text).strip()
+    text = re.sub(r'\s+', ' ', text)
     text = re.sub(r'-{2,}', '', text)
 
     # Remove any remaining unwanted Unicode characters
@@ -45,8 +46,38 @@ def clean_text(text):
     return text
 
 
+def clean_multiple_spaces(text):
+    """Removes multiple spaces and replaces them with a single space."""
+    return re.sub(r'\s+', ' ', text)
 
-def extract_text_with_headers(pdf_path, clean, debug_file_path="debug_log.txt"):
+
+def remove_ing_from_first_word(header_text):
+    """Removes 'ing' from the first word in a header if it ends with 'ing'."""
+    words = header_text.split()
+    if words and words[0].lower().endswith("ing"):
+        # Remove 'ing' from the first word
+        words[0] = words[0][:-3]  # Cut the 'ing' from the end
+    return " ".join(words)
+    
+def save_headers_to_text(headers_with_paragraphs, output_text_file):
+    """Saves headers and their paragraphs to a plain text file."""
+    with open(output_text_file, 'w', encoding='utf-8') as output_file:
+        for item in headers_with_paragraphs:
+            header = item.get('header', 'No Header')
+            text = item.get('text', 'No Text')
+            size = item.get('size', 'Unknown Size')
+            font = item.get('font', 'Unknown Font')
+            flags = item.get('flags', 'Unknown Flags')
+
+            output_file.write(f"Header: {header}\n")
+            output_file.write(f"Size: {size}\n")
+            output_file.write(f"Font: {font}\n")
+            output_file.write(f"Flags: {flags}\n")
+            output_file.write(f"Text:\n{text}\n")
+            output_file.write("-" * 80 + "\n")
+
+            
+def extract_text_with_headers(pdf_path, clean, newline_after_paragraphs=False, debug_file_path="debug_log.txt"):
     """Extracts text with formatting details and associates paragraphs with headers and logs debug information."""
     document = fitz.open(pdf_path)
     headers_with_paragraphs = []
@@ -110,17 +141,19 @@ def extract_text_with_headers(pdf_path, clean, debug_file_path="debug_log.txt"):
                             # If a header is detected for the entire line
                             if is_header:
                                 debug_file.write(f"Header detected: {line_text.strip()}\n")
+                                #current_header = remove_ing_from_first_word(line_text.strip())
                                 current_header = line_text.strip()
-
+                                
                                 if current_header and current_paragraph.strip():
-                                    paragraphs = split_paragraph(current_paragraph.strip(), 2048, current_header)
+                                    cleaned_paragraph = clean_multiple_spaces(current_paragraph.strip())
+                                    paragraphs = split_paragraph(cleaned_paragraph.strip(), 2048, current_header)
                                     for para in paragraphs:
                                         headers_with_paragraphs.append({
                                             "header": "How do I " + current_header,
                                             "size": span['size'],
                                             "font": span['font'],
                                             "flags": span['flags'],
-                                            "text": para
+                                            "text": para + ("\n" if newline_after_paragraphs else "")
                                         })
                                 current_paragraph = ""
                             else:
@@ -129,17 +162,19 @@ def extract_text_with_headers(pdf_path, clean, debug_file_path="debug_log.txt"):
 
         # Add remaining paragraph text under the current header
         if current_header:
-            paragraphs = split_paragraph(current_paragraph.strip(), 2048, current_header)
+            cleaned_paragraph = clean_multiple_spaces(current_paragraph.strip())
+            paragraphs = split_paragraph(cleaned_paragraph, 2048, current_header)
             for para in paragraphs:
                 headers_with_paragraphs.append({
                     "header": "How do I " + current_header,
-                    "text": para
+                    "text": para + ("\n" if newline_after_paragraphs else "")
                 })
 
         document.close()
 
     print(f"Debug information has been logged to {debug_file_path}")
     return headers_with_paragraphs
+
 
 
 
@@ -307,6 +342,10 @@ save_headers_to_jsonl(headers_with_paragraphs, "headers_with_paragraphs_noclean.
 
 headers_with_paragraphs = extract_text_with_headers(pdf_file_path, True)
 save_headers_to_jsonl(headers_with_paragraphs, "headers_with_paragraphs.jsonl")
+
+# Save to text format
+save_headers_to_text(headers_with_paragraphs, "headers_with_paragraphs_noclean.txt")
+
 
 jsonl_file_path = "headers_with_paragraphs.jsonl"
 data = load_jsonl_data(jsonl_file_path)
