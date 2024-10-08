@@ -6,7 +6,7 @@ from sklearn.model_selection import train_test_split
 import nltk
 from nltk.tokenize import sent_tokenize
 from transformers import AutoTokenizer
-
+import csv 
 
 nltk.download('punkt')
 
@@ -330,7 +330,22 @@ def split_openai_data(data, train_size=0.8, val_size=0.2):
     train_data, val_data = train_test_split(data, test_size=val_size, random_state=42)
     return train_data, val_data
 
-
+def save_headers_to_csv_instruction_format(headers_with_paragraphs, output_csv_file):
+    """Saves headers and paragraphs to a CSV file in the instruction, input, output format."""
+    with open(output_csv_file, 'w', newline='', encoding='utf-8') as csvfile:
+        csv_writer = csv.writer(csvfile)
+        # Write the header row
+        csv_writer.writerow(["Instruction", "Input", "Output"])
+    
+        # Write each entry as instruction, input, output
+        for item in headers_with_paragraphs:
+            instruction = item.get('header', 'No Header')
+            output = item.get('text', 'No Text')
+    
+            # Write the row with instruction, input, and output. Input is empty in this case
+            csv_writer.writerow([instruction, "", output])
+    
+            
 # Example usage
 pdf_file_path = "fcug.pdf"  # Replace with your PDF file path
 output_jsonl_path = "paragraphs.jsonl"
@@ -339,9 +354,11 @@ examine_text_properties(pdf_file_path, "text_properties_debug.txt")
 
 headers_with_paragraphs = extract_text_with_headers(pdf_file_path, False)
 save_headers_to_jsonl(headers_with_paragraphs, "headers_with_paragraphs_noclean.jsonl")
+save_headers_to_csv_instruction_format(headers_with_paragraphs, "headers_with_paragraphs_noclean_instruction_format.csv")
 
 headers_with_paragraphs = extract_text_with_headers(pdf_file_path, True)
 save_headers_to_jsonl(headers_with_paragraphs, "headers_with_paragraphs.jsonl")
+save_headers_to_csv_instruction_format(headers_with_paragraphs, "headers_with_paragraphs_instruction_format.csv")
 
 # Save to text format
 save_headers_to_text(headers_with_paragraphs, "headers_with_paragraphs_noclean.txt")
